@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Entities.Models;
+using Newtonsoft.Json.Schema;
 
 namespace Domain.DTO
 {
@@ -22,5 +23,7 @@ namespace Domain.DTO
         public int Quantity { get; set; }
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
+
+        public Dictionary<JSchema, object> ExtraProperties = new();
     }
 }
