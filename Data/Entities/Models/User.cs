@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,9 @@ namespace Data.Entities.Models
         public string Password { get; set; }
         public string Address { get; set; }
 
-        public List<IProduct> Cart { get; set; }
+        public bool isAdmin = false;
+        public List<Product> BoughtProducts { get; set; }
 
+        public List<Product> ListedProducts { get; set; }
     }
 }

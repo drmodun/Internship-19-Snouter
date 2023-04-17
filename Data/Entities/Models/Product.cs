@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
 namespace Data.Entities.Models
 {
-    public class Product : IProduct
+    public class Product
     {
         public Guid Id { get; }
         public string Name { get; set; }
@@ -15,7 +16,8 @@ namespace Data.Entities.Models
         public int Quantity { get; set; }
         public Guid Seller { get; set; }
         public List<string> Images { get; set; }
-        public string Category { get; set; }
-        public List<string> Tags { get; set; }
+        public int CategoryId { get; set; }
+        public Category? Category { get; set; }
+        public ICollection<ProductsSubCategories> ProductsSubCategories;
     }
 }

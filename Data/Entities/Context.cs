@@ -6,27 +6,12 @@ namespace Data.Entities
     { 
         //write an postgres context
         public DbSet<Models.User> Users { get; set; }
-        public DbSet<Models.Admin> Admins { get; set; }
         public DbSet<Models.ComputerProduct> ComputerProducts { get; set; }
         public DbSet<Models.OtherProducts> OtherProducts { get; set; }
         public DbSet<Models.Product> Products { get; set; }
         public DbSet<Models.Car> Cars { get; set; }
-        public DbSet<Models.Order> Orders { get; set; }
-        public DbSet<Models.OrderItem> OrderItems { get; set; }
-        public DbSet<Models.Cart> Carts { get; set; }
-        public DbSet<Models.CartItem> CartItems { get; set; }
         public DbSet<Models.Category> Categories { get; set; }
         public DbSet<Models.SubCategory> SubCategories { get; set; }
-        public DbSet<Models.ProductCategory> ProductCategories { get; set; }
-        public DbSet<Models.ProductSubCategory> ProductSubCategories { get; set; }
-        public DbSet<Models.ProductImage> ProductImages { get; set; }
-        public DbSet<Models.ProductReview> ProductReviews { get; set; }
-        public DbSet<Models.ProductSpecification> ProductSpecifications { get; set; }
-        public DbSet<Models.ProductSpecificationValue> ProductSpecificationValues { get; set; }
-        public DbSet<Models.ProductSpecificationValueImage> ProductSpecificationValueImages { get; set; }
-        public DbSet<Models.ProductSpecificationValueReview> ProductSpecificationValueReviews { get; set; }
-        public DbSet<Models.ProductSpecificationValueVideo> ProductSpecificationValueVideos { get; set; }
-        public DbSet<Models.ProductVideo> ProductVideos { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
