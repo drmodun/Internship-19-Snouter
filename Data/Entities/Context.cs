@@ -25,6 +25,8 @@ namespace Data.Entities
                 .WithMany(u => u.ListedProducts)
                 .HasForeignKey(p => p.SellerId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.BuyersProducts>()
+                .HasKey(bp => new {bp.BuyerId, bp.ProductId});
             modelBuilder.Entity<Models.User>()
                 .HasMany(u => u.BoughtProducts)
                 .WithOne(p => p.Buyer)
@@ -34,6 +36,11 @@ namespace Data.Entities
                 .HasOne(p => p.Location)
                 .WithMany(l => l.Products)
                 .HasForeignKey(p => p.LocationId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.User>()
+                .HasOne(p=>p.Address)
+                .WithMany(l => l.Users)
+                .HasForeignKey(p => p.AddressId)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.Product>()
                 .HasMany(p=>p.Buyers)

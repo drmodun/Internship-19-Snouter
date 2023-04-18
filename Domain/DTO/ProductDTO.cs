@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Entities.Models;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 
 namespace Domain.DTO
@@ -16,14 +17,15 @@ namespace Domain.DTO
         public List<string> Images { get; set; }
         public Category Category { get; set; }
         public SubCategory SubCategory { get; set; }
-        public UserDTO Seller { get; set; }
-        public UserDTO Buyer { get; set; }
+        public ViewProfile Seller { get; set; }
+        public ViewProfile Buyer { get; set; }
         public decimal Price { get; set; }
         public DateTime Created { get; set; }
         public int Quantity { get; set; }
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
 
-        public Dictionary<JSchema, object> ExtraProperties = new();
+        public JObject ExtraProperties;
+        public JObject SubProperties { get; set; }
     }
 }
