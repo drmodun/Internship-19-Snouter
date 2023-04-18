@@ -25,10 +25,20 @@ namespace Data.Entities
                 .WithMany(u => u.ListedProducts)
                 .HasForeignKey(p => p.SellerId)
                 .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Models.Product>()
-                .HasOne(p => p.Buyer)
-                .WithMany(u => u.BoughtProducts)
+            modelBuilder.Entity<Models.User>()
+                .HasMany(u => u.BoughtProducts)
+                .WithOne(p => p.Buyer)
                 .HasForeignKey(p => p.BuyerId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.Product>()
+                .HasOne(p => p.Location)
+                .WithMany(l => l.Products)
+                .HasForeignKey(p => p.LocationId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.Product>()
+                .HasMany(p=>p.Buyers)
+                .WithOne(b=>b.Product)
+                .HasForeignKey(b=>b.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.SubCategory>()
                 .HasOne(s => s.Category)
@@ -47,13 +57,9 @@ namespace Data.Entities
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.Product>()
                 .Property(p => p.ExtraProperties)
-                .HasColumnType("BLOB")
                 .HasConversion(
-                    v => Newtonsoft.Json.JsonConvert.SerializeObject(v),
-                    v => Newtonsoft.Json.JsonConvert
-                        .DeserializeObject<Dictionary<Newtonsoft.Json.Schema.JSchema, object>>(v));
-
-        }
+                                       v => v.ToString(),
+                                                          v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(v));
 
     }
 }

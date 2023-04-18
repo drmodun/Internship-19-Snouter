@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Data.Entities.Models
 {
-    internal class Location
+    public class Location
     {
+        public string Name;
+        public int Id;
+        public decimal Latitude;
+        public decimal Longitude;
+        public int CountryId;
+        public Country Country;
+        public ICollection<Product> Products { get; set; }
     }
 }
