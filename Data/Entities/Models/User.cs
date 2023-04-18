@@ -23,5 +23,7 @@ namespace Data.Entities.Models
         public ICollection<BuyersProducts> BoughtProducts { get; set; }
 
         public List<Product> ListedProducts { get; set; }
+
+
     }
 }

@@ -33,8 +33,13 @@ namespace Data.Entities.Models
 
         public JObject? ExtraProperties { get; set; }
 
-        public ICollection<BuyersProducts> Buyers { get; set; }
         public JObject SubProperties { get; set; }
+        public ICollection<BuyersProducts> Buyers { get; set; }
+
+        public int LocationId;
+
+        public Location Location;
+
 
 
     }
