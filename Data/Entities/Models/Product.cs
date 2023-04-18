@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
@@ -23,15 +25,16 @@ namespace Data.Entities.Models
         public Guid BuyerId { get; set; }
         public User Buyer { get; set; }
 
-
         public List<string> Images { get; set; }
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
         public int SubCategoryId { get; set; }
         public SubCategory? SubCategory { get; set; }
 
-        public Dictionary<JSchema, object> ExtraProperties = new();
-        public Dictionary<JSchema, object> SubProperties = new();
+        public JObject? ExtraProperties { get; set; }
+
+        public ICollection<BuyersProducts> Buyers { get; set; }
+        public JObject SubProperties { get; set; }
 
 
     }

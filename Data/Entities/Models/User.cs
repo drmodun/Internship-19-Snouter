@@ -20,7 +20,7 @@ namespace Data.Entities.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public List<Product> BoughtProducts { get; set; }
+        public ICollection<BuyersProducts> BoughtProducts { get; set; }
 
         public List<Product> ListedProducts { get; set; }
     }

@@ -1,15 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Data.Entities
 {
     public class ShopContext : DbContext
-    { 
+    {
         //write an postgres context
         public DbSet<Models.User> Users { get; set; }
-        public DbSet<Models.ComputerProduct> ComputerProducts { get; set; }
-        public DbSet<Models.OtherProducts> OtherProducts { get; set; }
         public DbSet<Models.Product> Products { get; set; }
-        public DbSet<Models.Car> Cars { get; set; }
         public DbSet<Models.Category> Categories { get; set; }
         public DbSet<Models.SubCategory> SubCategories { get; set; }
 
@@ -21,49 +19,40 @@ namespace Data.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Models.ProductCategory>()
-                .HasKey(pc => new { pc.ProductId, pc.CategoryId });
-            modelBuilder.Entity<Models.ProductCategory>()
-                .HasOne(pc => pc.Product)
-                .WithMany(p => p.ProductCategories)
-                .HasForeignKey(pc => pc.ProductId);
-            modelBuilder.Entity<Models.ProductCategory>()
-                .HasOne(pc => pc.Category)
-                .WithMany(c => c.ProductCategories)
-                .HasForeignKey(pc => pc.CategoryId);
-            modelBuilder.Entity<Models.ProductSubCategory>()
-                .HasKey(psc => new { psc.ProductId, psc.SubCategoryId });
-            modelBuilder.Entity<Models.ProductSubCategory>()
-                .HasOne(psc => psc.Product)
-                .WithMany(p => p.ProductSubCategories)
-                .HasForeignKey(psc => psc.ProductId);
-            modelBuilder.Entity<Models.ProductSubCategory>()
-                .HasOne(psc => psc.SubCategory)
-                .WithMany(sc => sc.ProductSubCategories)
-                .HasForeignKey(psc => psc.SubCategoryId);
-            modelBuilder.Entity<Models.ProductSpecificationValue>()
-                .HasKey(psv => new { psv.ProductSpecificationId, psv.ProductId });
-            modelBuilder.Entity<Models.ProductSpecificationValue>()
-                .HasOne(psv => psv.ProductSpecification)
-                .WithMany(ps => ps.ProductSpecificationValues)
-                .HasForeignKey(psv => psv.ProductSpecificationId);
-            modelBuilder.Entity<Models.ProductSpecificationValue>()
-                .HasOne(psv => psv.Product)
-                .WithMany(p => p.ProductSpecificationValues)
-                .HasForeignKey(psv => psv.ProductId);
-            modelBuilder.Entity<Models.ProductSpecificationValueImage>()
-                .HasKey(psvi => new { psvi.ProductSpecificationValueId, psvi.ProductId });
-            modelBuilder.Entity<Models.ProductSpecificationValueImage>()
-                .HasOne(psvi => psvi.ProductSpecificationValue)
-                .WithMany(psv => psv.ProductSpecificationValueImages)
-                .HasForeignKey(psvi => psvi.ProductSpecificationValueId);
-            modelBuilder.Entity<Models.ProductSpecificationValueImage>()
-                .HasOne(psvi => psvi.Product)
-                .WithMany(p => p.ProductSpecificationValueImages)
-                .HasForeignKey(psvi => psvi.ProductId);
-            modelBuilder.Entity<Models.ProductSpecificationValueReview>()
-                .HasKey(psvr => new { psvr.ProductSpecificationValueId, psvr.ProductId });
-            modelBuilder.Entity<Models.Product> 
+
+            modelBuilder.Entity<Models.Product>()
+                .HasOne(p => p.Seller)
+                .WithMany(u => u.ListedProducts)
+                .HasForeignKey(p => p.SellerId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.Product>()
+                .HasOne(p => p.Buyer)
+                .WithMany(u => u.BoughtProducts)
+                .HasForeignKey(p => p.BuyerId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.SubCategory>()
+                .HasOne(s => s.Category)
+                .WithMany(c => c.SubCategories)
+                .HasForeignKey(s => s.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.Product>()
+                .HasOne(p => p.SubCategory)
+                .WithMany(s => s.Products)
+                .HasForeignKey(p => p.SubCategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.Product>()
+                .Property(p => p.ExtraProperties)
+                .HasColumnType("BLOB")
+                .HasConversion(
+                    v => Newtonsoft.Json.JsonConvert.SerializeObject(v),
+                    v => Newtonsoft.Json.JsonConvert
+                        .DeserializeObject<Dictionary<Newtonsoft.Json.Schema.JSchema, object>>(v));
+
         }
 
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Schema;
 using Npgsql.PostgresTypes;
 
 namespace Data.Entities.Models
@@ -15,6 +16,9 @@ namespace Data.Entities.Models
         public string Description { get; set; }
 
         public ICollection<Product> Products { get; set; }
+
+        public JSchema Schema { get; set; } 
+
 
 
 
