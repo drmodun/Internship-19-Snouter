@@ -8,6 +8,7 @@ namespace Domain.Contracts.Requests.User
         public string Name;
         public string Password;
         public string Email;
+        public int LocationId;
         public bool isAdmin;
         public ICollection<Guid> Products;
         public ICollection<Guid> BoughtProducts;
