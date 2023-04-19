@@ -10,7 +10,7 @@ namespace Domain.DTO
 {
     public class CategoryDTO
     {
-        public int Id;
+        public Guid Id;
         public string Name;
         public string Description;
         public JSchema Schema;

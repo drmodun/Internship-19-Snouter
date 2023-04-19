@@ -5,14 +5,13 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTO
+namespace Domain.Contracts.Requests.Country
 {
-    public class CountryDTO
+    public class UpdateCountryRequest
     {
-        public Guid Id;
+        public Guid Id { get; set; }
+        public string Slug;
         public string Name;
-        public List<LocationView> Locations;
         public Blob Image;
-
     }
 }

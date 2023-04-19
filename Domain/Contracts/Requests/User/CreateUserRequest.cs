@@ -8,7 +8,7 @@ namespace Domain.Contracts.Requests.User
         public string Email;
         public string Password;
         public bool IsAdmin;
-        public int LocationId;
+        public Guid LocationId;
 
     }
 }

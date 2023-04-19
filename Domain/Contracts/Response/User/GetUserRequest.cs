@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.DTO;
 
-namespace Domain.Contracts.Requests.Product
+namespace Domain.Contracts.Response.User
 {
-    public class GetProductRequest
+    public class GetUserRequest
     {
-        public Guid Id;
-        public string Slug;
+        public ViewProfile User;
     }
 }

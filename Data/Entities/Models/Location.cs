@@ -10,7 +10,7 @@ namespace Data.Entities.Models
     public class Location
     {
         public string Name;
-        public int Id;
+        public Guid Id;
         public decimal Latitude;
         public decimal Longitude;
         public int CountryId;

@@ -8,7 +8,7 @@ namespace Domain.DTO
 {
     public class LocationView
     {
-        public int Id;
+        public Guid Id;
         public string Name;
         public List<ProductDTO> Products;
         public CountryDTO Country;

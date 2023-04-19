@@ -27,9 +27,9 @@ namespace Data.Entities.Models
         public User Buyer { get; set; }
 
         public List<Blob> Images { get; set; }
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public Category? Category { get; set; }
-        public int SubCategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         public SubCategory? SubCategory { get; set; }
 
         public JObject? ExtraProperties { get; set; }
@@ -37,7 +37,7 @@ namespace Data.Entities.Models
         public JObject SubProperties { get; set; }
         public ICollection<BuyersProducts> Buyers { get; set; }
 
-        public int LocationId;
+        public Guid LocationId;
 
         public Location Location;
 
