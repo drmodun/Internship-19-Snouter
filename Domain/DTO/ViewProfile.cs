@@ -11,11 +11,12 @@ namespace Domain.DTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Location Location { get; set; }
+        public string Email;
+        public LocationView Location { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public List<ProductDTO> Products { get; set; }
 
-        public ICollection<BuyersProducts> BoughtProudcts;
+        public List<BuyersProductsView> BoughtProudcts;
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

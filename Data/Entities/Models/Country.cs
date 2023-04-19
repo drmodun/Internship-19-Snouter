@@ -14,7 +14,6 @@ namespace Data.Entities.Models
         public string Name { get; set; }
         
         public ICollection<Location> Locations { get; set; }
-
         public Blob Image { get; set; } 
     }
 }

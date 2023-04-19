@@ -1,4 +1,4 @@
-﻿namespace Presentation.Contracts.Requests.User
+﻿namespace Domain.Contracts.Requests.User
 {
     public class UserRequest
     {

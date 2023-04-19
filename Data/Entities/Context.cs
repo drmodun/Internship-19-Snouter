@@ -11,6 +11,11 @@ namespace Data.Entities
         public DbSet<Models.Category> Categories { get; set; }
         public DbSet<Models.SubCategory> SubCategories { get; set; }
 
+        public DbSet<Models.Country> Countries { get; set; }
+
+        public DbSet<Models.Location> Locations { get; set; }
+
+        public DbSet<Models.BuyersProducts> BuyersProducts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,7 +31,7 @@ namespace Data.Entities
                 .HasForeignKey(p => p.SellerId)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.BuyersProducts>()
-                .HasKey(bp => new {bp.BuyerId, bp.ProductId});
+                .HasKey(bp => new { bp.BuyerId, bp.ProductId });
             modelBuilder.Entity<Models.User>()
                 .HasMany(u => u.BoughtProducts)
                 .WithOne(p => p.Buyer)
@@ -38,14 +43,14 @@ namespace Data.Entities
                 .HasForeignKey(p => p.LocationId)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.User>()
-                .HasOne(p=>p.Address)
+                .HasOne(p => p.Address)
                 .WithMany(l => l.Users)
                 .HasForeignKey(p => p.AddressId)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.Product>()
-                .HasMany(p=>p.Buyers)
-                .WithOne(b=>b.Product)
-                .HasForeignKey(b=>b.ProductId)
+                .HasMany(p => p.Buyers)
+                .WithOne(b => b.Product)
+                .HasForeignKey(b => b.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.SubCategory>()
                 .HasOne(s => s.Category)
@@ -65,8 +70,9 @@ namespace Data.Entities
             modelBuilder.Entity<Models.Product>()
                 .Property(p => p.ExtraProperties)
                 .HasConversion(
-                                       v => v.ToString(),
-                                                          v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(v));
+                    v => v.ToString(),
+                    v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(v));
 
+        }
     }
 }

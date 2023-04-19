@@ -1,6 +1,6 @@
 ﻿using Data.Entities.Models;
 
-namespace Presentation.Contracts.Requests.User
+namespace Domain.Contracts.Requests.User
 {
     public class CreateUserRequest
     {

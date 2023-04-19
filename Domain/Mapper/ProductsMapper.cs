@@ -8,79 +8,37 @@ using Domain.DTO;
 
 namespace Domain.Mapper
 {
-    public class ProductsMapper
+    public static class ProductsMapper
     {
-        public static UserDTO MapUserToDTO(User user)
+        public static ProductDTO ProductToDTO(Product product)
         {
-            return new UserDTO
-            {
-                Id = user.Id,
-                isAdmin = user.isAdmin,
-                Name = user.Name,
-                Email = user.Email,
-                Address = user.Address,
-                ListedProducts = user.ListedProducts.Select(MapProductToDTO).ToList(),
-                BoughtProducts = user.BoughtProducts.Select(MapProductToDTO).ToList()
-
-            };
-        }
-
-        public static ProductDTO MapProductToDTO(Product product)
-        {
-            return new ProductDTO
+            var newDTO = new ProductDTO
             {
                 Id = product.Id,
                 Name = product.Name,
-                Description = product.Description,
+                Location = LocationMapper.LocationToDTO(product.Location),
+                Seller = UserMappers.MapUserToDTO(product.Seller),
+                ExtraProperties = product.ExtraProperties,
+                SubProperties = product.SubProperties,
+                BuyersProducts = product.Buyers.Select(BuyersProductsToDto).ToList(),
                 Price = product.Price,
-                Category = product.Category,
-                SubCategory = product.SubCategory,
-                Seller = MapUserToDTO(product.Seller),
-                Buyer = MapUserToDTO(product.Buyer),
-                ExtraProperties = product.ExtraProperties
+                Description = product.Description,
+                Created = product.Created
             };
+            return newDTO;
         }
 
-       
 
-        public static Product MapDTOToProduct(ProductDTO productDTO)
+        public static BuyersProductsView BuyersProductsToDto(BuyersProducts buyersProducts)
         {
-            return new Product
+            var newDTO = new BuyersProductsView
             {
-                Id = productDTO.Id,
-                Name = productDTO.Name,
-                Description = productDTO.Description,
-                Price = productDTO.Price,
-                Category = productDTO.Category,
-                SubCategory = productDTO.SubCategory,
-                Seller = MapDTOToUser(productDTO.Seller),
-                Buyer = MapDTOToUser(productDTO.Buyer),
-                ExtraProperties = productDTO.ExtraProperties
+                Product = ProductToDTO(buyersProducts.Product),
+                Quantity = buyersProducts.Quantity,
+                Buyer = UserMappers.MapUserToDTO(buyersProducts.Buyer),
+                CreatedAt = buyersProducts.CreatedAt
             };
-        }
-
-        public static User MapDTOToUser(UserDTO userDTO)
-        {
-            return new User
-            {
-                Id = userDTO.Id,
-                isAdmin = userDTO.isAdmin,
-                Name = userDTO.Name,
-                Email = userDTO.Email,
-                Address = userDTO.Address,
-                ListedProducts = userDTO.ListedProducts.Select(MapDTOToProduct).ToList(),
-                BoughtProducts = userDTO.BoughtProducts.Select(MapDTOToProduct).ToList()
-            };
-        }
-
-        public static List<ProductDTO> MapProductsToDTO(List<Product> products)
-        {
-            return products.Select(MapProductToDTO).ToList();
-        }
-
-        public static List<Product> MapDTOToProducts(List<ProductDTO> productDTOs)
-        {
-            return productDTOs.Select(MapDTOToProduct).ToList();
+            return newDTO;
         }
 
     }

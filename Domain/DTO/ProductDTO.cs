@@ -15,14 +15,16 @@ namespace Domain.DTO
         public string Name { get; set; }
         public string Description { get; set; }
         public List<string> Images { get; set; }
-        public Category Category { get; set; }
-        public SubCategory SubCategory { get; set; }
+        public CategoryDTO Category { get; set; }
+        public SubCategoryDTO SubCategory { get; set; }
         public ViewProfile Seller { get; set; }
-        public ViewProfile Buyer { get; set; }
+
+        public List<BuyersProductsView> BuyersProducts { get; set; }
         public decimal Price { get; set; }
         public DateTime Created { get; set; }
         public int Quantity { get; set; }
-        public string CreatedAt { get; set; }
+
+        public LocationView Location;
         public string UpdatedAt { get; set; }
 
         public JObject ExtraProperties;
