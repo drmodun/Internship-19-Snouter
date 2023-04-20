@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Domain.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.DTO;
 
-namespace Domain.Contracts.Response.Product
+namespace Domain.Contracts.Response.Subcategory
 {
-    public class CreateProductResponse
+    public class CreateSubcategoryResponse
     {
+        public SubCategoryDTO SubCategory { get; set; }
         public bool Success;
-        public ProductDTO? Product { get; set; }
         public HttpStatusCode Status;
     }
 }

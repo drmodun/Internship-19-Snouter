@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Entities;
 using Data.Entities.Models;
+using Domain.Contracts.Requests.BeyersProducts;
+using Domain.Contracts.Requests.Category;
 using Domain.Contracts.Requests.Country;
+using Domain.Contracts.Requests.Location;
 using Domain.Contracts.Requests.Product;
+using Domain.Contracts.Requests.SubCategory;
 using Domain.Contracts.Requests.User;
 using Newtonsoft.Json;
 
@@ -109,7 +114,7 @@ namespace Domain.Repositories
             return updatedProduct;
         }
 
-        public Country requestToNewCountry(CreateCountryRequest request)
+        public Country RequestToNewCountry(CreateCountryRequest request)
         {
             var newCountry = new Country
             {
@@ -131,6 +136,117 @@ namespace Domain.Repositories
                 Locations = _shopContext.Locations.Where(l => l.Id == request.Id).ToList(),
             };
             return updatedCountry;
+        }
+
+        public Location RequestToNewLocation(CreateLocationRequest request)
+        {
+            var newLocation = new Location
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Products = new List<Product>(),
+                Users = new List<User>(),
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                CountryId = request.CountryId,
+                Country = _shopContext.Countries.FirstOrDefault(c => c.Id == request.CountryId)
+            };
+            return newLocation;
+        }
+        public Location RequestToUpdatedCountry(UpdatedLocationRequest request)
+        {
+            var updatedLocation = new Location
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Users = _shopContext.Users.Where(u => u.AddressId == request.Id).ToList(),
+                Products = _shopContext.Products.Where(p => p.LocationId == request.Id).ToList(),
+                CountryId = request.CountryId,
+                Country = _shopContext.Countries.FirstOrDefault(c => c.Id == request.CountryId),
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+            };
+            return updatedLocation;
+        }
+        public Category RequestToNewCategory(CreateCategoryRequest request)
+        {
+            var newCategory = new Category
+            {
+                Id = new Guid(),
+                Name = request.Name,
+                Description = request.Description,
+                Products = new List<Product>(),
+                SubCategories = new List<SubCategory>(),
+                Schema = request.Schema
+            };
+            return newCategory;
+        }
+        public Category RequestToUpdatedCategory(UpdateCategoryRequest request)
+        {
+            var updatedCategory = new Category
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Description = request.Description,
+                Products = _shopContext.Products.Where(p => p.Id == request.Id).ToList(),
+                SubCategories = _shopContext.SubCategories.Where(sb => sb.Id == request.Id).ToList(),
+                Schema = request.Schema
+            };
+            return updatedCategory;
+        }
+        public SubCategory RequestToNewSubcategory(CreateSubcategoryRequest request)
+        {
+            var newSubcategory = new SubCategory
+            {
+                Id = new Guid(),
+                Name = request.Name,
+                Description = request.Description,
+                CategoryId = request.CategoryId,
+                Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
+                Products = new List<Product>(),
+                Schema = request.Schema
+            };
+            return newSubcategory;
+        }
+        public SubCategory RequestToUpdatedSubcategory(UpdateSubCategoryRequest request)
+        {
+            var newSubcategory = new SubCategory
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Description = request.Description,
+                CategoryId = request.CategoryId,
+                Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
+                Products = _shopContext.Products.Where(p=>p.SubCategoryId == request.Id).ToList(),
+                Schema = request.Schema
+            };
+            return newSubcategory;
+        }
+        public BuyersProducts RequestToNewBuyersProducts(CreateBuyersProductsRequest request)
+        {
+            var newConnection = new BuyersProducts
+            {
+                BuyerId = request.UserId,
+                ProductId = request.ProductId,
+                Buyer = _shopContext.Users.FirstOrDefault(u => u.Id == request.UserId),
+                Product = _shopContext.Products.FirstOrDefault(p => p.Id == request.ProductId),
+                Quantity = request.Quantity,
+                CreatedAt = DateTime.Now,
+            };
+            return newConnection;
+        }
+        public BuyersProducts RequestToUpdatedBuyersProducts(CreateBuyersProductsRequest request)
+        {
+            var newConnection = new BuyersProducts
+            {
+                BuyerId = request.UserId,
+                ProductId = request.ProductId,
+                Buyer = _shopContext.Users.FirstOrDefault(u => u.Id == request.UserId),
+                Product = _shopContext.Products.FirstOrDefault(p => p.Id == request.ProductId),
+                Quantity = request.Quantity,
+                CreatedAt = DateTime.Now,
+            };
+            return newConnection;
         }
     }
 }

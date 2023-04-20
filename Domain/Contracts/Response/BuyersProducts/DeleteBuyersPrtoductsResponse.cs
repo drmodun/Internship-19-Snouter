@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Contracts.Requests.Location
+namespace Domain.Contracts.Response.BuyersProducts
 {
-    public class GetLocation
+    internal class DeleteBuyersPrtoductsRequest
     {
-        public Guid Id;
-        public string Slug;
     }
 }

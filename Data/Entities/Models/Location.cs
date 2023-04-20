@@ -13,7 +13,7 @@ namespace Data.Entities.Models
         public Guid Id;
         public decimal Latitude;
         public decimal Longitude;
-        public int CountryId;
+        public Guid CountryId;
         public Country Country;
         public ICollection<Product> Products { get; set; }
         public ICollection<User> Users { get; set; }

@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Contracts.Requests.Location
 {
-    public class GetLocation
+    public class CreateLocationRequest
     {
         public Guid Id;
-        public string Slug;
+        public string Name;
+        public Guid CountryId;
+        public decimal Latitude;
+        public decimal Longitude;
     }
 }

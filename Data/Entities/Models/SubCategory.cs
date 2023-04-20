@@ -14,9 +14,8 @@ namespace Data.Entities.Models
         public ICollection<Product> Products { get; set; }
         public string Description { get; set; }
 
-        public int CategoryId;
+        public Guid CategoryId;
         public Category? Category;
-        public Dictionary<string, object> SubProperties { get; set; } = new();
 
         public JSchema Schema { get; set; } = new();
 

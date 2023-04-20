@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Contracts.Requests.Location
 {
-    internal class UpdatedLocaitonRequest
+    public class UpdatedLocationRequest
     {
+        public Guid Id;
+        public Guid CountryId;
+        public string Name;
+        public decimal Latitude;
+        public decimal Longitude;
     }
 }
