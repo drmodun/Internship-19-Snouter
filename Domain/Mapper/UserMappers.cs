@@ -14,7 +14,6 @@ namespace Domain
 {
     public static class UserMappers
     {
-        private static ShopContext _shopContext;
         
 
         public static ViewProfile MapUserToDTO(User userToMap)

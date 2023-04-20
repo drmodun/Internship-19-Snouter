@@ -27,34 +27,30 @@ namespace Domain.Repositories
             return await Task.FromResult(_context.Products.ToList());
         }
 
-        public async Task<Product> AddProduct(Product product)
+        public async Task<bool> AddProduct(Product product)
         {
             await _context.Products.AddAsync(product);
-            await _context.SaveChangesAsync();
-            return product;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Product> UpdateProduct(Product product)
+        public async Task<bool> UpdateProduct(Product product)
         {
-            _context.Products.Update(product);
-            await _context.SaveChangesAsync();
-            return product;
-        }
-
-        public async Task<Product> DeleteProduct(Product product)
-        {
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return product;
+            var removal = await DeleteProduct(product.Id);
+            if (!removal)
+                return false;
+            var addition = await AddProduct(product);
+            if (!addition) return false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
 
-        public async Task<Product> DeleteProductById(Guid id)
+        public async Task<bool> DeleteProduct(Guid id)
         {
             var product = await GetProductById(id);
+            if (product == null)
+                return false;
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return product;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> ProductExists(Guid id)

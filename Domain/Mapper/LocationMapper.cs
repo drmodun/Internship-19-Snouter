@@ -11,8 +11,6 @@ namespace Domain.Mapper
 {
     public static class LocationMapper
     {
-        private static ShopContext _shopContext;
-
         public static LocationView LocationToDTO(Location location)
         {
             var newDTO = new LocationView

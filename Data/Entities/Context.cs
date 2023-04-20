@@ -74,5 +74,7 @@ namespace Data.Entities
                     v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(v));
 
         }
+
+
     }
 }

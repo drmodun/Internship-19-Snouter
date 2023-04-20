@@ -15,4 +15,3 @@ namespace Domain.Contracts.Response.User
         public HttpStatusCode Status;
     }
 }
-}

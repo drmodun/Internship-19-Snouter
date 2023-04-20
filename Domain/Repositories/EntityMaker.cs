@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.Entities;
 using Data.Entities.Models;
-using Domain.Contracts.Requests.BeyersProducts;
+using Domain.Contracts.Requests.BuyersProducts;
 using Domain.Contracts.Requests.Category;
 using Domain.Contracts.Requests.Country;
 using Domain.Contracts.Requests.Location;
@@ -235,7 +235,7 @@ namespace Domain.Repositories
             };
             return newConnection;
         }
-        public BuyersProducts RequestToUpdatedBuyersProducts(CreateBuyersProductsRequest request)
+        public BuyersProducts RequestToUpdatedBuyersProducts(UpdateBuyersProductsRequest request)
         {
             var newConnection = new BuyersProducts
             {

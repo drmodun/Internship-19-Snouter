@@ -8,6 +8,7 @@ namespace Domain.Contracts.Requests.BuyersProducts
 {
     public class DeleteBuyersProductsRequest
     {
-       
+        public Guid ProductId;
+        public Guid UserId;
     }
 }
