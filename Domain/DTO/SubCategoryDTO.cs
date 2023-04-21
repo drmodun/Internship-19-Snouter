@@ -17,7 +17,7 @@ namespace Domain.DTO
 
         public List<ProductDTO> Products;
 
-        public JSchema Schema;
+        public string Schema;
 
 
     }

@@ -12,6 +12,6 @@ namespace Domain.Contracts.Response.SubCategory
     {
         public SubCategoryDTO SubCategory { get; set; }
         public bool Success;
-        public HttpStatusCode Status;
+        public HttpStatusCode StatusCode;
     }
 }

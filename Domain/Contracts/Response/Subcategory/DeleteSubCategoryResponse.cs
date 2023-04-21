@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Contracts.Response.BuyersProducts
+namespace Domain.Contracts.Response.Subcategory
 {
-    internal class DeleteBuyersPrtoductsResponse
+    internal class DeleteSubCategoryResponse
     {
     }
 }

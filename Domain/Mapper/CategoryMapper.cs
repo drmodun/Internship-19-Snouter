@@ -17,7 +17,7 @@ namespace Domain.Mapper
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
-                Schema = category.Schema,
+                Schema = category.Schema.ToString(),
                 SubCategories = category.SubCategories.Select(SubCategoryToDTO).ToList()
             };
             return newDTO;
@@ -30,7 +30,7 @@ namespace Domain.Mapper
                 Id = subCategory.Id,
                 Name = subCategory.Name,
                 Description = subCategory.Description,
-                Schema = subCategory.Schema,
+                Schema = subCategory.Schema.ToString(),
                 Category = CategoryToDTO(subCategory.Category)
             };
             return newDTO;

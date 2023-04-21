@@ -12,7 +12,7 @@ namespace Domain.Contracts.Requests.SubCategory
         public string Name;
         public string Description;
         public Guid CategoryId;
-        public JSchema Schema;
+        public string Schema;
 
     }
 }

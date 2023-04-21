@@ -28,12 +28,6 @@ namespace Domain.Repositories
             return await Task.FromResult(_context.Users.ToList());
         }
 
-        public async Task<User> AddUser(User user)
-        {
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return user;
-        }
 
         public async Task<bool> UpdateUser(User user)
         {

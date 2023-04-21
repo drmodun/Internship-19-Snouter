@@ -22,8 +22,8 @@ namespace Domain.Contracts.Requests.Product
 
         public Guid CategoryId;
         public Guid SubCategoryId;
-        public JObject ExtraProperties;
-        public JObject SubProperties;
+        public string ExtraProperties;
+        public string SubProperties;
         public List<Blob> Images;
         public List<(Guid, Guid)> Buyers;
         public int Quantity;

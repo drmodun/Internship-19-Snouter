@@ -14,6 +14,8 @@ using Domain.Contracts.Requests.Product;
 using Domain.Contracts.Requests.SubCategory;
 using Domain.Contracts.Requests.User;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 
 namespace Domain.Repositories
 {
@@ -82,8 +84,8 @@ namespace Domain.Repositories
                 Seller = _shopContext.Users.FirstOrDefault(se => se.Id == request.SellerId),
                 Buyers = new List<BuyersProducts>(),
                 Images = request.Images,
-                ExtraProperties = request.ExtraProperties,
-                SubProperties = request.SubProperties,
+                ExtraProperties = JObject.Parse(request.ExtraProperties),
+                SubProperties = JObject.Parse(request.SubProperties),
                 SubCategoryId = request.SubCategoryId,
                 LocationId = request.LocationId,
                 Quantity = request.Quantity
@@ -104,8 +106,8 @@ namespace Domain.Repositories
                 SubCategory = _shopContext.SubCategories.FirstOrDefault(se => se.Id == request.CategoryId),
                 SubCategoryId = request.SubCategoryId,
                 Quantity = request.Quantity,
-                ExtraProperties = request.ExtraProperties,
-                SubProperties = request.SubProperties,
+                ExtraProperties = JObject.Parse(request.ExtraProperties),
+                SubProperties = JObject.Parse(request.SubProperties),
                 SellerId = request.SellerId,
                 Seller = _shopContext.Users.FirstOrDefault(u => u.Id == request.SellerId),
                 Buyers = _shopContext.BuyersProducts.Where(bp => bp.ProductId == request.Id).ToList(),
@@ -177,7 +179,7 @@ namespace Domain.Repositories
                 Description = request.Description,
                 Products = new List<Product>(),
                 SubCategories = new List<SubCategory>(),
-                Schema = request.Schema
+                Schema = JSchema.Parse(request.Schema)
             };
             return newCategory;
         }
@@ -190,7 +192,7 @@ namespace Domain.Repositories
                 Description = request.Description,
                 Products = _shopContext.Products.Where(p => p.Id == request.Id).ToList(),
                 SubCategories = _shopContext.SubCategories.Where(sb => sb.Id == request.Id).ToList(),
-                Schema = request.Schema
+                Schema = JSchema.Parse(request.Schema)
             };
             return updatedCategory;
         }
@@ -204,7 +206,7 @@ namespace Domain.Repositories
                 CategoryId = request.CategoryId,
                 Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
                 Products = new List<Product>(),
-                Schema = request.Schema
+                Schema = JSchema.Parse(request.Schema)
             };
             return newSubcategory;
         }
@@ -218,7 +220,7 @@ namespace Domain.Repositories
                 CategoryId = request.CategoryId,
                 Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
                 Products = _shopContext.Products.Where(p=>p.SubCategoryId == request.Id).ToList(),
-                Schema = request.Schema
+                Schema = JSchema.Parse(request.Schema)
             };
             return newSubcategory;
         }

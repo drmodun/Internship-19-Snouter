@@ -13,7 +13,7 @@ namespace Domain.DTO
         public Guid Id;
         public string Name;
         public string Description;
-        public JSchema Schema;
+        public string Schema;
         public List<ProductDTO> Products;
         public List<SubCategoryDTO> SubCategories;
     }

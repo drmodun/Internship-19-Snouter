@@ -10,7 +10,7 @@ namespace Domain.Contracts.Response.Subcategory
 {
     public class UpdateSubcategoryReponse
     {
-        public SubCategoryDTO SubCategory { get; set; }
+        public SubCategoryDTO? SubCategory { get; set; }
         public bool Success;
         public HttpStatusCode Status;
     }

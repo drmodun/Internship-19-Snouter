@@ -10,7 +10,7 @@ namespace Domain.Contracts.Response.BuyersProducts
 {
     public class GetBuyersProductsResponse
     {
-        public BuyersProductsView BuyersProducts;
+        public BuyersProductsView? BuyersProducts;
         public bool Success;
         public HttpStatusCode Status;
     }

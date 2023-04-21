@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Entities.Models;
@@ -27,7 +28,7 @@ namespace Domain.DTO
         public LocationView Location;
         public string UpdatedAt { get; set; }
 
-        public JObject ExtraProperties;
-        public JObject SubProperties { get; set; }
+        public string ExtraProperties;
+        public string SubProperties { get; set; }
     }
 }

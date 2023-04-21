@@ -12,6 +12,6 @@ namespace Domain.Contracts.Requests.Category
         public Guid Id;
         public string Name;
         public string Description;
-        public JSchema Schema;
+        public string Schema;
     }
 }

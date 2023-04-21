@@ -1,5 +1,4 @@
-﻿using Domain.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Contracts.Response.BuyersProducts
 {
-    public class CreateBuyersProductsResponse
+    public class DeleteBuyersProductsResponse
     {
-        public BuyersProductsView BuyersProducts;
-        public bool Success;
+        public bool ? Success { get; set; }
         public HttpStatusCode Status;
     }
 }
