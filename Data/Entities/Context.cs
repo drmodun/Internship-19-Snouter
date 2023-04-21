@@ -5,6 +5,7 @@ namespace Data.Entities
 {
     public class ShopContext : DbContext
     {
+        public ShopContext(DbContextOptions options) : base(options) { }
         //write an postgres context
         public DbSet<Models.User> Users { get; set; }
         public DbSet<Models.Product> Products { get; set; }

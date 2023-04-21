@@ -1,0 +1,15 @@
+{
+  "ConnectionStrings": {
+    "Database": "Server=localhost;Port=5432;Database=shop;User Id=drmodun;Password=drmodunV9;"
+  },
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Verbose",
+      "Override": {
+        "Microsoft": "Information",
+        "System": "Information"
+      }
+    }
+  }
+}
+
