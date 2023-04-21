@@ -37,8 +37,7 @@ namespace Domain.Repositories
             var removal = await DeleteCategory(category.Id);
             if (!removal) 
                 return false;
-            var addition = await CreateCategory(category);
-            return await _context.SaveChangesAsync() > 0;
+            return await CreateCategory(category);
         }
 
         public async Task<bool> DeleteCategory(Guid id)

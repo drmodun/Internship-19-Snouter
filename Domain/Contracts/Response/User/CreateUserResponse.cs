@@ -14,6 +14,6 @@ namespace Domain.Contracts.Response.User
         public bool ? Success { get; set; }
         public ViewProfile? Profile { get; set; }
 
-        public HttpStatusCode StatusCode;
+        public HttpStatusCode StatusCode { get; set; }
     }
 }

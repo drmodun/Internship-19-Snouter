@@ -8,13 +8,13 @@ namespace Domain.DTO
 {
     public class LocationView
     {
-        public Guid Id;
-        public string Name;
-        public List<ProductDTO> Products;
-        public CountryDTO Country;
-        public List<ViewProfile> Users;
-        public decimal Latitude;
-        public decimal Longitude;
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public List<ProductDTO> Products { get; set; }
+        public CountryDTO Country { get; set; }
+        public List<ViewProfile> Users { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
 
     }
 }

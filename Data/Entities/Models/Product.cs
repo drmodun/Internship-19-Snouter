@@ -35,7 +35,7 @@ namespace Data.Entities.Models
         public JObject? ExtraProperties { get; set; }
 
         public JObject SubProperties { get; set; }
-        public ICollection<BuyersProducts> Buyers { get; set; }
+        public ICollection<BuyersProducts> Buyers { get; set; } = new List<BuyersProducts>();
 
         public Guid LocationId;
 

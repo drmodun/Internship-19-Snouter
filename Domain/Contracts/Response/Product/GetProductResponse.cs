@@ -10,8 +10,8 @@ namespace Domain.Contracts.Response.Product
 {
     public class GetProductResponse
     {
-        public bool Success;
+        public bool Success { get; set; }
         public ProductDTO? Product { get; set; }
-        public HttpStatusCode Status;
+        public HttpStatusCode Status { get; set; }
     }
 }

@@ -10,11 +10,11 @@ namespace Domain.DTO
 {
     public class CategoryDTO
     {
-        public Guid Id;
-        public string Name;
-        public string Description;
-        public string Schema;
-        public List<ProductDTO> Products;
-        public List<SubCategoryDTO> SubCategories;
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Schema { get; set; }
+        public List<ProductDTO> Products { get; set; }
+        public List<SubCategoryDTO> SubCategories { get; set; }
     }
 }

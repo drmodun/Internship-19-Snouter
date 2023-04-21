@@ -10,8 +10,8 @@ namespace Domain.Contracts.Response.User
 {
     public class UpdateUserResponse
     {
-        public bool Success;
-        public ViewProfile? User;
-        public HttpStatusCode Status;
+        public bool Success { get; set; }
+        public ViewProfile? User { get; set; }
+        public HttpStatusCode Status { get; set; }
     }
 }

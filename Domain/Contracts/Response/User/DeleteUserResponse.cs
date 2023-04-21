@@ -9,7 +9,7 @@ namespace Domain.Contracts.Response.User
 {
     public class DeleteUserResponse
     {
-        public bool Success;
-        public HttpStatusCode StatusCode;
+        public bool Success { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
     }
 }

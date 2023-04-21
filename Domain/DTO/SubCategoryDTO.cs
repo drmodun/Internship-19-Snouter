@@ -13,11 +13,11 @@ namespace Domain.DTO
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public CategoryDTO Category;
+        public CategoryDTO Category { get; set; }
 
-        public List<ProductDTO> Products;
+        public List<ProductDTO> Products { get; set; }
 
-        public string Schema;
+        public string Schema { get; set; }
 
 
     }

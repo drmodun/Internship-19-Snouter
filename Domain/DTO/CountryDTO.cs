@@ -9,10 +9,10 @@ namespace Domain.DTO
 {
     public class CountryDTO
     {
-        public Guid Id;
-        public string Name;
-        public List<LocationView> Locations;
-        public string Image;
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public List<LocationView> Locations { get; set; }
+        public string Image { get; set; }
 
     }
 }

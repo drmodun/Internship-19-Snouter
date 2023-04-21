@@ -8,10 +8,10 @@ namespace Domain.Contracts.Requests.Location
 {
     public class CreateLocationRequest
     {
-        public Guid Id;
-        public string Name;
-        public Guid CountryId;
-        public decimal Latitude;
-        public decimal Longitude;
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public Guid CountryId { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
     }
 }

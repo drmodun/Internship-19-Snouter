@@ -9,6 +9,6 @@ namespace Domain.Contracts.Response.User
 {
     public class GetAllUsersResponse
     {
-        public List<ViewProfile>? Users;
+        public List<ViewProfile>? Users { get; set; }
     }
 }

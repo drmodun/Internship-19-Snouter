@@ -5,13 +5,11 @@ namespace Domain.Contracts.Requests.User
     public class UpdateUserRequest
     {
         public Guid Id { get; set; }
-        public string Name;
-        public string Password;
-        public string Email;
-        public Guid LocationId;
-        public bool isAdmin;
-        public ICollection<Guid> Products;
-        public ICollection<Guid> BoughtProducts;
+        public string Name { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public Guid LocationId { get; set; }
+        public bool isAdmin { get; set; }
 
     }
 }

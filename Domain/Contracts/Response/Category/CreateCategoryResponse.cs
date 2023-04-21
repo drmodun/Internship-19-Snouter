@@ -12,6 +12,6 @@ namespace Domain.Contracts.Response.Category
     {
         public bool ? Success { get; set; }
         public HttpStatusCode StatusCode { get; set; }
-        public CategoryDTO? Category;
+        public CategoryDTO? Category { get; set; }
     }
 }

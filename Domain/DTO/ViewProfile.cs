@@ -16,7 +16,7 @@ namespace Domain.DTO
 
         public List<ProductDTO> Products { get; set; }
 
-        public List<BuyersProductsView> BoughtProudcts;
+        public List<BuyersProductsView> BoughtProudcts { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

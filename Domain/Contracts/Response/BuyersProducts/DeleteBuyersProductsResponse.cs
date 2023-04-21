@@ -10,6 +10,6 @@ namespace Domain.Contracts.Response.BuyersProducts
     public class DeleteBuyersProductsResponse
     {
         public bool ? Success { get; set; }
-        public HttpStatusCode Status;
+        public HttpStatusCode Status { get; set; }
     }
 }

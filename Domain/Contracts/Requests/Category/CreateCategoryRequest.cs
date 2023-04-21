@@ -10,8 +10,8 @@ namespace Domain.Contracts.Requests.Category
 {
     public class CreateCategoryRequest
     {
-        public string Name;
-        public string Description;
-        public string Schema;
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Schema { get; set; }
     }
 }

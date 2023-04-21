@@ -25,10 +25,10 @@ namespace Domain.DTO
         public DateTime Created { get; set; }
         public int Quantity { get; set; }
 
-        public LocationView Location;
+        public LocationView Location { get; set; }
         public string UpdatedAt { get; set; }
 
-        public string ExtraProperties;
+        public string ExtraProperties { get; set; }
         public string SubProperties { get; set; }
     }
 }

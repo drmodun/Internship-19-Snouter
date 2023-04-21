@@ -88,8 +88,8 @@ namespace Domain.Repositories
                 Seller = _shopContext.Users.FirstOrDefault(se => se.Id == request.SellerId),
                 Buyers = new List<BuyersProducts>(),
                 Images = request.Images,
-                ExtraProperties = JObject.Parse(request.ExtraProperties),
-                SubProperties = JObject.Parse(request.SubProperties),
+                ExtraProperties = request.ExtraProperties,
+                SubProperties = request.ExtraProperties,
                 SubCategoryId = request.SubCategoryId,
                 LocationId = request.LocationId,
                 Quantity = request.Quantity
@@ -176,19 +176,30 @@ namespace Domain.Repositories
         }
         public Category RequestToNewCategory(CreateCategoryRequest request)
         {
-            var newCategory = new Category
+            try
             {
-                Id = new Guid(),
-                Name = request.Name,
-                Description = request.Description,
-                Products = new List<Product>(),
-                SubCategories = new List<SubCategory>(),
-                Schema = JSchema.Parse(request.Schema)
-            };
-            return newCategory;
+                var newCategory = new Category
+                {
+                    Id = new Guid(),
+                    Name = request.Name,
+                    Description = request.Description,
+                    Products = new List<Product>(),
+                    SubCategories = new List<SubCategory>(),
+                    Schema = JSchema.Parse(@request.Schema)
+                };
+                return newCategory;
+            }
+            catch (JsonReaderException ) {
+                return null;
+            }
+            catch (JSchemaReaderException)
+            {
+                return null;
+            }
         }
         public Category RequestToUpdatedCategory(UpdateCategoryRequest request)
         {
+            try {
             var updatedCategory = new Category
             {
                 Id = request.Id,
@@ -196,9 +207,18 @@ namespace Domain.Repositories
                 Description = request.Description,
                 Products = _shopContext.Products.Where(p => p.Id == request.Id).ToList(),
                 SubCategories = _shopContext.SubCategories.Where(sb => sb.Id == request.Id).ToList(),
-                Schema = JSchema.Parse(request.Schema)
+                Schema = JSchema.Parse(@request.Schema)
             };
             return updatedCategory;
+                }
+            catch (JsonReaderException )
+            {
+                return null;
+            }
+            catch (JSchemaReaderException)
+            {
+                return null;
+            }
         }
         public SubCategory RequestToNewSubcategory(CreateSubcategoryRequest request)
         {
