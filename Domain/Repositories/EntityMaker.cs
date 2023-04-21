@@ -155,7 +155,7 @@ namespace Domain.Repositories
             };
             return newLocation;
         }
-        public Location RequestToUpdatedCountry(UpdatedLocationRequest request)
+        public Location RequestToUpdatedLocation(UpdatedLocationRequest request)
         {
             var updatedLocation = new Location
             {

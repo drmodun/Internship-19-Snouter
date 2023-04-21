@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Contracts.Requests.Location
 {
-    public class GetLocation
+    public class GetLocationRequest
     {
         public Guid Id;
         public string Slug;

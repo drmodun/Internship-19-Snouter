@@ -19,7 +19,7 @@ namespace Domain.Repositories
         {
             return await Task.FromResult( await _shopContext.Countries.FirstOrDefaultAsync(c => c.Id == id));
         }
-        public async Task<List<Country>> GetAllCountries(Guid id)
+        public async Task<List<Country>> GetAllCountries()
         {
             return await Task.FromResult(await _shopContext.Countries.ToListAsync());
         }

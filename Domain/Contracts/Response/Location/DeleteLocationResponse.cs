@@ -5,11 +5,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Contracts.Response.Subcategory
+namespace Domain.Contracts.Response.Location
 {
-    public class DeleteSubCategoryResponse
+    public class DeleteLocationResponse
     {
         public bool ? Success { get; set; }
-        public HttpStatusCode StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }  
     }
 }

@@ -8,7 +8,7 @@ using Domain.DTO;
 
 namespace Domain.Contracts.Response.User
 {
-    public class GetUserRequest
+    public class GetUserResponse
     {
         public ViewProfile? User;
         public HttpStatusCode Status;
