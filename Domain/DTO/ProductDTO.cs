@@ -15,7 +15,7 @@ namespace Domain.DTO
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<Blob> Images { get; set; }
+        public List<string> Images { get; set; }
         public CategoryDTO Category { get; set; }
         public SubCategoryDTO SubCategory { get; set; }
         public ViewProfile Seller { get; set; }

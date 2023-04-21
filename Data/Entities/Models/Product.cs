@@ -26,7 +26,7 @@ namespace Data.Entities.Models
         public Guid BuyerId { get; set; }
         public User Buyer { get; set; }
 
-        public List<Blob> Images { get; set; }
+        public List<string> Images { get; set; }
         public Guid CategoryId { get; set; }
         public Category? Category { get; set; }
         public Guid SubCategoryId { get; set; }

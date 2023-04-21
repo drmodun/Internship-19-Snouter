@@ -10,6 +10,6 @@ namespace Domain.Contracts.Requests.Country
     public class CreateCountryRequest
     {
         public string Name;
-        public Blob Image;
+        public string Image;
     }
 }

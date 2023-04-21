@@ -12,6 +12,6 @@ namespace Domain.Contracts.Requests.Country
         public Guid Id { get; set; }
         public string Slug;
         public string Name;
-        public Blob Image;
+        public string Image;
     }
 }

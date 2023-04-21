@@ -25,6 +25,6 @@ namespace Domain.Contracts.Requests.Product
         public Guid SubCategoryId;
         public string ExtraProperties;
         public string SubProperties;
-        public List<Blob> Images;
+        public List<string> Images;
     }
 }

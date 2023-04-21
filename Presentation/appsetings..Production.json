@@ -1,13 +1,13 @@
 {
   "ConnectionStrings": {
-    "Database": "Server=IP;Port=PORT;Database:snouter-production;User Id=USERNAME;Password=PASSWORD;"
-   },
-      "Logging": {
-        "LogLevel": {
-          "Default": "Information",
-          "Microsoft.AspNetCore": "Warning"
-        }
-      },
-      "AllowedHosts": "*"
+    "Database": "Server=localhost;Port=5430;Database=shop;User Id=postgres;Password=drmodunV9;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
 
-  }
+}

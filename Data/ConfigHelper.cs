@@ -32,7 +32,7 @@
 
                 var configuration = new ConfigurationBuilder()
                           .SetBasePath(Directory.GetCurrentDirectory())
-                          .AddJsonFile($"appsettings.{environment}.json")
+                          .AddJsonFile($"appsettings.json")
                           .Build();
 
                 return configuration;

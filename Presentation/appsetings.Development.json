@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "Database": "Server=localhost;Port=5432;Database=shop;User Id=drmodun;Password=drmodunV9;"
+    "Database": "Server=localhost;Port=5430;Database=shop;User Id=postgres;Password=drmodunV9;"
   },
   "Serilog": {
     "MinimumLevel": {

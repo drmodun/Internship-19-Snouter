@@ -12,7 +12,7 @@ namespace Domain.DTO
         public Guid Id;
         public string Name;
         public List<LocationView> Locations;
-        public Blob Image;
+        public string Image;
 
     }
 }

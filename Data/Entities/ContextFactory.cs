@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Data.Config;
 using Microsoft.Extensions.Configuration;
-namespace Domain.Factories
+namespace Data.Entities
 {
     public class ShopContextFactory : IDesignTimeDbContextFactory<ShopContext>
     {

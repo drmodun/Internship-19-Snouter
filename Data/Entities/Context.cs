@@ -20,12 +20,23 @@ namespace Data.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=Shop;Username=postgres;Password=postgres");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=shop;Username=postgres;Password=drmodunV9");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<Models.Location>()
+                .HasKey(l => l.Id);
+            modelBuilder.Entity<Models.Location>()
+                .HasOne(l => l.Country)
+                .WithMany(c => c.Locations)
+                .HasForeignKey(l => l.CountryId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.Country>()
+                .HasMany(c => c.Locations)
+                .WithOne(l => l.Country)
+                .HasForeignKey(l => l.CountryId)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.Product>()
                 .HasOne(p => p.Seller)
                 .WithMany(u => u.ListedProducts)
@@ -73,7 +84,21 @@ namespace Data.Entities
                 .HasConversion(
                     v => v.ToString(),
                     v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(v));
-
+            modelBuilder.Entity<Models.Product>()
+                .Property(p => p.SubProperties)
+                .HasConversion(
+                       v => v.ToString(),
+                       v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(v));
+            modelBuilder.Entity<Models.Category>()
+                .Property(c=>c.Schema)
+                .HasConversion(
+                                   v => v.ToString(),
+                                                      v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Schema.JSchema>(v));
+            modelBuilder.Entity<Models.SubCategory>()
+                .Property(s => s.Schema)
+                .HasConversion(
+                                                  v => v.ToString(),
+                 v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Schema.JSchema>(v));
         }
 
 
