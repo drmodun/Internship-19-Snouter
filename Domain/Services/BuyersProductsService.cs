@@ -18,6 +18,12 @@ namespace Domain.Services
         private  EntityMaker _entityMaker { get; set; }
         private BuyersProductsRepo _buyersProductsRepo { get; set; }
 
+        public BuyersProductsService(BuyersProductsRepo buyersProductsRepo, EntityMaker entityMaker)
+        {
+            _buyersProductsRepo = buyersProductsRepo;
+            _entityMaker = entityMaker;
+        }
+
         public async Task<GetBuyersProductsResponse> GetConnectionService(GetBuyersProudctsRequest request)
         {
             var buyersProducts = await _buyersProductsRepo.GetConnection(request.ProductId, request.UserId);

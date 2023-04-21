@@ -10,6 +10,11 @@ namespace Presentation.Controllers
     {
         private readonly ProductsServices _productsService;
 
+        public ProductsServicesController(ProductsServices productsService)
+        {
+            _productsService = productsService;
+        }
+
         [HttpGet(Routes.Products.Get)]
         public async Task<ActionResult<GetProductResponse>> Get([FromRoute] Guid id)
         {

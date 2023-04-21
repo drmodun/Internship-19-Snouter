@@ -11,20 +11,20 @@ namespace Domain.Contracts.Requests.Product
 {
     public class CreateProductRequest
     {
-        public string Name;
+        public string Name { get; set; }
 
-        public string Description;
+        public string Description { get; set; }
 
-        public int Quantity;
+        public int Quantity { get; set; }
 
-        public Guid SellerId;
+        public Guid SellerId { get; set; }
 
-        public Guid LocationId;
+        public Guid LocationId { get; set; }
 
-        public Guid CategoryId;
-        public Guid SubCategoryId;
-        public string ExtraProperties;
-        public string SubProperties;
-        public List<string> Images;
+        public Guid CategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
+        public string ExtraProperties { get; set; }
+        public string SubProperties { get; set; }
+        public List<string> Images { get; set; }
     }
 }

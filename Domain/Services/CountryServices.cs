@@ -15,6 +15,11 @@ namespace Domain.Services
         private CountryRepo _countryRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }
 
+        public CountryServices(CountryRepo countryRepo, EntityMaker entityMaker)
+        {
+            _countryRepo = countryRepo;
+            _entityMaker = entityMaker;
+        }
 
 
         public async Task<GetCountryResponse> GetCountryService(GetCountryRequest request)

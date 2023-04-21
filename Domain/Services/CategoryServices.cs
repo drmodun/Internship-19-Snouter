@@ -18,6 +18,11 @@ namespace Domain.Services
         private readonly CategoryRepo _categoryRepository;
         private readonly EntityMaker _entityMaker;
 
+        public CategoryServices(CategoryRepo categoryRepository, EntityMaker entityMaker)
+        {
+            _categoryRepository = categoryRepository;
+            _entityMaker = entityMaker;
+        }
 
         public async Task<GetCategoryReponse> GetCategoryService(GetCategoryRequest request)
         {

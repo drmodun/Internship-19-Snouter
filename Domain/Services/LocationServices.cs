@@ -15,6 +15,11 @@ namespace Domain.Services
         private LocationRepo _locationRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }
 
+        public LocationServices(LocationRepo locationRepo, EntityMaker entityMaker)
+        {
+            _locationRepo = locationRepo;
+            _entityMaker = entityMaker;
+        }
         public async Task<GetLocationResponse> GetLocationService(GetLocationRequest request)
         {
             var location = await _locationRepo.GetLocationById(request.Id);

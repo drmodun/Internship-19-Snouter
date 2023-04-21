@@ -15,6 +15,11 @@ namespace Domain.Services
         private readonly UserRepo _userRepository;
         private readonly EntityMaker _entityMaker;
 
+        public UserServices(UserRepo userRepository, EntityMaker entityMaker)
+        {
+            _userRepository = userRepository;
+            _entityMaker = entityMaker;
+        }
 
         public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request)
         {

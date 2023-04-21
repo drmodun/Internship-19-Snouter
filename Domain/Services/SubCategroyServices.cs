@@ -18,6 +18,11 @@ namespace Domain.Services
         private readonly SubCategoryRepo _subCategoryRepository;
         private readonly EntityMaker _entityMaker;
         
+        public SubCategoryServices(SubCategoryRepo subCategoryRepository, EntityMaker entityMaker)
+        {
+            _subCategoryRepository = subCategoryRepository;
+            _entityMaker = entityMaker;
+        }
         public async Task<GetSubcatgoryResponse> GetSubCategoryService(GetCategoryRequest request)
         {
             var category = await _subCategoryRepository.GetSubCategoryById(request.Id);
