@@ -21,7 +21,11 @@ namespace Domain.Repositories
 {
     public class EntityMaker
     {
-        private readonly ShopContext _shopContext;
+        private readonly ShopContext _shopContext = new ShopContextFactory().CreateDbContext(null);
+        public EntityMaker(ShopContext shopContext)
+        {
+            _shopContext = shopContext;
+        }
 
         public User RequestToNewUser(CreateUserRequest request)
         {

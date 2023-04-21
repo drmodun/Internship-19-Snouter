@@ -10,7 +10,12 @@ namespace Domain.Repositories
 {
     public class ProductRepo
     {
-        private readonly ShopContext _context;
+        private readonly ShopContext _context = new ShopContextFactory().CreateDbContext(null);
+
+        public ProductRepo(ShopContext context)
+        {
+            _context = context;
+        }
 
         public async Task<Product> GetProductById(Guid id)
         {

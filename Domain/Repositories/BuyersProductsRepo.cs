@@ -14,7 +14,12 @@ namespace Domain.Repositories
 {
     public class BuyersProductsRepo
     {
-        private readonly ShopContext _shopContext;
+        private readonly ShopContext _shopContext = new ShopContextFactory().CreateDbContext(null);
+
+        public BuyersProductsRepo(ShopContext shopContext)
+        {
+            _shopContext = shopContext;
+        }
 
         public async Task<bool> CreateConnection(BuyersProducts buyersProducts)
         {

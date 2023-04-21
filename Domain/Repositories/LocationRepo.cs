@@ -12,7 +12,7 @@ namespace Domain.Repositories
 {
     public class LocationRepo
     {
-        private readonly ShopContext _shop_Context;
+        private readonly ShopContext _shop_Context = new ShopContextFactory().CreateDbContext(null);
 
         public LocationRepo(ShopContext shop_Context)
         {

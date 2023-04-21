@@ -10,6 +10,6 @@ namespace Domain.Contracts.Requests.Location
     public class DeleteLocationRequest
     {
         public Guid Id;
-        public string Slug;
+        public string? Slug;
     }
 }

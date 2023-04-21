@@ -9,6 +9,6 @@ namespace Domain.Contracts.Requests.Country
     public class GetCountryRequest
     {
         public Guid Id;
-        public string Slug;
+        public string? Slug;
     }
 }

@@ -15,6 +15,8 @@ namespace Domain.Services
         private CountryRepo _countryRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }
 
+
+
         public async Task<GetCountryResponse> GetCountryService(GetCountryRequest request)
         {
             var country = await _countryRepo.GetCountry(request.Id);

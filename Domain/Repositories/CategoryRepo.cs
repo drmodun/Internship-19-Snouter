@@ -11,7 +11,12 @@ namespace Domain.Repositories
 {
     public class CategoryRepo
     {
-        private readonly ShopContext _context;
+        private readonly ShopContext _context = new ShopContextFactory().CreateDbContext(null);
+
+        public CategoryRepo(ShopContext context)
+        {
+            _context = context;
+        }
         public async Task<bool> CreateCategory(Category category)
         {
             await _context.AddAsync(category);

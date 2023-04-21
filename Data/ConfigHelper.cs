@@ -4,14 +4,6 @@
     {
         public class ConfigurationHelper
         {
-            /// <summary>
-            /// Gets the configuration from the application.<i>&lt;ASPNETCORE_ENVIRONMENT&gt;</i>.json file.<br/>
-            /// To set the desired environment run the following command in the Package Manager Console:
-            /// <code>
-            /// $env:ASPNETCORE_ENVIRONMENT = "<i>&lt;ASPNETCORE_ENVIRONMENT&gt;</i>"
-            /// </code>
-            /// The available environments are located in the <i>appsettings.json</i> configuration file under the "Environments" property.
-            /// </summary>
             public static IConfigurationRoot GetConfiguration()
             {
                 var environments = new ConfigurationBuilder()

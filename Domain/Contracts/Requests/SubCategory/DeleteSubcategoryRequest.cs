@@ -9,6 +9,6 @@ namespace Domain.Contracts.Requests.SubCategory
     public class DeleteSubcategoryRequest
     {
         public Guid Id;
-        public string Slug;
+        public string? Slug;
     }
 }

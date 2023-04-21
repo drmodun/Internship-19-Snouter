@@ -9,6 +9,6 @@ namespace Domain.Contracts.Requests.Country
     public class DeleteCountryRequest
     {
         public Guid Id { get; set; }
-        public string Slug;
+        public string? Slug;
     }
 }

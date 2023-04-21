@@ -16,6 +16,7 @@ namespace Domain.Services
     {
         private readonly ProductRepo _productRepository;
         private readonly EntityMaker _entityMaker;
+
         public async Task<CreateProductResponse> CreateProductService(CreateProductRequest request)
         {
             var newProduct = _entityMaker.RequestToNewProduct(request);

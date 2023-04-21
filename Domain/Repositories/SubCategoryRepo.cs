@@ -11,8 +11,12 @@ namespace Domain.Repositories
 {
     public class SubCategoryRepo
     {
-        private readonly ShopContext _shopContext;
+        private readonly ShopContext _shopContext = new ShopContextFactory().CreateDbContext(null);
 
+        public SubCategoryRepo(ShopContext shopContext)
+        {
+            _shopContext = shopContext;
+        }
 
         public async Task<List<SubCategory>> GetAllSubCategories()
         {
@@ -24,9 +28,9 @@ namespace Domain.Repositories
             return await _shopContext.SubCategories.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        /*public async Task<SubCategory> GetSubCategoryBySlug(string slug)
+        /*public async Task<SubCategory> GetSubCategoryBySlug(string? Slug)
     {
-            return await _shopContext.SubCategories.FirstOrDefaultAsync(x => x.Slug == slug);
+            return await _shopContext.SubCategories.FirstOrDefaultAsync(x => x.Slug ==? Slug);
         }*/
 
         public async Task<bool> CreateSubCategory(SubCategory subCategory)

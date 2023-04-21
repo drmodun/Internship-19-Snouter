@@ -14,6 +14,8 @@ namespace Domain.Services
     {
         private readonly UserRepo _userRepository;
         private readonly EntityMaker _entityMaker;
+
+
         public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request)
         {
             var newUser = _entityMaker.RequestToNewUser(request);

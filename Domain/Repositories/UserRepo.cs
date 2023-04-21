@@ -11,7 +11,11 @@ namespace Domain.Repositories
 {
     public class UserRepo
     {
-        private readonly ShopContext _context;
+        private readonly ShopContext _context = new ShopContextFactory().CreateDbContext(null);
+        public UserRepo(ShopContext context)
+        {
+            _context = context;
+        }
 
         public async Task<User> GetUserById(Guid id)
         {

@@ -13,8 +13,12 @@ namespace Domain.Repositories
 {
     public class CountryRepo
     {
-        private readonly ShopContext _shopContext;
+        private readonly ShopContext _shopContext = new ShopContextFactory().CreateDbContext(null);
 
+        public CountryRepo(ShopContext shopContext)
+        {
+            _shopContext = shopContext;
+        }
         public async Task<Country> GetCountry(Guid id)
         {
             return await Task.FromResult( await _shopContext.Countries.FirstOrDefaultAsync(c => c.Id == id));
