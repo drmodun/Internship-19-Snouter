@@ -222,31 +222,51 @@ namespace Domain.Repositories
         }
         public SubCategory RequestToNewSubcategory(CreateSubcategoryRequest request)
         {
-            var newSubcategory = new SubCategory
+            try
             {
-                Id = new Guid(),
-                Name = request.Name,
-                Description = request.Description,
-                CategoryId = request.CategoryId,
-                Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
-                Products = new List<Product>(),
-                Schema = JSchema.Parse(request.Schema)
-            };
-            return newSubcategory;
+                var newSubcategory = new SubCategory
+                {
+                    Id = new Guid(),
+                    Name = request.Name,
+                    Description = request.Description,
+                    CategoryId = request.CategoryId,
+                    Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
+                    Products = new List<Product>(),
+                    Schema = JSchema.Parse(request.Schema)
+                };
+                return newSubcategory;
+            }
+            catch (JsonReaderException ) {
+                return null;
+            }
+            catch (JSchemaReaderException) {
+                return null;
+            }
         }
         public SubCategory RequestToUpdatedSubcategory(UpdateSubCategoryRequest request)
         {
-            var newSubcategory = new SubCategory
+            try
             {
-                Id = request.Id,
-                Name = request.Name,
-                Description = request.Description,
-                CategoryId = request.CategoryId,
-                Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
-                Products = _shopContext.Products.Where(p=>p.SubCategoryId == request.Id).ToList(),
-                Schema = JSchema.Parse(request.Schema)
-            };
-            return newSubcategory;
+                var newSubcategory = new SubCategory
+                {
+                    Id = request.Id,
+                    Name = request.Name,
+                    Description = request.Description,
+                    CategoryId = request.CategoryId,
+                    Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
+                    Products = _shopContext.Products.Where(p => p.SubCategoryId == request.Id).ToList(),
+                    Schema = JSchema.Parse(request.Schema)
+                };
+                return newSubcategory;
+            }
+            catch (JsonReaderException )
+            {
+                return null;
+            }
+            catch(JSchemaReaderException)
+            {
+                return null;
+            }
         }
         public BuyersProducts RequestToNewBuyersProducts(CreateBuyersProductsRequest request)
         {

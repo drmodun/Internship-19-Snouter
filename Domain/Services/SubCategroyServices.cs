@@ -23,7 +23,7 @@ namespace Domain.Services
             _subCategoryRepository = subCategoryRepository;
             _entityMaker = entityMaker;
         }
-        public async Task<GetSubcatgoryResponse> GetSubCategoryService(GetCategoryRequest request)
+        public async Task<GetSubcatgoryResponse> GetSubCategoryService(GetSubCategoryRequest request)
         {
             var category = await _subCategoryRepository.GetSubCategoryById(request.Id);
             if (category == null)

@@ -43,10 +43,8 @@ namespace Domain.Repositories
         {
             var removal = await DeleteSubCategory(subCategory.Id);
             if (!removal) { return false; }
-            var addition = await CreateSubCategory(subCategory);
-            if (!addition) { return false; }
+            return await CreateSubCategory(subCategory);
             
-            return await _shopContext.SaveChangesAsync() > 0 ;
         }
 
         public async Task<bool> DeleteSubCategory(Guid id)
