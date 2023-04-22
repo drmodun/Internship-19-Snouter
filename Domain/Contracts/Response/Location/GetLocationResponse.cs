@@ -10,9 +10,10 @@ namespace Domain.Contracts.Response.Location
 {
     public class GetLocationResponse
     {
-        public LocationView? Location;
-        public HttpStatusCode StatusCode;
-        public bool Success;
+        public LocationView? Location { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
+        public bool Success { get; set; }
+
 
     }
 }

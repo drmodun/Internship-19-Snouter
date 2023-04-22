@@ -11,7 +11,7 @@ namespace Domain.Contracts.Response.Location
     public class UpdateLocationResponse
     {
         public LocationView? Location;
-        public bool ? Success;
+        public bool Success;
         public HttpStatusCode Status;
     }
 }

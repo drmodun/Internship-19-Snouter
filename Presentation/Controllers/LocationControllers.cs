@@ -35,9 +35,10 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.Location.Update)]
-        public async Task<ActionResult<UpdateLocationResponse>> Put([FromBody] UpdatedLocationRequest request)
+        public async Task<ActionResult<UpdateLocationResponse>> Put([FromRoute] Guid id,[FromBody] CreateLocationRequest request)
         {
-            var response = await _locationService.UpdateLocationService(request);
+            var updateRequest = new UpdatedLocationRequest { Id = id, Name = request.Name, Latitude = request.Latitude, Longitude = request.Longitude, CountryId = request.CountryId};
+            var response = await _locationService.UpdateLocationService(updateRequest);
             if (response.Location == null)
             {
                 return BadRequest();

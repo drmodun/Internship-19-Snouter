@@ -52,11 +52,7 @@ namespace Domain.Repositories
 
         public User RequestToUpdatedUser(UpdateUserRequest request)
         {
-            var Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId);
-            if (Location == null)
-            {
-                return null;
-            }
+           
 
             var updatedUser = new User
             {
@@ -67,8 +63,6 @@ namespace Domain.Repositories
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 AddressId = request.LocationId,
-                ListedProducts = _shopContext.Products.Where(p => p.SellerId == request.Id).ToList(),
-                BoughtProducts = _shopContext.BuyersProducts.Where(bp => bp.BuyerId == request.Id).ToList(),
                 isAdmin = request.isAdmin
 
 
@@ -78,27 +72,7 @@ namespace Domain.Repositories
 
         public Product RequestToNewProduct(CreateProductRequest request)
         {
-            var Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId);
-            if (Category == null)
-            {
-                return null;
-            }
-            var SubCategory = _shopContext.SubCategories.FirstOrDefault(sc => sc.Id == request.SubCategoryId);
-            if (SubCategory == null)
-            {
-                return null;
-            }
-            var Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId);
-            if (Location == null)
-            {
-                return null;
-            }
-            var Seller = _shopContext.Users.FirstOrDefault(u => u.Id == request.SellerId);
-            if (Seller == null)
-            {
-                return null;
-            }
-
+           
 
 
             var newProduct = new Product
@@ -107,7 +81,6 @@ namespace Domain.Repositories
                 Name = request.Name,
                 Description = request.Description,
                 CategoryId = request.CategoryId,
-                Category = Category,
                 Created = DateTime.Now,
                 Images = request.Images,
                 ExtraProperties = request.ExtraProperties,
@@ -123,29 +96,31 @@ namespace Domain.Repositories
 
         public Product RequestToUpdatedProduct(UpdateProductRequest request)
         {
-            var Seller = _shopContext.Users.FirstOrDefault(u => u.Id == request.SellerId);
-            var Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId);
-            var SubCategory = _shopContext.SubCategories.FirstOrDefault(sc => sc.Id == request.SubCategoryId);
-            var Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId);
-            if (Seller == null || Category == null || SubCategory == null || Location == null)
+            try
+            {
+                var updatedProduct = new Product()
+                {
+                    Id = request.Id,
+                    Name = request.Name,
+                    Description = request.Description,
+                    CategoryId = request.CategoryId,
+                    SubCategoryId = request.SubCategoryId,
+                    Quantity = request.Quantity,
+                    ExtraProperties = JObject.Parse(request.ExtraProperties),
+                    SubProperties = JObject.Parse(request.SubProperties),
+                    SellerId = request.SellerId,
+                };
+
+                return updatedProduct;
+            }
+            catch (JsonReaderException)
             {
                 return null;
             }
-            var updatedProduct = new Product()
+            catch 
             {
-                Id = request.Id,
-                Name = request.Name,
-                Description = request.Description,
-                CategoryId = request.CategoryId,
-                SubCategoryId = request.SubCategoryId,
-                Quantity = request.Quantity,
-                ExtraProperties = JObject.Parse(request.ExtraProperties),
-                SubProperties = JObject.Parse(request.SubProperties),
-                SellerId = request.SellerId,
-                Buyers = _shopContext.BuyersProducts.Where(bp => bp.ProductId == request.Id).ToList(),
-            };
-            
-            return updatedProduct;
+                return null;
+            }
         }
 
         public Country RequestToNewCountry(CreateCountryRequest request)
@@ -167,7 +142,6 @@ namespace Domain.Repositories
                 Id = request.Id,
                 Name = request.Name,
                 Image = request.Image,
-                Locations = _shopContext.Locations.Where(l => l.Id == request.Id).ToList(),
             };
 
             return updatedCountry;
@@ -199,8 +173,6 @@ namespace Domain.Repositories
                 {
                     Id = request.Id,
                     Name = request.Name,
-                    Users = _shopContext.Users.Where(u => u.AddressId == request.Id).ToList(),
-                    Products = _shopContext.Products.Where(p => p.LocationId == request.Id).ToList(),
                     CountryId = request.CountryId,
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
@@ -247,7 +219,6 @@ namespace Domain.Repositories
                 Id = request.Id,
                 Name = request.Name,
                 Description = request.Description,
-                Products = _shopContext.Products.Where(p => p.Id == request.Id).ToList(),
                 SubCategories = _shopContext.SubCategories.Where(sb => sb.Id == request.Id).ToList(),
                 Schema = JSchema.Parse(@request.Schema)
             };
@@ -299,7 +270,6 @@ namespace Domain.Repositories
                     Name = request.Name,
                     Description = request.Description,
                     CategoryId = request.CategoryId,
-                    Products = _shopContext.Products.Where(p => p.SubCategoryId == request.Id).ToList(),
                     Schema = JSchema.Parse(request.Schema)
                 };
                 return newSubcategory;
