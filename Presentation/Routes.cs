@@ -48,10 +48,10 @@ namespace Presentation
         public static class BuyersProducts
         {
             public const string GetAll = Base + $"/buyersproducts";
-            public const string Get = Base + $"/buyersproducts/{{id:Guid}}";
-            public const string Create = Base + $"/buyersproducts";
-            public const string Update = Base + $"/buyersproducts/{{id:Guid}}";
-            public const string Delete = Base + $"/buyersproducts/{{id:Guid}}";
+            public const string Get = Base + $"/{{BuyerId:Guid}}/{{ProductId:Guid}}";
+            public const string Create = Base + $"/{{BuyerId:Guid}}/{{ProductId:Guid}}";
+            public const string Update = Base + $"/{{BuyerId:Guid}}/{{ProductId:Guid}}";
+            public const string Delete = Base + $"/{{BuyerId:Guid}}/{{ProductId:Guid}}";
         }
         public static class Country
         {

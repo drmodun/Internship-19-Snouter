@@ -51,9 +51,10 @@ namespace Domain.Repositories
         {
             try
             {
-                var removal = await DeleteSubCategory(subCategory.Id);
-                if (!removal) { return false; }
-                return await CreateSubCategory(subCategory);
+                var subCategoryToUpdate = await GetSubCategoryById(subCategory.Id);
+                if (subCategoryToUpdate == null) { return false; }
+                await _shopContext.AddAsync(subCategory);
+                return await _shopContext.SaveChangesAsync() > 0;
             }
             catch (DbUpdateException)
             {

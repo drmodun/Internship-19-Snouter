@@ -37,9 +37,10 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.Products.Update)]
-        public async Task<ActionResult<UpdateProductResponse>> Put([FromBody] UpdateProductRequest request)
+        public async Task<ActionResult<UpdateProductResponse>> Put([FromRoute] Guid Id , [FromBody] CreateProductRequest request)
         {
-            var response = await _productsService.UpdateProductService(request);
+            var updateRequest = new UpdateProductRequest { Id = Id, Name = request.Name, CategoryId = request.CategoryId, Description = request.Description, ExtraProperties = request.ExtraProperties, SubProperties = request.SubProperties, Images = request.Images, LocationId = request.LocationId, SellerId = request.SellerId, SubCategoryId = request.SubCategoryId, Quantity = request.Quantity };
+            var response = await _productsService.UpdateProductService(updateRequest);
             if (response.Product == null)
             {
                 return BadRequest();

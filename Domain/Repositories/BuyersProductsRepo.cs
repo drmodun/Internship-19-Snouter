@@ -60,10 +60,10 @@ namespace Domain.Repositories
         {
             try
             {
-                var removal = await DeleteConnection(buyersProducts.ProductId, buyersProducts.BuyerId);
-                if (!removal) return false;
-                var addition = await CreateConnection(buyersProducts);
-                if (!addition) return false;
+                var connectionToUpdate = await GetConnection(buyersProducts.ProductId, buyersProducts.BuyerId);
+                if (connectionToUpdate == null) return false;
+                _shopContext.Remove(connectionToUpdate);
+                await _shopContext.AddAsync(buyersProducts);
                 return await _shopContext.SaveChangesAsync() > 0;
             }
             catch (DbUpdateException) { return false; }

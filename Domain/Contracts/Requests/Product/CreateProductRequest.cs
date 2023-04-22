@@ -23,8 +23,8 @@ namespace Domain.Contracts.Requests.Product
 
         public Guid CategoryId { get; set; }
         public Guid SubCategoryId { get; set; }
-        public JObject ExtraProperties { get; set; }
-        public JObject SubProperties { get; set; }
+        public string ExtraProperties { get; set; }
+        public string SubProperties { get; set; }
         public List<string> Images { get; set; }
     }
 }

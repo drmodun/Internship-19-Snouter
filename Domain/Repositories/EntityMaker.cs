@@ -41,8 +41,8 @@ namespace Domain.Repositories
                 Name = request.Name,
                 Email = request.Email,
                 Password = request.Password,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 AddressId = request.LocationId,
                 isAdmin = request.IsAdmin
 
@@ -60,8 +60,8 @@ namespace Domain.Repositories
                 Name = request.Name,
                 Email = request.Email,
                 Password = request.Password,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 AddressId = request.LocationId,
                 isAdmin = request.isAdmin
 
@@ -72,26 +72,28 @@ namespace Domain.Repositories
 
         public Product RequestToNewProduct(CreateProductRequest request)
         {
-           
-
-
-            var newProduct = new Product
+            try
             {
-                Id = new Guid(),
-                Name = request.Name,
-                Description = request.Description,
-                CategoryId = request.CategoryId,
-                Created = DateTime.Now,
-                Images = request.Images,
-                ExtraProperties = request.ExtraProperties,
-                SubProperties = request.ExtraProperties,
-                SubCategoryId = request.SubCategoryId,
-                LocationId = request.LocationId,
-                Quantity = request.Quantity
-            };
-           
-            return newProduct;
 
+                var newProduct = new Product
+                {
+                    Id = new Guid(),
+                    Name = request.Name,
+                    Description = request.Description,
+                    CategoryId = request.CategoryId,
+                    Created = DateTime.UtcNow,
+                    Images = request.Images,
+                    ExtraProperties = JObject.Parse(request.ExtraProperties),
+                    SubProperties = JObject.Parse(request.ExtraProperties),
+                    SubCategoryId = request.SubCategoryId,
+                    LocationId = request.LocationId,
+                    Quantity = request.Quantity
+                };
+                return newProduct;
+            }
+            catch {
+                return null;
+            }
         }
 
         public Product RequestToUpdatedProduct(UpdateProductRequest request)
@@ -291,7 +293,7 @@ namespace Domain.Repositories
                 BuyerId = request.UserId,
                 ProductId = request.ProductId,
                 Quantity = request.Quantity,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
             };
             
             return newConnection;
@@ -303,7 +305,7 @@ namespace Domain.Repositories
                 BuyerId = request.UserId,
                 ProductId = request.ProductId,
                 Quantity = request.Quantity,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
             };
            
             return newConnection;

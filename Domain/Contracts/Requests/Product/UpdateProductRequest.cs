@@ -25,7 +25,6 @@ namespace Domain.Contracts.Requests.Product
         public string ExtraProperties { get; set; }
         public string SubProperties { get; set; }
         public List<string> Images { get; set; }
-        public List<(Guid, Guid)> Buyers { get; set; }
         public int Quantity { get; set; }
 
     }

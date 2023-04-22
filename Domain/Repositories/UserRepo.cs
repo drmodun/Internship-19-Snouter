@@ -19,7 +19,7 @@ namespace Domain.Repositories
 
         public async Task<User> GetUserById(Guid id)
         {
-            return await Task.FromResult(_context.Users.FindAsync(id).Result);
+            return await Task.FromResult(await _context.Users.FindAsync(id));
         }
 
         public async Task<User> GetUserByEmail(string email)
@@ -35,19 +35,14 @@ namespace Domain.Repositories
 
         public async Task<bool> UpdateUser(User user)
         {
-            try
-            {
-                var removal = await DeleteUser(user.Id);
-                if (!removal)
+            
+            var userToDelete = await GetUserById(user.Id);
+            if (userToDelete == null)
                     return false;
-                await _context.Users.AddAsync(user);
-                var task = await _context.SaveChangesAsync();
-                return task > 0;
-            }
-            catch (DbUpdateException)
-            {
-                return false;
-            }
+            _context.Users.Remove(userToDelete);
+            return await CreateUser(user);                
+            
+            
         }
 
         public async Task<bool> DeleteUser(Guid Id)

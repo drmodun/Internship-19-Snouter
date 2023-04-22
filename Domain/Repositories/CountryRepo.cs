@@ -54,9 +54,10 @@ namespace Domain.Repositories
         {
             try
             {
-                var removal = await DeleteCountry(country.Id);
-                if (!removal) return false;
-                return await CreateCountry(country);
+                var countryToDelete = await GetCountry(country.Id);
+                if (countryToDelete == null) return false;
+                await _shopContext.AddAsync(country);
+                return await _shopContext.SaveChangesAsync() > 0;
             }
             catch (DbUpdateException)
             {

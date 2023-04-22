@@ -39,7 +39,7 @@ namespace Domain.Services
             {
                 Success = true,
                 Profile = _userMappers.MapUserToDTO(newUser),
-                StatusCode = System.Net.HttpStatusCode.BadRequest
+                StatusCode = System.Net.HttpStatusCode.OK
             };
         }
         public async Task<DeleteUserResponse> DeleteUserService(DeleteUserRequest request)

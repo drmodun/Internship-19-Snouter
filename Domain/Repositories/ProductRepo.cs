@@ -51,11 +51,12 @@ namespace Domain.Repositories
         {
             try
             {
-                var removal = await DeleteProduct(product.Id);
-                if (!removal)
-                    return false;
-                var addition = await AddProduct(product);
-                if (!addition) return false;
+                var productToUpdate = await GetProductById(product.Id);
+                if (productToUpdate == null) 
+                { 
+                    return false; 
+                }
+                await _context.AddAsync(productToUpdate);
                 return await _context.SaveChangesAsync() > 0;
             }
             catch (DbUpdateException)

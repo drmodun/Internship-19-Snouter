@@ -50,10 +50,12 @@ namespace Domain.Repositories
         {
             try
             {
-                var removal = await DeleteCategory(category.Id);
-                if (!removal)
+                var categoryToUpdate = await _context.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
+                if (categoryToUpdate == null)
                     return false;
-                return await CreateCategory(category);
+                _context.Categories.Remove(categoryToUpdate);
+                await _context.AddAsync(category);
+                return await _context.SaveChangesAsync() > 0;
             }
             catch (DbUpdateException)
             {
