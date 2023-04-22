@@ -53,5 +53,13 @@ namespace Presentation
             public const string Update = Base + $"/buyersproducts/{{id:Guid}}";
             public const string Delete = Base + $"/buyersproducts/{{id:Guid}}";
         }
+        public static class Country
+        {
+            public const string GetAll = Base + $"/countries";
+            public const string Get = Base + $"/countries/{{id:Guid}}";
+            public const string Create = Base + $"/countries";
+            public const string Update = Base + $"/countries/{{id:Guid}}";
+            public const string Delete = Base + $"/countries/{{id:Guid}}";
+        }
     }
 }

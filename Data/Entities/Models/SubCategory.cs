@@ -15,7 +15,7 @@ namespace Data.Entities.Models
         public string Description { get; set; }
 
         public Guid CategoryId;
-        public Category? Category;
+        public Category Category;
 
         public JSchema Schema { get; set; } = new();
 

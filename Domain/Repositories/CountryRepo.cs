@@ -42,9 +42,7 @@ namespace Domain.Repositories
         {
             var removal = await DeleteCountry(country.Id);
             if (!removal) return false;
-            var addition = await CreateCountry(country);
-            if (!addition) return false;
-            return await _shopContext.SaveChangesAsync() > 0;
+            return await CreateCountry(country);
         }
 
 

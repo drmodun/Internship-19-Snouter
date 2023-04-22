@@ -148,7 +148,7 @@ namespace Domain.Repositories
         {
             var newLocation = new Location
             {
-                Id = request.Id,
+                Id = new Guid(),
                 Name = request.Name,
                 Products = new List<Product>(),
                 Users = new List<User>(),
@@ -157,6 +157,8 @@ namespace Domain.Repositories
                 CountryId = request.CountryId,
                 Country = _shopContext.Countries.FirstOrDefault(c => c.Id == request.CountryId)
             };
+            if (newLocation.Country == null)
+                return null;
             return newLocation;
         }
         public Location RequestToUpdatedLocation(UpdatedLocationRequest request)

@@ -37,8 +37,7 @@ namespace Domain.Repositories
             if (locationToDelete == null)
                 return false;
             _shop_Context.Locations.Remove(locationToDelete);
-            await _shop_Context.Locations.AddAsync(location);
-            return await _shop_Context.SaveChangesAsync() > 0;
+            return await CreateLocation(location);
         }
         public async Task<bool> DeleteLocation(Guid id)
         {
