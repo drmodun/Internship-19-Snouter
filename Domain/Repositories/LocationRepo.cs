@@ -24,29 +24,55 @@ namespace Domain.Repositories
         }
         public async Task<Location> GetLocationById(Guid id)
         {
-            return await _shop_Context.Locations.FindAsync(id);
-        }
+            try
+            {
+                return await _shop_Context.Locations.FindAsync(id);
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            }
         public async Task<bool> CreateLocation(Location location)
         {
-            await _shop_Context.Locations.AddAsync(location);
-            return await _shop_Context.SaveChangesAsync() > 0;
+            try
+            {
+                await _shop_Context.Locations.AddAsync(location);
+                return await _shop_Context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
         public async Task<bool> UpdateLocation(Location location)
         {
-            var locationToDelete = await _shop_Context.Locations.FirstOrDefaultAsync(x => x.Id == location.Id);
-            if (locationToDelete == null)
+            try
+            {
+                var locationToDelete = await _shop_Context.Locations.FirstOrDefaultAsync(x => x.Id == location.Id);
+                if (locationToDelete == null)
+                    return false;
+                _shop_Context.Locations.Remove(locationToDelete);
+                return await CreateLocation(location);
+            } catch (DbUpdateException)
+            {
                 return false;
-            _shop_Context.Locations.Remove(locationToDelete);
-            return await CreateLocation(location);
+            }
         }
         public async Task<bool> DeleteLocation(Guid id)
         {
-            var locationToDelete = await _shop_Context.Locations.FindAsync(id);
-            if (locationToDelete == null)
+            try
+            {
+                var locationToDelete = await _shop_Context.Locations.FindAsync(id);
+                if (locationToDelete == null)
+                    return false;
+                _shop_Context.Locations.Remove(locationToDelete);
+                return await _shop_Context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
                 return false;
-            _shop_Context.Locations.Remove(locationToDelete);
-            return await _shop_Context.SaveChangesAsync() > 0;
-            
+            }
         }
     }
 }

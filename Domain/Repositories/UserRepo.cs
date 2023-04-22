@@ -35,23 +35,37 @@ namespace Domain.Repositories
 
         public async Task<bool> UpdateUser(User user)
         {
-            var removal = await DeleteUser(user.Id);
-            if (!removal)
+            try
+            {
+                var removal = await DeleteUser(user.Id);
+                if (!removal)
+                    return false;
+                await _context.Users.AddAsync(user);
+                var task = await _context.SaveChangesAsync();
+                return task > 0;
+            }
+            catch (DbUpdateException)
+            {
                 return false;
-            await _context.Users.AddAsync(user);
-            var task = await _context.SaveChangesAsync();
-            return task > 0;
+            }
         }
 
         public async Task<bool> DeleteUser(Guid Id)
         {
-            var userToDelete = await GetUserById(Id);
-            if (userToDelete == null)
+            try
+            {
+                var userToDelete = await GetUserById(Id);
+                if (userToDelete == null)
+                {
+                    return false;
+                }
+                _context.Users.Remove(userToDelete);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
             {
                 return false;
             }
-            _context.Users.Remove(userToDelete);
-            return await _context.SaveChangesAsync() > 0;
         }
 
 
@@ -62,8 +76,15 @@ namespace Domain.Repositories
 
         public async Task<bool> CreateUser(User user)
         {
-            await _context.Users.AddAsync(user);
-            return await _context.SaveChangesAsync() > 0;
+            try
+            {
+                await _context.Users.AddAsync(user);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
     }
 }

@@ -10,9 +10,9 @@ namespace Domain.DTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<ProductDTO> Products { get; set; }
-        public CountryDTO Country { get; set; }
-        public List<ViewProfile> Users { get; set; }
+        public List<Guid> Products { get; set; }
+        public Guid Country { get; set; }
+        public List<Guid> Users { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
 

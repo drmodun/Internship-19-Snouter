@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data.Entities;
 using Data.Entities.Models;
 using Domain.DTO;
 
 namespace Domain.Mapper
 {
-    public static class CategoryMapper
+    public  class CategoryMapper
     {
-        public static CategoryDTO CategoryToDTO(Category category)
+        private readonly ShopContext _shopContext;
+
+        public CategoryMapper(ShopContext shopContext)
+        {
+            _shopContext = shopContext;
+        }
+        public CategoryDTO CategoryToDTO(Category category)
         {
             var newDTO = new CategoryDTO
             {
@@ -18,12 +25,12 @@ namespace Domain.Mapper
                 Name = category.Name,
                 Description = category.Description,
                 Schema = category.Schema.ToString(),
-                SubCategories = category.SubCategories.Select(SubCategoryToDTO).ToList()
+                SubCategories = _shopContext.SubCategories.Where(sb=>sb.CategoryId == category.Id).Select(c=>c.Id).ToList()
             };
             return newDTO;
         }
 
-        public static SubCategoryDTO SubCategoryToDTO(SubCategory subCategory)
+        public  static SubCategoryDTO SubCategoryToDTO(SubCategory subCategory)
         {
             var newDTO = new SubCategoryDTO
             {
@@ -31,7 +38,7 @@ namespace Domain.Mapper
                 Name = subCategory.Name,
                 Description = subCategory.Description,
                 Schema = subCategory.Schema.ToString(),
-                Category = CategoryToDTO(subCategory.Category)
+                Category = subCategory.CategoryId
             };
             return newDTO;
         }

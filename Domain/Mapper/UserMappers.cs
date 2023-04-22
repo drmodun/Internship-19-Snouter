@@ -12,20 +12,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Domain
 {
-    public static class UserMappers
+    public  class UserMappers
     {
-        
+        private readonly ShopContext _shopContext;
+        public UserMappers(ShopContext shopContext)
+        {
+            _shopContext = shopContext;
+        }
 
-        public static ViewProfile MapUserToDTO(User userToMap)
+        public  ViewProfile MapUserToDTO(User userToMap)
         {
             var newDTO = new ViewProfile
             {
                 Id = userToMap.Id,
                 Name = userToMap.Name,
                 Email = userToMap.Email,
-                Location = LocationMapper.LocationToDTO(userToMap.Address),
-                Products = userToMap.ListedProducts.Select(ProductsMapper.ProductToDTO).ToList(),
-                BoughtProudcts = userToMap.BoughtProducts.Select(ProductsMapper.BuyersProductsToDto).ToList(),
+                Location = userToMap.AddressId,
+                Products = _shopContext.Products.Where(p=>p.SellerId == userToMap.Id).Select(p=>p.SellerId).ToList(),
+                BoughtProudcts = _shopContext.BuyersProducts.Where(bp => bp.BuyerId == userToMap.Id).Select(bp => bp.ProductId).ToList(),
                 CreatedAt = userToMap.CreatedAt,
                 UpdatedAt = userToMap.UpdatedAt
 

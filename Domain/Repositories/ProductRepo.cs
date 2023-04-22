@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.Entities;
 using Data.Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Repositories
 {
@@ -34,28 +35,50 @@ namespace Domain.Repositories
 
         public async Task<bool> AddProduct(Product product)
         {
-            await _context.Products.AddAsync(product);
-            return await _context.SaveChangesAsync() > 0;
+            try
+            {
+                await _context.Products.AddAsync(product);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+
+                return false;
+            }
         }
 
         public async Task<bool> UpdateProduct(Product product)
         {
-            var removal = await DeleteProduct(product.Id);
-            if (!removal)
+            try
+            {
+                var removal = await DeleteProduct(product.Id);
+                if (!removal)
+                    return false;
+                var addition = await AddProduct(product);
+                if (!addition) return false;
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
                 return false;
-            var addition = await AddProduct(product);
-            if (!addition) return false;
-            return await _context.SaveChangesAsync() > 0;
+            }
         }
 
 
         public async Task<bool> DeleteProduct(Guid id)
         {
-            var product = await GetProductById(id);
-            if (product == null)
+            try
+            {
+                var product = await GetProductById(id);
+                if (product == null)
+                    return false;
+                _context.Products.Remove(product);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
                 return false;
-            _context.Products.Remove(product);
-            return await _context.SaveChangesAsync() > 0;
+            }
         }
 
         public async Task<bool> ProductExists(Guid id)

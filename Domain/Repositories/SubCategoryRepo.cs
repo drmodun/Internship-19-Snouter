@@ -35,24 +35,46 @@ namespace Domain.Repositories
 
         public async Task<bool> CreateSubCategory(SubCategory subCategory)
         {
-            await _shopContext.SubCategories.AddAsync(subCategory);
-            return await _shopContext.SaveChangesAsync() > 0;
+            try
+            {
+                await _shopContext.SubCategories.AddAsync(subCategory);
+                return await _shopContext.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+
+                return false;
+            }
         }
 
         public async Task<bool> UpdateSubCategory(SubCategory subCategory)
         {
-            var removal = await DeleteSubCategory(subCategory.Id);
-            if (!removal) { return false; }
-            return await CreateSubCategory(subCategory);
+            try
+            {
+                var removal = await DeleteSubCategory(subCategory.Id);
+                if (!removal) { return false; }
+                return await CreateSubCategory(subCategory);
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
             
         }
 
         public async Task<bool> DeleteSubCategory(Guid id)
         {
-            var subCategory = await GetSubCategoryById(id);
-            if (subCategory == null) return false;
-            _shopContext.SubCategories.Remove(subCategory);
-            return await _shopContext.SaveChangesAsync() > 0;
+            try
+            {
+                var subCategory = await GetSubCategoryById(id);
+                if (subCategory == null) return false;
+                _shopContext.SubCategories.Remove(subCategory);
+                return await _shopContext.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
     }
 }

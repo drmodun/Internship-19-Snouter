@@ -1,6 +1,7 @@
 ﻿using Data.Config;
 using Data.Entities;
 using Data.Entities.Models;
+using Domain.Mapper;
 using Domain.Repositories;
 using Domain.Services;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,10 @@ namespace Domain
             services.AddScoped<CategoryRepo>();
             services.AddScoped<SubCategoryRepo>();
             services.AddScoped<BuyersProductsRepo>();
+            services.AddScoped <UserMappers>();
+            services.AddScoped<ProductsMapper>();
+            services.AddScoped<LocationMapper>();
+            services.AddScoped<CategoryMapper>();
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {

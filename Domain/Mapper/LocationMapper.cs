@@ -9,29 +9,35 @@ using Domain.DTO;
 
 namespace Domain.Mapper
 {
-    public static class LocationMapper
+    public  class LocationMapper
     {
-        public static LocationView LocationToDTO(Location location)
+        private readonly ShopContext _shopContext;
+        
+        public LocationMapper(ShopContext shopContext)
+        {
+            _shopContext = shopContext;
+        }
+        public  LocationView LocationToDTO(Location location)
         {
             var newDTO = new LocationView
             {
                 Id = location.Id,
                 Name = location.Name,
-                Products = location.Products.Select(ProductsMapper.ProductToDTO).ToList(),
-                Country = CountryToDTO(location.Country),
+                Products = _shopContext.Products.Where(p=>p.LocationId == location.Id).Select(p=>p.Id).ToList(),
+                Country = location.CountryId,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude
             };
             return newDTO;
         }
 
-        public static CountryDTO CountryToDTO(Country country)
+        public  CountryDTO CountryToDTO(Country country)
         {
             var newDTO = new CountryDTO
             {
                 Id = country.Id,
                 Name = country.Name,
-                Locations = country.Locations.Select(LocationToDTO).ToList(),
+                Locations = _shopContext.Locations.Where(l=>l.CountryId == country.Id).Select(l=>l.Id).ToList(),
                 Image = country.Image
             };
             return newDTO;

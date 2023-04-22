@@ -23,8 +23,16 @@ namespace Domain.Repositories
 
         public async Task<bool> CreateConnection(BuyersProducts buyersProducts)
         {
-            await  _shopContext.BuyersProducts.AddAsync(buyersProducts);
-            return await _shopContext.SaveChangesAsync() > 0;
+            try
+            {
+                await _shopContext.BuyersProducts.AddAsync(buyersProducts);
+                return await _shopContext.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+
+                return false;
+            }
         }
         public async Task<BuyersProducts> GetConnection(Guid productId, Guid buyerId) {
             return await Task.FromResult(await _shopContext.BuyersProducts.FirstOrDefaultAsync(bp=> bp.ProductId==productId && bp.BuyerId==buyerId));
@@ -36,18 +44,29 @@ namespace Domain.Repositories
         }
         public async Task<bool> DeleteConnection(Guid productId, Guid buyerId)
         {
-            var connectionToDelete = await GetConnection(productId, buyerId);
-            if (connectionToDelete==null) return false;
-            _shopContext.Remove(connectionToDelete);
-            return await _shopContext.SaveChangesAsync() > 0;
+            try
+            {
+                var connectionToDelete = await GetConnection(productId, buyerId);
+                if (connectionToDelete == null) return false;
+                _shopContext.Remove(connectionToDelete);
+                return await _shopContext.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
         public async Task<bool> UpdateConnection(BuyersProducts buyersProducts)
         {
-            var removal = await DeleteConnection(buyersProducts.ProductId, buyersProducts.BuyerId);
-            if (!removal) return false;
-            var addition = await CreateConnection(buyersProducts);
-            if (!addition) return false;
-            return await _shopContext.SaveChangesAsync() > 0;
+            try
+            {
+                var removal = await DeleteConnection(buyersProducts.ProductId, buyersProducts.BuyerId);
+                if (!removal) return false;
+                var addition = await CreateConnection(buyersProducts);
+                if (!addition) return false;
+                return await _shopContext.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException) { return false; }
         }
 
     }

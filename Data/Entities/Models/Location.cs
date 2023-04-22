@@ -14,7 +14,7 @@ namespace Data.Entities.Models
         public decimal Latitude;
         public decimal Longitude;
         public Guid CountryId;
-        public Country Country;
+        public Country? Country;
         public ICollection<Product> Products { get; set; } = new List<Product>();
         public ICollection<User> Users { get; set; } = new List<User>();
     }

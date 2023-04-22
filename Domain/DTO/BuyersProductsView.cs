@@ -8,8 +8,8 @@ namespace Domain.DTO
 {
     public class BuyersProductsView
     {
-        public ViewProfile Buyer { get; set; }
-        public ProductDTO Product { get; set; }
+        public Guid Buyer { get; set; }
+        public Guid Product { get; set; }
         public int Quantity { get; set; }
         public DateTime CreatedAt { get; set; }
 

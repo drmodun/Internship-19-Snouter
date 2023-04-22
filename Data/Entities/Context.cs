@@ -6,21 +6,20 @@ namespace Data.Entities
     public class ShopContext : DbContext
     {
         public ShopContext(DbContextOptions options) : base(options) { }
-        //write an postgres context
-        public DbSet<Models.User> Users { get; set; }
-        public DbSet<Models.Product> Products { get; set; }
-        public DbSet<Models.Category> Categories { get; set; }
-        public DbSet<Models.SubCategory> SubCategories { get; set; }
+        public DbSet<Models.User> Users => Set<Models.User>();
+        public DbSet<Models.Product> Products => Set<Models.Product>();
+        public DbSet<Models.Category> Categories => Set<Models.Category>();
+        public DbSet<Models.SubCategory> SubCategories => Set<Models.SubCategory>();
 
-        public DbSet<Models.Country> Countries { get; set; }
+        public DbSet<Models.Country> Countries => Set<Models.Country>();
 
-        public DbSet<Models.Location> Locations { get; set; }
+        public DbSet<Models.Location> Locations => Set<Models.Location>();
 
-        public DbSet<Models.BuyersProducts> BuyersProducts { get; set; }
+        public DbSet<Models.BuyersProducts> BuyersProducts => Set<Models.BuyersProducts>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=shop;Username=postgres;Password=drmodunV9");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=shop;Username=postgres;Password=drmodunV9;IncludeErrorDetail=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,13 +27,17 @@ namespace Data.Entities
             modelBuilder.Entity<Models.Location>()
                 .HasKey(l => l.Id);
             modelBuilder.Entity<Models.Location>()
+                .Property(l=>l.Latitude)
+                .HasColumnType("decimal(9,6)");
+            modelBuilder.Entity<Models.Location>()
+                .Property(l => l.Longitude)
+                .HasColumnType("decimal(9,6)");
+            modelBuilder.Entity<Models.Location>()
+                .Property(l => l.Name)
+                .IsRequired();
+            modelBuilder.Entity<Models.Location>()
                 .HasOne(l => l.Country)
                 .WithMany(c => c.Locations)
-                .HasForeignKey(l => l.CountryId)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Models.Country>()
-                .HasMany(c => c.Locations)
-                .WithOne(l => l.Country)
                 .HasForeignKey(l => l.CountryId)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.Product>()
@@ -44,6 +47,16 @@ namespace Data.Entities
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.BuyersProducts>()
                 .HasKey(bp => new { bp.BuyerId, bp.ProductId });
+            modelBuilder.Entity<Models.BuyersProducts>()
+                .HasOne(bp => bp.Buyer)
+                .WithMany(u => u.BoughtProducts)
+                .HasForeignKey(bp => bp.BuyerId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Models.BuyersProducts>()
+                .HasOne(bp => bp.Product)
+                .WithMany(p => p.Buyers)
+                .HasForeignKey(bp => bp.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Models.User>()
                 .HasMany(u => u.BoughtProducts)
                 .WithOne(p => p.Buyer)
@@ -99,6 +112,7 @@ namespace Data.Entities
                 .HasConversion(
                                                   v => v.ToString(),
                  v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Schema.JSchema>(v));
+            base.OnModelCreating(modelBuilder);
         }
 
 

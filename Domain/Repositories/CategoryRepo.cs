@@ -19,12 +19,26 @@ namespace Domain.Repositories
         }
         public async Task<bool> CreateCategory(Category category)
         {
-            await _context.AddAsync(category);
-            return await _context.SaveChangesAsync() > 0;
+            try
+            {
+                await _context.AddAsync(category);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
         public async Task<Category> GetCategoryById(Guid id)
         {
-            return await Task.FromResult(await _context.Categories.FirstOrDefaultAsync(c => c.Id == id));
+            try
+            {
+                return await Task.FromResult(await _context.Categories.FirstOrDefaultAsync(c => c.Id == id));
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
 
         }
         public async Task<List<Category>> GetAllCategories()
@@ -34,19 +48,33 @@ namespace Domain.Repositories
 
         public async Task<bool> UpdateCategory(Category category)
         {
-            var removal = await DeleteCategory(category.Id);
-            if (!removal) 
+            try
+            {
+                var removal = await DeleteCategory(category.Id);
+                if (!removal)
+                    return false;
+                return await CreateCategory(category);
+            }
+            catch (DbUpdateException)
+            {
                 return false;
-            return await CreateCategory(category);
+            }
         }
 
         public async Task<bool> DeleteCategory(Guid id)
         {
-            var categoryToDelete = await _context.Categories.FirstOrDefaultAsync();
-            if (categoryToDelete == null)
+            try
+            {
+                var categoryToDelete = await _context.Categories.FirstOrDefaultAsync();
+                if (categoryToDelete == null)
+                    return false;
+                _context.Categories.Remove(categoryToDelete);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
                 return false;
-            _context.Categories.Remove(categoryToDelete);
-            return await _context.SaveChangesAsync() > 0;
+            }
         }
 
     }

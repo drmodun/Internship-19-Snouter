@@ -15,7 +15,7 @@ namespace Data.Entities.Models
         public string Password { get; set; }
 
         public Guid AddressId;
-        public Location Address { get; set; }
+        public Location? Address { get; set; }
 
         public bool isAdmin = false;
 

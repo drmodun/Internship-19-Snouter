@@ -15,17 +15,17 @@ namespace Domain.DTO
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<string> Images { get; set; }
-        public CategoryDTO Category { get; set; }
-        public SubCategoryDTO SubCategory { get; set; }
-        public ViewProfile Seller { get; set; }
+        public List<string> Images { get; set; } = new List<string>();
+        public Guid Category { get; set; } 
+        public Guid SubCategory { get; set; }
+        public Guid Seller { get; set; }
 
-        public List<BuyersProductsView> BuyersProducts { get; set; }
+        public List<Guid> BuyersProducts { get; set; } = new List<Guid>();
         public decimal Price { get; set; }
-        public DateTime Created { get; set; }
-        public int Quantity { get; set; }
+        public DateTime Created { get; set; } 
+        public int Quantity { get; set; } 
 
-        public LocationView Location { get; set; }
+        public Guid Location { get; set; }
         public string UpdatedAt { get; set; }
 
         public string ExtraProperties { get; set; }

@@ -18,10 +18,13 @@ namespace Domain.Services
         private  EntityMaker _entityMaker { get; set; }
         private BuyersProductsRepo _buyersProductsRepo { get; set; }
 
-        public BuyersProductsService(BuyersProductsRepo buyersProductsRepo, EntityMaker entityMaker)
+        private ProductsMapper _productsMapper { get; set; }
+
+        public BuyersProductsService(BuyersProductsRepo buyersProductsRepo, EntityMaker entityMaker, ProductsMapper productsMapper)
         {
             _buyersProductsRepo = buyersProductsRepo;
             _entityMaker = entityMaker;
+            _productsMapper = productsMapper;
         }
 
         public async Task<GetBuyersProductsResponse> GetConnectionService(GetBuyersProudctsRequest request)
@@ -40,7 +43,7 @@ namespace Domain.Services
             {
                 Status = System.Net.HttpStatusCode.OK,
                 Success = true,
-                BuyersProducts = ProductsMapper.BuyersProductsToDto(buyersProducts)
+                BuyersProducts = _productsMapper.BuyersProductsToDto(buyersProducts)
             };
         }
         public async Task<GetAllBuyersProductsResponse> GetAllBuyersProductsService()
@@ -48,7 +51,7 @@ namespace Domain.Services
             var buyersProducts = await _buyersProductsRepo.GetAllConnections();
             return new GetAllBuyersProductsResponse
             {
-                BuyersProducts = buyersProducts.Select(ProductsMapper.BuyersProductsToDto).ToList()
+                BuyersProducts = buyersProducts.Select(_productsMapper.BuyersProductsToDto).ToList()
             };
         }
         public async Task<CreateBuyersProductsResponse> CreateConnectionService(CreateBuyersProductsRequest request)
@@ -67,7 +70,7 @@ namespace Domain.Services
             return new CreateBuyersProductsResponse
             {
                 Success = true,
-                BuyersProducts = ProductsMapper.BuyersProductsToDto(newConnection),
+                BuyersProducts = _productsMapper.BuyersProductsToDto(newConnection),
                 Status = System.Net.HttpStatusCode.BadRequest
             };
         }
@@ -105,7 +108,7 @@ namespace Domain.Services
             {
                 Success = true,
                 Status = System.Net.HttpStatusCode.OK,
-                BuyersProducts = ProductsMapper.BuyersProductsToDto(updatedConnection)
+                BuyersProducts = _productsMapper.BuyersProductsToDto(updatedConnection)
             };
         }
     }

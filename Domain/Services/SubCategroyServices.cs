@@ -17,11 +17,13 @@ namespace Domain.Services
     {
         private readonly SubCategoryRepo _subCategoryRepository;
         private readonly EntityMaker _entityMaker;
+        private readonly CategoryMapper _categoryMapper;
         
-        public SubCategoryServices(SubCategoryRepo subCategoryRepository, EntityMaker entityMaker)
+        public SubCategoryServices(SubCategoryRepo subCategoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper)
         {
             _subCategoryRepository = subCategoryRepository;
             _entityMaker = entityMaker;
+            _categoryMapper = categoryMapper;
         }
         public async Task<GetSubcatgoryResponse> GetSubCategoryService(GetSubCategoryRequest request)
         {

@@ -15,10 +15,14 @@ namespace Domain.Services
         private CountryRepo _countryRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }
 
-        public CountryServices(CountryRepo countryRepo, EntityMaker entityMaker)
+        private LocationMapper _locationMapper { get; set; }
+
+
+        public CountryServices(CountryRepo countryRepo, EntityMaker entityMaker, LocationMapper locationMapper)
         {
             _countryRepo = countryRepo;
             _entityMaker = entityMaker;
+            _locationMapper = locationMapper;
         }
 
 
@@ -38,7 +42,7 @@ namespace Domain.Services
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Success = true,
-                Country = LocationMapper.CountryToDTO(country)
+                Country = _locationMapper.CountryToDTO(country)
             };
         }
         public async Task<GetAllCountriesResponse> GetAllCountriesService()
@@ -46,7 +50,7 @@ namespace Domain.Services
             var countries = await _countryRepo.GetAllCountries();
             return new GetAllCountriesResponse
             {
-                Countries = countries.Select(LocationMapper.CountryToDTO).ToList()
+                Countries = countries.Select(_locationMapper.CountryToDTO).ToList()
             };
         }
         public async Task<CreateCountryResponse> CreateCountryService(CreateCountryRequest request)
@@ -75,7 +79,7 @@ namespace Domain.Services
             {
                 Success = true,
                 StatusCode = System.Net.HttpStatusCode.OK,
-                Country = LocationMapper.CountryToDTO(newCountry)
+                Country = _locationMapper.CountryToDTO(newCountry)
             };
         }
         public async Task<UpdateCountryResponse> UpdateCountryService(UpdateCountryRequest request)
@@ -105,7 +109,7 @@ namespace Domain.Services
             {
                 Success = true,
                 StatusCode = System.Net.HttpStatusCode.OK,
-                Country = LocationMapper.CountryToDTO(updatedCountry)
+                Country = _locationMapper.CountryToDTO(updatedCountry)
             };
         }
         public async Task<DeleteCountryResponse> DeleteCountryService(DeleteCountryRequest request)

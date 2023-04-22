@@ -14,11 +14,13 @@ namespace Domain.Services
     {
         private LocationRepo _locationRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }
+        private LocationMapper _locationMapper { get; set; }
 
-        public LocationServices(LocationRepo locationRepo, EntityMaker entityMaker)
+        public LocationServices(LocationRepo locationRepo, EntityMaker entityMaker, LocationMapper locationMapper)
         {
             _locationRepo = locationRepo;
             _entityMaker = entityMaker;
+            _locationMapper = locationMapper;
         }
         public async Task<GetLocationResponse> GetLocationService(GetLocationRequest request)
         {
@@ -36,7 +38,7 @@ namespace Domain.Services
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Success = true,
-                Location = LocationMapper.LocationToDTO(location)
+                Location = _locationMapper.LocationToDTO(location)
             };
         }
         public async Task<GetAllLocationsResponse> GetAllLocationsService()
@@ -44,7 +46,7 @@ namespace Domain.Services
             var locations = await _locationRepo.GetAllLocations();
             return new GetAllLocationsResponse
             {
-                Locations = locations.Select(LocationMapper.LocationToDTO).ToList()
+                Locations = locations.Select(_locationMapper.LocationToDTO).ToList()
             };
         }
         public async Task<CreateLocationResponse> CreateLocationService(CreateLocationRequest request)
@@ -73,7 +75,7 @@ namespace Domain.Services
             {
                 Success = true,
                 StatusCode = System.Net.HttpStatusCode.OK,
-                Location = LocationMapper.LocationToDTO(newLocation)
+                Location = _locationMapper.LocationToDTO(newLocation)
             };
         }
         public async Task<UpdateLocationResponse> UpdateLocationService(UpdatedLocationRequest request)
@@ -112,7 +114,7 @@ namespace Domain.Services
             {
                 Success = true,
                 Status = System.Net.HttpStatusCode.OK,
-                Location = LocationMapper.LocationToDTO(updatedLocation)
+                Location = _locationMapper.LocationToDTO(updatedLocation)
             };
         }
         public async Task<DeleteLocationResponse> DeleteLocationService(DeleteLocationRequest request)

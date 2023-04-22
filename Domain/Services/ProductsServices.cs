@@ -16,11 +16,13 @@ namespace Domain.Services
     {
         private readonly ProductRepo _productRepository;
         private readonly EntityMaker _entityMaker;
+        private readonly ProductsMapper _productsMapper;
 
-        public ProductsServices(ProductRepo productRepository, EntityMaker entityMaker)
+        public ProductsServices(ProductRepo productRepository, EntityMaker entityMaker, ProductsMapper productsMapper)
         {
             _productRepository = productRepository;
             _entityMaker = entityMaker;
+            _productsMapper = productsMapper;
         }
 
         public async Task<CreateProductResponse> CreateProductService(CreateProductRequest request)
@@ -50,7 +52,7 @@ namespace Domain.Services
                     Success = false,
                 };
             }
-            var newDTO = ProductsMapper.ProductToDTO(newProduct);
+            var newDTO = _productsMapper.ProductToDTO(newProduct);
             return new CreateProductResponse
             {
                 Product = newDTO,
@@ -71,7 +73,7 @@ namespace Domain.Services
             }
             return new GetProductResponse
             {
-                Product = ProductsMapper.ProductToDTO(product),
+                Product = _productsMapper.ProductToDTO(product),
                 Status = System.Net.HttpStatusCode.OK,
                 Success = true,
             };
@@ -81,7 +83,7 @@ namespace Domain.Services
             var products = await _productRepository.GetAllProducts();
             return new GetAllProductsResponse
             {
-                Products = products.Select(ProductsMapper.ProductToDTO).ToList()
+                Products = products.Select(_productsMapper.ProductToDTO).ToList()
             };
         }
         public async Task<DeleteProductResponse> DeleteProductService(DeleteProductRequest request)
@@ -139,7 +141,7 @@ namespace Domain.Services
             }
             return new UpdateProductResponse
             {
-                Product = ProductsMapper.ProductToDTO(newProduct),
+                Product = _productsMapper.ProductToDTO(newProduct),
                 Status = System.Net.HttpStatusCode.OK,
                 Success = true,
             };

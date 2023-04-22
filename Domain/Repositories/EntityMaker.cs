@@ -16,6 +16,7 @@ using Domain.Contracts.Requests.User;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
 namespace Domain.Repositories
 {
@@ -29,6 +30,11 @@ namespace Domain.Repositories
 
         public User RequestToNewUser(CreateUserRequest request)
         {
+            var Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId);
+            if (Location == null)
+            {
+                return null;
+            }
             var newUser = new User
             {
                 Id = new Guid(),
@@ -37,10 +43,7 @@ namespace Domain.Repositories
                 Password = request.Password,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Address = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId),
                 AddressId = request.LocationId,
-                ListedProducts = new List<Product>(),
-                BoughtProducts = new List<BuyersProducts>(),
                 isAdmin = request.IsAdmin
 
             };
@@ -49,6 +52,12 @@ namespace Domain.Repositories
 
         public User RequestToUpdatedUser(UpdateUserRequest request)
         {
+            var Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId);
+            if (Location == null)
+            {
+                return null;
+            }
+
             var updatedUser = new User
             {
                 Id = request.Id,
@@ -57,7 +66,6 @@ namespace Domain.Repositories
                 Password = request.Password,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Address = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId),
                 AddressId = request.LocationId,
                 ListedProducts = _shopContext.Products.Where(p => p.SellerId == request.Id).ToList(),
                 BoughtProducts = _shopContext.BuyersProducts.Where(bp => bp.BuyerId == request.Id).ToList(),
@@ -71,7 +79,25 @@ namespace Domain.Repositories
         public Product RequestToNewProduct(CreateProductRequest request)
         {
             var Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId);
-            //add schema validation later
+            if (Category == null)
+            {
+                return null;
+            }
+            var SubCategory = _shopContext.SubCategories.FirstOrDefault(sc => sc.Id == request.SubCategoryId);
+            if (SubCategory == null)
+            {
+                return null;
+            }
+            var Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId);
+            if (Location == null)
+            {
+                return null;
+            }
+            var Seller = _shopContext.Users.FirstOrDefault(u => u.Id == request.SellerId);
+            if (Seller == null)
+            {
+                return null;
+            }
 
 
 
@@ -82,11 +108,7 @@ namespace Domain.Repositories
                 Description = request.Description,
                 CategoryId = request.CategoryId,
                 Category = Category,
-                SubCategory = _shopContext.SubCategories.FirstOrDefault(s => s.Id == request.SubCategoryId),
                 Created = DateTime.Now,
-                Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId),
-                Seller = _shopContext.Users.FirstOrDefault(se => se.Id == request.SellerId),
-                Buyers = new List<BuyersProducts>(),
                 Images = request.Images,
                 ExtraProperties = request.ExtraProperties,
                 SubProperties = request.ExtraProperties,
@@ -94,29 +116,35 @@ namespace Domain.Repositories
                 LocationId = request.LocationId,
                 Quantity = request.Quantity
             };
+           
             return newProduct;
 
         }
 
         public Product RequestToUpdatedProduct(UpdateProductRequest request)
         {
+            var Seller = _shopContext.Users.FirstOrDefault(u => u.Id == request.SellerId);
+            var Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId);
+            var SubCategory = _shopContext.SubCategories.FirstOrDefault(sc => sc.Id == request.SubCategoryId);
+            var Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId);
+            if (Seller == null || Category == null || SubCategory == null || Location == null)
+            {
+                return null;
+            }
             var updatedProduct = new Product()
             {
                 Id = request.Id,
                 Name = request.Name,
                 Description = request.Description,
                 CategoryId = request.CategoryId,
-                Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
-                SubCategory = _shopContext.SubCategories.FirstOrDefault(se => se.Id == request.CategoryId),
                 SubCategoryId = request.SubCategoryId,
                 Quantity = request.Quantity,
                 ExtraProperties = JObject.Parse(request.ExtraProperties),
                 SubProperties = JObject.Parse(request.SubProperties),
                 SellerId = request.SellerId,
-                Seller = _shopContext.Users.FirstOrDefault(u => u.Id == request.SellerId),
                 Buyers = _shopContext.BuyersProducts.Where(bp => bp.ProductId == request.Id).ToList(),
-                Location = _shopContext.Locations.FirstOrDefault(l => l.Id == request.LocationId),
             };
+            
             return updatedProduct;
         }
 
@@ -127,8 +155,8 @@ namespace Domain.Repositories
                 Id = new Guid(),
                 Name = request.Name,
                 Image = request.Image,
-                Locations = new List<Location>(),
             };
+
             return newCountry;
         }
 
@@ -141,40 +169,49 @@ namespace Domain.Repositories
                 Image = request.Image,
                 Locations = _shopContext.Locations.Where(l => l.Id == request.Id).ToList(),
             };
+
             return updatedCountry;
         }
 
         public Location RequestToNewLocation(CreateLocationRequest request)
         {
-            var newLocation = new Location
+            try
             {
-                Id = new Guid(),
-                Name = request.Name,
-                Products = new List<Product>(),
-                Users = new List<User>(),
-                Latitude = request.Latitude,
-                Longitude = request.Longitude,
-                CountryId = request.CountryId,
-                Country = _shopContext.Countries.FirstOrDefault(c => c.Id == request.CountryId)
-            };
-            if (newLocation.Country == null)
+                var newLocation = new Location
+                {
+                    Id = new Guid(),
+                    Name = request.Name,
+                    Latitude = request.Latitude,
+                    Longitude = request.Longitude,
+                    CountryId = request.CountryId,
+                };
+                return newLocation;
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException) {
                 return null;
-            return newLocation;
+            }
         }
         public Location RequestToUpdatedLocation(UpdatedLocationRequest request)
         {
-            var updatedLocation = new Location
+            try
             {
-                Id = request.Id,
-                Name = request.Name,
-                Users = _shopContext.Users.Where(u => u.AddressId == request.Id).ToList(),
-                Products = _shopContext.Products.Where(p => p.LocationId == request.Id).ToList(),
-                CountryId = request.CountryId,
-                Country = _shopContext.Countries.FirstOrDefault(c => c.Id == request.CountryId),
-                Latitude = request.Latitude,
-                Longitude = request.Longitude,
-            };
-            return updatedLocation;
+                var updatedLocation = new Location
+                {
+                    Id = request.Id,
+                    Name = request.Name,
+                    Users = _shopContext.Users.Where(u => u.AddressId == request.Id).ToList(),
+                    Products = _shopContext.Products.Where(p => p.LocationId == request.Id).ToList(),
+                    CountryId = request.CountryId,
+                    Latitude = request.Latitude,
+                    Longitude = request.Longitude,
+                };
+
+                return updatedLocation;
+            }
+            catch (Npgsql.PostgresException)
+            {
+                return null;
+            }
         }
         public Category RequestToNewCategory(CreateCategoryRequest request)
         {
@@ -185,8 +222,6 @@ namespace Domain.Repositories
                     Id = new Guid(),
                     Name = request.Name,
                     Description = request.Description,
-                    Products = new List<Product>(),
-                    SubCategories = new List<SubCategory>(),
                     Schema = JSchema.Parse(@request.Schema)
                 };
                 return newCategory;
@@ -202,6 +237,11 @@ namespace Domain.Repositories
         public Category RequestToUpdatedCategory(UpdateCategoryRequest request)
         {
             try {
+            var Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.Id);
+                if (Category == null)
+                {
+                return null;
+            }
             var updatedCategory = new Category
             {
                 Id = request.Id,
@@ -221,6 +261,10 @@ namespace Domain.Repositories
             {
                 return null;
             }
+            catch (Npgsql.PostgresException)
+            {
+                return null;
+            }
         }
         public SubCategory RequestToNewSubcategory(CreateSubcategoryRequest request)
         {
@@ -232,10 +276,10 @@ namespace Domain.Repositories
                     Name = request.Name,
                     Description = request.Description,
                     CategoryId = request.CategoryId,
-                    Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
                     Products = new List<Product>(),
                     Schema = JSchema.Parse(request.Schema)
                 };
+                
                 return newSubcategory;
             }
             catch (JsonReaderException ) {
@@ -255,11 +299,11 @@ namespace Domain.Repositories
                     Name = request.Name,
                     Description = request.Description,
                     CategoryId = request.CategoryId,
-                    Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.CategoryId),
                     Products = _shopContext.Products.Where(p => p.SubCategoryId == request.Id).ToList(),
                     Schema = JSchema.Parse(request.Schema)
                 };
                 return newSubcategory;
+                
             }
             catch (JsonReaderException )
             {
@@ -276,11 +320,10 @@ namespace Domain.Repositories
             {
                 BuyerId = request.UserId,
                 ProductId = request.ProductId,
-                Buyer = _shopContext.Users.FirstOrDefault(u => u.Id == request.UserId),
-                Product = _shopContext.Products.FirstOrDefault(p => p.Id == request.ProductId),
                 Quantity = request.Quantity,
                 CreatedAt = DateTime.Now,
             };
+            
             return newConnection;
         }
         public BuyersProducts RequestToUpdatedBuyersProducts(UpdateBuyersProductsRequest request)
@@ -289,11 +332,10 @@ namespace Domain.Repositories
             {
                 BuyerId = request.UserId,
                 ProductId = request.ProductId,
-                Buyer = _shopContext.Users.FirstOrDefault(u => u.Id == request.UserId),
-                Product = _shopContext.Products.FirstOrDefault(p => p.Id == request.ProductId),
                 Quantity = request.Quantity,
                 CreatedAt = DateTime.Now,
             };
+           
             return newConnection;
         }
     }

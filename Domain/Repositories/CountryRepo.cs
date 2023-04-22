@@ -21,7 +21,13 @@ namespace Domain.Repositories
         }
         public async Task<Country> GetCountry(Guid id)
         {
-            return await Task.FromResult( await _shopContext.Countries.FirstOrDefaultAsync(c => c.Id == id));
+            try
+            {
+                return await Task.FromResult(await _shopContext.Countries.FirstOrDefaultAsync(c => c.Id == id));
+            } catch (DbUpdateException)
+            {
+                return null;
+            }
         }
         public async Task<List<Country>> GetAllCountries()
         {
@@ -33,16 +39,29 @@ namespace Domain.Repositories
         }
         public async Task<bool> DeleteCountry(Guid id)
         {
-            var countryToRemove = await GetCountry(id);
-            if (countryToRemove == null) return false;
-            _shopContext.Countries.Remove(countryToRemove);
-            return _shopContext.SaveChanges() > 0;
+            try
+            {
+                var countryToRemove = await GetCountry(id);
+                if (countryToRemove == null) return false;
+                _shopContext.Countries.Remove(countryToRemove);
+                return _shopContext.SaveChanges() > 0;
+            } catch (DbUpdateException) { 
+                return false;
+               
+            }
         }
         public async Task<bool> UpdateCountry(Country country)
         {
-            var removal = await DeleteCountry(country.Id);
-            if (!removal) return false;
-            return await CreateCountry(country);
+            try
+            {
+                var removal = await DeleteCountry(country.Id);
+                if (!removal) return false;
+                return await CreateCountry(country);
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
 
 

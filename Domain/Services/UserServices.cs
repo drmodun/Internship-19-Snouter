@@ -14,11 +14,12 @@ namespace Domain.Services
     {
         private readonly UserRepo _userRepository;
         private readonly EntityMaker _entityMaker;
-
-        public UserServices(UserRepo userRepository, EntityMaker entityMaker)
+        private readonly UserMappers _userMappers;
+        public UserServices(UserRepo userRepository, EntityMaker entityMaker, UserMappers userMappers)
         {
             _userRepository = userRepository;
             _entityMaker = entityMaker;
+            _userMappers = userMappers;
         }
 
         public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request)
@@ -37,7 +38,7 @@ namespace Domain.Services
             return new CreateUserResponse
             {
                 Success = true,
-                Profile = UserMappers.MapUserToDTO(newUser),
+                Profile = _userMappers.MapUserToDTO(newUser),
                 StatusCode = System.Net.HttpStatusCode.BadRequest
             };
         }
@@ -64,7 +65,7 @@ namespace Domain.Services
             var users = await _userRepository.GetAllUsers();
             return new GetAllUsersResponse
             {
-                Users = users.Select(UserMappers.MapUserToDTO).ToList(),
+                Users = users.Select(_userMappers.MapUserToDTO).ToList(),
             };
         }
         public async Task<GetUserResponse> GetUserService(GetUserRequest request)
@@ -84,7 +85,7 @@ namespace Domain.Services
             {
                 Success = true,
                 Status = System.Net.HttpStatusCode.OK,
-                User = UserMappers.MapUserToDTO(user)
+                User = _userMappers.MapUserToDTO(user)
             };
         }
         public async Task<UpdateUserResponse> UpdateUserService(UpdateUserRequest request)
@@ -104,7 +105,7 @@ namespace Domain.Services
             {
                 Success = true,
                 Status = System.Net.HttpStatusCode.OK,
-                User = UserMappers.MapUserToDTO(userToUpdate)
+                User = _userMappers.MapUserToDTO(userToUpdate)
             };
         }
     }

@@ -17,11 +17,13 @@ namespace Domain.Services
     {
         private readonly CategoryRepo _categoryRepository;
         private readonly EntityMaker _entityMaker;
+        private readonly CategoryMapper _categoryMapper;
 
-        public CategoryServices(CategoryRepo categoryRepository, EntityMaker entityMaker)
+        public CategoryServices(CategoryRepo categoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper)
         {
             _categoryRepository = categoryRepository;
             _entityMaker = entityMaker;
+            _categoryMapper = categoryMapper;
         }
 
         public async Task<GetCategoryReponse> GetCategoryService(GetCategoryRequest request)
@@ -39,7 +41,7 @@ namespace Domain.Services
             return new GetCategoryReponse
             {
                 Success = true,
-                Category = CategoryMapper.CategoryToDTO(category),
+                Category = _categoryMapper.CategoryToDTO(category),
                 StatusCode = System.Net.HttpStatusCode.OK
             };
         }
@@ -48,7 +50,7 @@ namespace Domain.Services
             var categories = await _categoryRepository.GetAllCategories();
             return new GetAllCategoriesReponse
             {
-                Categories = categories.Select(CategoryMapper.CategoryToDTO).ToList()
+                Categories = categories.Select(_categoryMapper.CategoryToDTO).ToList()
             };
         }
         public async Task<CreateCategoryResponse> CreateCategoryService(CreateCategoryRequest request)
@@ -82,7 +84,7 @@ namespace Domain.Services
             {
                 Success = true,
                 StatusCode = System.Net.HttpStatusCode.OK,
-                Category = CategoryMapper.CategoryToDTO(newCategory)
+                Category = _categoryMapper.CategoryToDTO(newCategory)
 
             };
         }
@@ -103,7 +105,7 @@ namespace Domain.Services
             {
                 Success = true,
                 StatusCode = System.Net.HttpStatusCode.OK,
-                Category = CategoryMapper.CategoryToDTO(categoryToUpdate)
+                Category = _categoryMapper.CategoryToDTO(categoryToUpdate)
             };
         }
         public async Task<DeleteCategoryResponse> DeleteCategoryService(DeleteCategoryRequest request)
