@@ -9,6 +9,5 @@ namespace Domain.Contracts.Requests.Product
     public class DeleteProductRequest
     {
         public Guid Id { get; set; }
-        public string? Slug { get; set; }
     }
 }

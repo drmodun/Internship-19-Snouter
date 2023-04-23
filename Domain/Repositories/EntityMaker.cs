@@ -83,8 +83,8 @@ namespace Domain.Repositories
                     CategoryId = request.CategoryId,
                     Created = DateTime.UtcNow,
                     Images = request.Images,
-                    ExtraProperties = JObject.Parse(request.ExtraProperties),
-                    SubProperties = JObject.Parse(request.ExtraProperties),
+                    ExtraProperties = JObject.Parse(@request.ExtraProperties),
+                    SubProperties = JObject.Parse(@request.ExtraProperties),
                     SubCategoryId = request.SubCategoryId,
                     LocationId = request.LocationId,
                     Quantity = request.Quantity
@@ -108,8 +108,8 @@ namespace Domain.Repositories
                     CategoryId = request.CategoryId,
                     SubCategoryId = request.SubCategoryId,
                     Quantity = request.Quantity,
-                    ExtraProperties = JObject.Parse(request.ExtraProperties),
-                    SubProperties = JObject.Parse(request.SubProperties),
+                    ExtraProperties = JObject.Parse(@request.ExtraProperties),
+                    SubProperties = JObject.Parse(@request.SubProperties),
                     SellerId = request.SellerId,
                 };
 
@@ -250,7 +250,7 @@ namespace Domain.Repositories
                     Description = request.Description,
                     CategoryId = request.CategoryId,
                     Products = new List<Product>(),
-                    Schema = JSchema.Parse(request.Schema)
+                    Schema = JSchema.Parse(@request.Schema)
                 };
                 
                 return newSubcategory;
@@ -272,7 +272,7 @@ namespace Domain.Repositories
                     Name = request.Name,
                     Description = request.Description,
                     CategoryId = request.CategoryId,
-                    Schema = JSchema.Parse(request.Schema)
+                    Schema = JSchema.Parse(@request.Schema)
                 };
                 return newSubcategory;
                 

@@ -9,6 +9,5 @@ namespace Domain.Contracts.Requests.Location
     public class GetLocationRequest
     {
         public Guid Id { get; set; }
-        public string? Slug { get; set; }
     }
 }

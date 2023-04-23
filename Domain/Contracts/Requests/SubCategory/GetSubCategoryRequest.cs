@@ -9,6 +9,5 @@ namespace Domain.Contracts.Requests.SubCategory
     public class GetSubCategoryRequest
     {
         public Guid Id { get; set; }
-        public string? Slug { get; set; }
     }
 }

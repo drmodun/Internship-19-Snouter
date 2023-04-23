@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class BuyersProductsService
+    public class BuyersProductsService : IBuyersProductsService
     {
         private  EntityMaker _entityMaker { get; set; }
         private BuyersProductsRepo _buyersProductsRepo { get; set; }

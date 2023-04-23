@@ -28,10 +28,6 @@ namespace Domain.Repositories
             return await _shopContext.SubCategories.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        /*public async Task<SubCategory> GetSubCategoryBySlug(string? Slug)
-    {
-            return await _shopContext.SubCategories.FirstOrDefaultAsync(x => x.Slug ==? Slug);
-        }*/
 
         public async Task<bool> CreateSubCategory(SubCategory subCategory)
         {
