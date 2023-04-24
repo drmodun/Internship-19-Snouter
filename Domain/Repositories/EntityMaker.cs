@@ -37,7 +37,7 @@ namespace Domain.Repositories
             }
             var newUser = new User
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Email = request.Email,
                 Password = request.Password,
@@ -77,7 +77,7 @@ namespace Domain.Repositories
 
                 var newProduct = new Product
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     Name = request.Name,
                     Description = request.Description,
                     CategoryId = request.CategoryId,
@@ -129,7 +129,7 @@ namespace Domain.Repositories
         {
             var newCountry = new Country
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Image = request.Image,
             };
@@ -155,7 +155,7 @@ namespace Domain.Repositories
             {
                 var newLocation = new Location
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     Name = request.Name,
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
@@ -193,7 +193,7 @@ namespace Domain.Repositories
             {
                 var newCategory = new Category
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     Name = request.Name,
                     Description = request.Description,
                     Schema = JSchema.Parse(@request.Schema)
@@ -245,7 +245,7 @@ namespace Domain.Repositories
             {
                 var newSubcategory = new SubCategory
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     Name = request.Name,
                     Description = request.Description,
                     CategoryId = request.CategoryId,
