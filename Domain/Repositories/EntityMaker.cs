@@ -60,7 +60,7 @@ namespace Domain.Repositories
                 Name = request.Name,
                 Email = request.Email,
                 Password = request.Password,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = _shopContext.Users.FirstOrDefault(x=>x.Id==request.Id).CreatedAt,
                 UpdatedAt = DateTime.UtcNow,
                 AddressId = request.LocationId,
                 isAdmin = request.isAdmin
@@ -87,8 +87,18 @@ namespace Domain.Repositories
                     SubProperties = JObject.Parse(@request.ExtraProperties),
                     SubCategoryId = request.SubCategoryId,
                     LocationId = request.LocationId,
-                    Quantity = request.Quantity
+                    Quantity = request.Quantity,
+                    Price = request.Price,
+                    SellerId = request.SellerId,
                 };
+                var categorySchema = _shopContext.Categories.FirstOrDefault(x=>x.Id==newProduct.CategoryId).Schema;
+                var subCategorySchema = _shopContext.SubCategories.FirstOrDefault(x=>x.Id==newProduct.SubCategoryId).Schema;
+                bool valid = newProduct.ExtraProperties.IsValid(categorySchema);
+                bool validSub = newProduct.SubProperties.IsValid(subCategorySchema);
+                    if (!valid || !validSub)
+                {
+                    return null;
+                }
                 return newProduct;
             }
             catch {
@@ -111,15 +121,22 @@ namespace Domain.Repositories
                     ExtraProperties = JObject.Parse(@request.ExtraProperties),
                     SubProperties = JObject.Parse(@request.SubProperties),
                     SellerId = request.SellerId,
+                    Images = request.Images,
+                    Price = request.Price,
+                    LocationId = request.LocationId,
+                    Created = _shopContext.Products.FirstOrDefault(x => x.Id == request.Id).Created,
                 };
-
+                var categorySchema = _shopContext.Categories.FirstOrDefault(x => x.Id == updatedProduct.CategoryId).Schema;
+                var subCategorySchema = _shopContext.SubCategories.FirstOrDefault(x => x.Id == updatedProduct.SubCategoryId).Schema;
+                bool valid = updatedProduct.ExtraProperties.IsValid(categorySchema);
+                bool validSub = updatedProduct.SubProperties.IsValid(subCategorySchema);
+                    if (!valid || !validSub)
+                {
+                    return null;
+                }
                 return updatedProduct;
             }
             catch (JsonReaderException)
-            {
-                return null;
-            }
-            catch 
             {
                 return null;
             }

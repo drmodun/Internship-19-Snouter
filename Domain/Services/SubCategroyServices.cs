@@ -40,7 +40,7 @@ namespace Domain.Services
             return new GetSubcatgoryResponse
             {
                 Success = true,
-                SubCategory = CategoryMapper.SubCategoryToDTO(category),
+                SubCategory = _categoryMapper.SubCategoryToDTO(category),
                 StatusCode = System.Net.HttpStatusCode.OK
             };
         }
@@ -49,7 +49,7 @@ namespace Domain.Services
             var categories = await _subCategoryRepository.GetAllSubCategories();
             return new GetAllSubcategoriesResponse
             {
-                SubCategories = categories.Select(CategoryMapper.SubCategoryToDTO).ToList()
+                SubCategories = categories.Select(_categoryMapper.SubCategoryToDTO).ToList()
             };
         }
         public async Task<CreateSubcategoryResponse> CreateSubCategoryService(CreateSubcategoryRequest request)
@@ -83,7 +83,7 @@ namespace Domain.Services
             {
                 Success = true,
                 Status = System.Net.HttpStatusCode.OK,
-                SubCategory = CategoryMapper.SubCategoryToDTO(newCategory)
+                SubCategory = _categoryMapper.SubCategoryToDTO(newCategory)
 
             };
         }
@@ -104,7 +104,7 @@ namespace Domain.Services
             {
                 Success = true,
                 Status = System.Net.HttpStatusCode.OK,
-                SubCategory =   CategoryMapper.SubCategoryToDTO(categoryToUpdate)
+                SubCategory =   _categoryMapper.SubCategoryToDTO(categoryToUpdate)
             };
         }
         public async Task<DeleteSubCategoryResponse> DeleteSubCategoryService(DeleteSubcategoryRequest request)

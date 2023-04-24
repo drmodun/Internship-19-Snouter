@@ -49,6 +49,7 @@ namespace Domain.Repositories
             {
                 var subCategoryToUpdate = await GetSubCategoryById(subCategory.Id);
                 if (subCategoryToUpdate == null) { return false; }
+                _shopContext.SubCategories.Remove(subCategoryToUpdate);
                 await _shopContext.AddAsync(subCategory);
                 return await _shopContext.SaveChangesAsync() > 0;
             }

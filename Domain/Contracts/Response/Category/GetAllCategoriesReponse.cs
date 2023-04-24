@@ -10,8 +10,6 @@ namespace Domain.Contracts.Response.Category
 {
     public class GetAllCategoriesReponse
     {
-        public bool? Success { get; set; }
-        public HttpStatusCode StatusCode { get; set; }
         public List<CategoryDTO> Categories { get; set; }
     }
 }

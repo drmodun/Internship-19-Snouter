@@ -65,19 +65,15 @@ namespace Domain.Repositories
 
         public async Task<bool> DeleteCategory(Guid id)
         {
-            try
-            {
-                var categoryToDelete = await _context.Categories.FirstOrDefaultAsync();
-                if (categoryToDelete == null)
-                    return false;
-                _context.Categories.Remove(categoryToDelete);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            catch (DbUpdateException)
-            {
+
+            var categoryToDelete = await _context.Categories.FirstOrDefaultAsync(x=>x.Id==id);
+            if (categoryToDelete == null)
                 return false;
-            }
+            _context.Categories.Remove(categoryToDelete);
+            return await _context.SaveChangesAsync() > 0;
         }
+
+
 
     }
 }

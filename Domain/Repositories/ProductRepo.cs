@@ -49,20 +49,16 @@ namespace Domain.Repositories
 
         public async Task<bool> UpdateProduct(Product product)
         {
-            try
-            {
-                var productToUpdate = await GetProductById(product.Id);
+            
+                var productToUpdate = await _context.Products.FirstOrDefaultAsync(x=>x.Id==product.Id);
                 if (productToUpdate == null) 
                 { 
                     return false; 
                 }
-                await _context.AddAsync(productToUpdate);
+                _context.Products.Remove(productToUpdate);
+                await _context.AddAsync(product);
                 return await _context.SaveChangesAsync() > 0;
-            }
-            catch (DbUpdateException)
-            {
-                return false;
-            }
+            
         }
 
 

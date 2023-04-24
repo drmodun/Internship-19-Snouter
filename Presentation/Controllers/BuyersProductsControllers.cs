@@ -21,7 +21,7 @@ namespace Presentation.Controllers
                 ProductId = ProductId,
                 UserId = BuyerId
             };
-            var connection = _buyersProductsService.GetConnectionService(request);
+            var connection = await _buyersProductsService.GetConnectionService(request);
             if (connection == null)
                 return BadRequest();
             return Ok(connection);
@@ -35,7 +35,7 @@ namespace Presentation.Controllers
                 UserId = buyerId,
                 Quantity = quantity,
             };
-            var connection = _buyersProductsService.CreateConnectionService(request);
+            var connection = await _buyersProductsService.CreateConnectionService(request);
             if (connection == null)
                 return BadRequest();
             return Ok(connection);
@@ -48,7 +48,7 @@ namespace Presentation.Controllers
                 ProductId = ProductId,
                 UserId = BuyerId
             };
-            var connection = _buyersProductsService.DeleteConnectionService(request);
+            var connection = await _buyersProductsService.DeleteConnectionService(request);
             if (connection == null)
                 return BadRequest();
             return Ok(connection);
@@ -62,10 +62,18 @@ namespace Presentation.Controllers
                 UserId = buyerId,
                 Quantity = quantity
             };
-            var connection = _buyersProductsService.UpdateConnectionService(request);
+            var connection = await _buyersProductsService.UpdateConnectionService(request);
             if (connection == null)
                 return BadRequest();
             return Ok(connection);
+        }
+        [HttpGet(Routes.BuyersProducts.GetAll)]
+        public async Task<ActionResult<GetAllBuyersProductsResponse>> GetAllConnections()
+        {
+            var connections = await _buyersProductsService.GetAllBuyersProductsService();
+            if (connections == null)
+                return BadRequest();
+            return Ok(connections);
         }
     }
 }

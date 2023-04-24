@@ -36,8 +36,11 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.SubCategory.Update)]
-        public async Task<ActionResult<UpdateSubcategoryReponse>> Put([FromBody] UpdateSubCategoryRequest request)
+        public async Task<ActionResult<UpdateSubcategoryReponse>> Put([FromRoute] Guid id, [FromBody] CreateSubcategoryRequest requestCreate)
         {
+            var request = new UpdateSubCategoryRequest { Id = id, Name = requestCreate.Name,
+                           Schema = requestCreate.Schema, Description = requestCreate.Description, CategoryId = requestCreate.CategoryId
+                       };
             var response = await _subCategoryService.UpdateSubCategoryService(request);
             if (response.SubCategory == null)
             {

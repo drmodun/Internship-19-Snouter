@@ -158,7 +158,7 @@ namespace Data.Entities
                     Name = "Clothes",
                     Description = "Clothes for wearing",
                     Schema = JSchema.Parse(
-                        @"{  'type': 'object',  'properties': {    'name': {'type':'string'},    'size': {'type': 'string'}  }}")
+                        @"{  'type': 'object',  'properties': {    'name': {'type':'string'},    'size': {'type': 'array'}  }}")
                 },
                 new Category()
                 {

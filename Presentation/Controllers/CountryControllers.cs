@@ -35,8 +35,9 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.Country.Update)]
-        public async Task<ActionResult<UpdateCountryResponse>> Put([FromBody] UpdateCountryRequest request)
+        public async Task<ActionResult<UpdateCountryResponse>> Put([FromRoute] Guid id, [FromBody] CreateCountryRequest requestCreate)
         {
+            var request = new UpdateCountryRequest { Id = id, Name = requestCreate.Name, Image = requestCreate.Image};
             var response = await _countryService.UpdateCountryService(request);
             if (response.Country == null)
             {

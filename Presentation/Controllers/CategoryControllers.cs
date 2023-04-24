@@ -36,8 +36,11 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.Category.Update)]
-        public async Task<ActionResult<UpdateCategoryReponse>> Put([FromBody] UpdateCategoryRequest request)
+        public async Task<ActionResult<UpdateCategoryReponse>> Put([FromRoute] Guid id, [FromBody] CreateCategoryRequest requestCreate)
         {
+            var request = new UpdateCategoryRequest { Id = id, Name = requestCreate.Name,
+                Schema = requestCreate.Schema, Description = requestCreate.Description,
+            };
             var response = await _categoryService.UpdateCategoryService(request);
             if (response.Success == false)
             {
@@ -50,7 +53,7 @@ namespace Presentation.Controllers
         {
             var request = new DeleteCategoryRequest { Id = id };
             var response = await _categoryService.DeleteCategoryService(request);
-            if (response.Success)
+            if (!response.Success)
             {
                 return BadRequest();
             }

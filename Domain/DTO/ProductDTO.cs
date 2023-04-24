@@ -15,7 +15,7 @@ namespace Domain.DTO
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<string> Images { get; set; } = new List<string>();
+        public List<string> Images { get; set; }
         public Guid Category { get; set; } 
         public Guid SubCategory { get; set; }
         public Guid Seller { get; set; }
@@ -26,7 +26,6 @@ namespace Domain.DTO
         public int Quantity { get; set; } 
 
         public Guid Location { get; set; }
-        public string UpdatedAt { get; set; }
 
         public string ExtraProperties { get; set; }
         public string SubProperties { get; set; }

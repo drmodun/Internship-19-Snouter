@@ -56,6 +56,7 @@ namespace Domain.Repositories
             {
                 var countryToDelete = await GetCountry(country.Id);
                 if (countryToDelete == null) return false;
+                _shopContext.Countries.Remove(countryToDelete);
                 await _shopContext.AddAsync(country);
                 return await _shopContext.SaveChangesAsync() > 0;
             }

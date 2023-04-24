@@ -37,18 +37,8 @@ namespace Domain
             services.AddScoped<ProductsMapper>();
             services.AddScoped<LocationMapper>();
             services.AddScoped<CategoryMapper>();
-            services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                });
             return services;
         }
-        /*public static IServiceCollection AddDatabase(this IServiceCollection services)
-        {
-            services.AddSingleton<IDbContextFactory>(_=>new ShopContextFactory(ConfigurationHelper.GetConfiguration().GetConnectionString("Database")))
-        }*/
 
     }
 }

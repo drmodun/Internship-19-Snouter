@@ -31,7 +31,11 @@ namespace Domain.Mapper
                 BuyersProducts = _shopContext.BuyersProducts.Where(bp=>bp.ProductId == product.Id).Select(bp=>bp.BuyerId).ToList(),
                 Price = product.Price,
                 Description = product.Description,
-                Created = product.Created
+                Created = product.Created,
+              Images = product.Images,
+                Category = product.CategoryId,
+                SubCategory = product.SubCategoryId,
+                Quantity = product.Quantity,
             };
             return newDTO;
         }

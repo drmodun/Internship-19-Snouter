@@ -28,11 +28,8 @@ namespace Domain.Services
         public async Task<CreateProductResponse> CreateProductService(CreateProductRequest request)
         {
             var newProduct = _entityMaker.RequestToNewProduct(request);
-            var categorySchema = newProduct.Category.Schema;
-            var subCategorySchema = newProduct.SubCategory.Schema;
-            bool valid = newProduct.ExtraProperties.IsValid(categorySchema);
-            bool validSub = newProduct.SubProperties.IsValid(subCategorySchema);
-            if (!valid || !validSub)
+            ;
+            if (newProduct == null)
             {
                 return new CreateProductResponse
                 {
@@ -106,11 +103,7 @@ namespace Domain.Services
         public async Task<UpdateProductResponse> UpdateProductService(UpdateProductRequest request)
         {
             var newProduct = _entityMaker.RequestToUpdatedProduct(request);
-            var categorySchema = newProduct.Category.Schema;
-            var subCategorySchema = newProduct.SubCategory.Schema;
-            bool valid = newProduct.ExtraProperties.IsValid(categorySchema);
-            bool validSub = newProduct.SubProperties.IsValid(subCategorySchema);
-            if (!valid || !validSub)
+            if (newProduct == null)
             {
                 return new UpdateProductResponse
                 {
@@ -120,22 +113,13 @@ namespace Domain.Services
                 };
 
             };
-            var removal = await _productRepository.DeleteProduct(request.Id);
-            if (!removal)
-            {
-                return new UpdateProductResponse
-                {
-                    Status = System.Net.HttpStatusCode.NotFound,
-                    Success = false,
-                };
-            }
-            var addition = await _productRepository.AddProduct(newProduct);
-            if (!addition)
+            var update = await _productRepository.UpdateProduct(newProduct);
+            if (!update)
             {
                 return new UpdateProductResponse
                 {
                     Product = null,
-                    Status = System.Net.HttpStatusCode.Gone,
+                    Status = System.Net.HttpStatusCode.NotFound,
                     Success = false,
                 };
             }

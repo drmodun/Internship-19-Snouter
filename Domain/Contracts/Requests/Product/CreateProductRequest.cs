@@ -26,5 +26,6 @@ namespace Domain.Contracts.Requests.Product
         public string ExtraProperties { get; set; }
         public string SubProperties { get; set; }
         public List<string> Images { get; set; }
+        public decimal Price { get; set; }
     }
 }

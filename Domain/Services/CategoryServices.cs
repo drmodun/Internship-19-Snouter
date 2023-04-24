@@ -111,7 +111,7 @@ namespace Domain.Services
         public async Task<DeleteCategoryResponse> DeleteCategoryService(DeleteCategoryRequest request)
         {
             var deletion = await _categoryRepository.DeleteCategory(request.Id);
-            if (!deletion)
+            if (deletion == false)
             {
                 return new DeleteCategoryResponse
                 {
