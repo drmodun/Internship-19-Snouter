@@ -32,9 +32,9 @@ namespace Domain.Services
         }
 
 
-        public async Task<GetCountryResponse> GetCountryService(GetCountryRequest request)
+        public async Task<GetCountryResponse> GetCountryService(GetCountryRequest request, CancellationToken cancellationToken = default)
         {
-            var country = await _countryRepo.GetCountry(request.Id);
+            var country = await _countryRepo.GetCountry(request.Id, cancellationToken);
             if (country == null)
             {
                 return new GetCountryResponse
@@ -59,7 +59,7 @@ namespace Domain.Services
                 Countries = countries.Select(_locationMapper.CountryToDTO).ToList()
             };
         }
-        public async Task<CreateCountryResponse> CreateCountryService(CreateCountryRequest request)
+        public async Task<CreateCountryResponse> CreateCountryService(CreateCountryRequest request, CancellationToken cancellationToken = default)
         {
             var newCountry = _entityMaker.RequestToNewCountry(request);
             await _countryValidator.ValidateAndThrowAsync(newCountry);
@@ -72,7 +72,7 @@ namespace Domain.Services
                     Country = null
                 };
             }
-            var addition = await _countryRepo.CreateCountry(newCountry);
+            var addition = await _countryRepo.CreateCountry(newCountry, cancellationToken);
             if (!addition)
             {
                 return new CreateCountryResponse
@@ -89,9 +89,9 @@ namespace Domain.Services
                 Country = _locationMapper.CountryToDTO(newCountry)
             };
         }
-        public async Task<UpdateCountryResponse> UpdateCountryService(UpdateCountryRequest request)
+        public async Task<UpdateCountryResponse> UpdateCountryService(UpdateCountryRequest request, CancellationToken cancellationToken = default)
         {
-            var country = await _countryRepo.GetCountry(request.Id);
+            var country = await _countryRepo.GetCountry(request.Id, cancellationToken);
             if (country == null)
             {
                 return new UpdateCountryResponse
@@ -103,7 +103,7 @@ namespace Domain.Services
             }
             var updatedCountry = _entityMaker.RequestToUpdatedCountry(request);
             await _countryValidator.ValidateAndThrowAsync(updatedCountry);
-            var update = await _countryRepo.UpdateCountry(updatedCountry);
+            var update = await _countryRepo.UpdateCountry(updatedCountry, cancellationToken);
             if (!update)
             {
                 return new UpdateCountryResponse
@@ -120,9 +120,9 @@ namespace Domain.Services
                 Country = _locationMapper.CountryToDTO(updatedCountry)
             };
         }
-        public async Task<DeleteCountryResponse> DeleteCountryService(DeleteCountryRequest request)
+        public async Task<DeleteCountryResponse> DeleteCountryService(DeleteCountryRequest request, CancellationToken cancellationToken = default)
         {
-            var country = await _countryRepo.GetCountry(request.Id);
+            var country = await _countryRepo.GetCountry(request.Id, cancellationToken);
             if (country == null)
             {
                 return new DeleteCountryResponse
@@ -131,7 +131,7 @@ namespace Domain.Services
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 };
             }
-            var delete = await _countryRepo.DeleteCountry(country.Id);
+            var delete = await _countryRepo.DeleteCountry(country.Id, cancellationToken);
             if (!delete)
             {
                 return new DeleteCountryResponse

@@ -17,10 +17,10 @@ namespace Presentation.Controllers
             _userService = userService;
         }
         [HttpGet(Routes.User.Get)]
-        public async Task<ActionResult<GetUserResponse>> Get([FromRoute] Guid id)
+        public async Task<ActionResult<GetUserResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var request = new GetUserRequest { Id = id };
-            var response = await _userService.GetUserService(request);
+            var response = await _userService.GetUserService(request, cancellationToken);
             if (response.User == null)
             {
                 return NotFound();
@@ -28,9 +28,9 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPost(Routes.User.Create)]
-        public async Task<ActionResult<CreateUserResponse>> Post([FromBody] CreateUserRequest request)
+        public async Task<ActionResult<CreateUserResponse>> Post([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
         {
-            var response = await _userService.CreateUserService(request);
+            var response = await _userService.CreateUserService(request, cancellationToken);
             if (response.Profile == null)
             {
                 return BadRequest();
@@ -38,7 +38,7 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.User.Update)]
-        public async Task<ActionResult<UpdateUserResponse>> Put([FromRoute] Guid id, [FromBody] CreateUserRequest request)
+        public async Task<ActionResult<UpdateUserResponse>> Put([FromRoute] Guid id, [FromBody] CreateUserRequest request, CancellationToken cancellationToken)
         {
             var updateRequest = new UpdateUserRequest
             {
@@ -50,7 +50,7 @@ namespace Presentation.Controllers
                 isAdmin = request.IsAdmin
 
             };
-            var response = await _userService.UpdateUserService(updateRequest);
+            var response = await _userService.UpdateUserService(updateRequest, cancellationToken);
             if (response.User == null)
             {
                 return BadRequest();
@@ -58,10 +58,10 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpDelete(Routes.User.Delete)]
-        public async Task<ActionResult<DeleteUserResponse>> Delete([FromRoute] Guid id)
+        public async Task<ActionResult<DeleteUserResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var request = new DeleteUserRequest { Id = id };
-            var response = await _userService.DeleteUserService(request);
+            var response = await _userService.DeleteUserService(request, cancellationToken);
             if (!response.Success)
             {
                 return BadRequest();

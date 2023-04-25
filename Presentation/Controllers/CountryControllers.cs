@@ -14,10 +14,10 @@ namespace Presentation.Controllers
             _countryService = countryService;
         }
         [HttpGet(Routes.Country.Get)]
-        public async Task<ActionResult<GetCountryResponse>> Get([FromRoute] Guid id)
+        public async Task<ActionResult<GetCountryResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var request = new GetCountryRequest { Id = id };
-            var response = await _countryService.GetCountryService(request);
+            var response = await _countryService.GetCountryService(request, cancellationToken);
             if (response.Country == null)
             {
                 return NotFound();
@@ -25,9 +25,9 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPost(Routes.Country.Create)]
-        public async Task<ActionResult<CreateCountryResponse>> Post([FromBody] CreateCountryRequest request)
+        public async Task<ActionResult<CreateCountryResponse>> Post([FromBody] CreateCountryRequest request, CancellationToken cancellationToken)
         {
-            var response = await _countryService.CreateCountryService(request);
+            var response = await _countryService.CreateCountryService(request, cancellationToken);
             if (response.Country == null)
             {
                 return BadRequest();
@@ -35,10 +35,10 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.Country.Update)]
-        public async Task<ActionResult<UpdateCountryResponse>> Put([FromRoute] Guid id, [FromBody] CreateCountryRequest requestCreate)
+        public async Task<ActionResult<UpdateCountryResponse>> Put([FromRoute] Guid id, [FromBody] CreateCountryRequest requestCreate, CancellationToken cancellationToken)
         {
             var request = new UpdateCountryRequest { Id = id, Name = requestCreate.Name, Image = requestCreate.Image};
-            var response = await _countryService.UpdateCountryService(request);
+            var response = await _countryService.UpdateCountryService(request, cancellationToken);
             if (response.Country == null)
             {
                 return BadRequest();
@@ -46,10 +46,10 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpDelete(Routes.Country.Delete)]
-        public async Task<ActionResult<DeleteCountryResponse>> Delete([FromRoute] Guid id)
+        public async Task<ActionResult<DeleteCountryResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var request = new DeleteCountryRequest { Id = id };
-            var response = await _countryService.DeleteCountryService(request);
+            var response = await _countryService.DeleteCountryService(request, cancellationToken);
             if (response.Success == false)
             {
                 return BadRequest();

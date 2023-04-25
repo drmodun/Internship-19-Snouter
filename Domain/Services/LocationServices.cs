@@ -27,9 +27,9 @@ namespace Domain.Services
             _locationMapper = locationMapper;
             _locationValidator = validationRules;
         }
-        public async Task<GetLocationResponse> GetLocationService(GetLocationRequest request)
+        public async Task<GetLocationResponse> GetLocationService(GetLocationRequest request, CancellationToken cancellationToken = default)
         {
-            var location = await _locationRepo.GetLocationById(request.Id);
+            var location = await _locationRepo.GetLocationById(request.Id, cancellationToken);
             if (location == null)
             {
                 return new GetLocationResponse
@@ -54,7 +54,7 @@ namespace Domain.Services
                 Locations = locations.Select(_locationMapper.LocationToDTO).ToList()
             };
         }
-        public async Task<CreateLocationResponse> CreateLocationService(CreateLocationRequest request)
+        public async Task<CreateLocationResponse> CreateLocationService(CreateLocationRequest request, CancellationToken cancellationToken = default)
         {
             var newLocation = _entityMaker.RequestToNewLocation(request);
             await _locationValidator.ValidateAndThrowAsync(newLocation);
@@ -67,7 +67,7 @@ namespace Domain.Services
                     Location = null
                 };
             }
-            var addition = await _locationRepo.CreateLocation(newLocation);
+            var addition = await _locationRepo.CreateLocation(newLocation, cancellationToken);
             if (!addition)
             {
                 return new CreateLocationResponse
@@ -84,9 +84,9 @@ namespace Domain.Services
                 Location = _locationMapper.LocationToDTO(newLocation)
             };
         }
-        public async Task<UpdateLocationResponse> UpdateLocationService(UpdatedLocationRequest request)
+        public async Task<UpdateLocationResponse> UpdateLocationService(UpdatedLocationRequest request, CancellationToken cancellationToken = default)
         {
-            var location = await _locationRepo.GetLocationById(request.Id);
+            var location = await _locationRepo.GetLocationById(request.Id, cancellationToken);
             if (location == null)
             {
                 return new UpdateLocationResponse
@@ -106,7 +106,7 @@ namespace Domain.Services
                     Location = null
                 };
             }
-            var update = await _locationRepo.UpdateLocation(updatedLocation);
+            var update = await _locationRepo.UpdateLocation(updatedLocation, cancellationToken);
             await _locationValidator.ValidateAndThrowAsync(updatedLocation);
             if (!update)
             {
@@ -124,9 +124,9 @@ namespace Domain.Services
                 Location = _locationMapper.LocationToDTO(updatedLocation)
             };
         }
-        public async Task<DeleteLocationResponse> DeleteLocationService(DeleteLocationRequest request)
+        public async Task<DeleteLocationResponse> DeleteLocationService(DeleteLocationRequest request, CancellationToken cancellationToken = default)
         {
-            var location = await _locationRepo.GetLocationById(request.Id);
+            var location = await _locationRepo.GetLocationById(request.Id, cancellationToken);
             if (location == null)
             {
                 return new DeleteLocationResponse
@@ -135,7 +135,7 @@ namespace Domain.Services
                     StatusCode = System.Net.HttpStatusCode.NotFound,
                 };
             }
-            var delete = await _locationRepo.DeleteLocation(location.Id);
+            var delete = await _locationRepo.DeleteLocation(location.Id, cancellationToken);
             if (!delete)
             {
                 return new DeleteLocationResponse

@@ -16,10 +16,10 @@ namespace Presentation.Controllers
         }
 
         [HttpGet(Routes.Products.Get)]
-        public async Task<ActionResult<GetProductResponse>> Get([FromRoute] Guid id)
+        public async Task<ActionResult<GetProductResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var request = new GetProductRequest { Id = id };
-            var response = await _productsService.GetProductService(request);
+            var response = await _productsService.GetProductService(request, cancellationToken);
             if (response.Product == null)
             {
                 return NotFound();
@@ -27,9 +27,9 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPost(Routes.Products.Create)]
-        public async Task<ActionResult<CreateProductResponse>> Post([FromBody] CreateProductRequest request)
+        public async Task<ActionResult<CreateProductResponse>> Post([FromBody] CreateProductRequest request, CancellationToken cancellationToken)
         {
-            var response = await _productsService.CreateProductService(request);
+            var response = await _productsService.CreateProductService(request, cancellationToken);
             if (response.Product == null)
             {
                 return BadRequest();
@@ -37,14 +37,14 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.Products.Update)]
-        public async Task<ActionResult<UpdateProductResponse>> Put([FromRoute] Guid id , [FromBody] CreateProductRequest request)
+        public async Task<ActionResult<UpdateProductResponse>> Put([FromRoute] Guid id , [FromBody] CreateProductRequest request, CancellationToken cancellationToken)
         {
             var updateRequest = new UpdateProductRequest { 
                 Id = id, 
                 Name = request.Name, 
                 CategoryId = request.CategoryId, 
                 Description = request.Description, ExtraProperties = request.ExtraProperties, SubProperties = request.SubProperties, Images = request.Images, LocationId = request.LocationId, SellerId = request.SellerId, SubCategoryId = request.SubCategoryId, Quantity = request.Quantity };
-            var response = await _productsService.UpdateProductService(updateRequest);
+            var response = await _productsService.UpdateProductService(updateRequest, cancellationToken);
             if (response.Product == null)
             {
                 return BadRequest();
@@ -52,10 +52,10 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpDelete(Routes.Products.Delete)]
-        public async Task<ActionResult<DeleteProductResponse>> Delete([FromRoute] Guid id)
+        public async Task<ActionResult<DeleteProductResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var request = new DeleteProductRequest { Id = id };
-            var response = await _productsService.DeleteProductService(request);
+            var response = await _productsService.DeleteProductService(request, cancellationToken);
             if (!response.Success)
             {
                 return BadRequest();

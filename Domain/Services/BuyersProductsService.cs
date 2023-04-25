@@ -31,9 +31,9 @@ namespace Domain.Services
             _buyersProductsValidator = validationRules;
         }
 
-        public async Task<GetBuyersProductsResponse> GetConnectionService(GetBuyersProudctsRequest request)
+        public async Task<GetBuyersProductsResponse> GetConnectionService(GetBuyersProudctsRequest request, CancellationToken cancellationToken = default)
         {
-            var buyersProducts = await _buyersProductsRepo.GetConnection(request.ProductId, request.UserId);
+            var buyersProducts = await _buyersProductsRepo.GetConnection(request.ProductId, request.UserId, cancellationToken);
             if (buyersProducts == null)
             {
                 return new GetBuyersProductsResponse
@@ -58,11 +58,11 @@ namespace Domain.Services
                 BuyersProducts = buyersProducts.Select(_productsMapper.BuyersProductsToDto).ToList()
             };
         }
-        public async Task<CreateBuyersProductsResponse> CreateConnectionService(CreateBuyersProductsRequest request)
+        public async Task<CreateBuyersProductsResponse> CreateConnectionService(CreateBuyersProductsRequest request, CancellationToken cancellationToken = default)
         {
             var newConnection = _entityMaker.RequestToNewBuyersProducts(request);
             await _buyersProductsValidator.ValidateAndThrowAsync(newConnection);
-            var addition = await _buyersProductsRepo.CreateConnection(newConnection);
+            var addition = await _buyersProductsRepo.CreateConnection(newConnection, cancellationToken);
             if (!addition)
             {
                 return new CreateBuyersProductsResponse
@@ -79,9 +79,9 @@ namespace Domain.Services
                 Status = System.Net.HttpStatusCode.BadRequest
             };
         }
-        public async Task<DeleteBuyersProductsResponse> DeleteConnectionService(DeleteBuyersProductsRequest request)
+        public async Task<DeleteBuyersProductsResponse> DeleteConnectionService(DeleteBuyersProductsRequest request, CancellationToken cancellationToken = default)
         {
-            var removal = await _buyersProductsRepo.DeleteConnection(request.ProductId, request.UserId);
+            var removal = await _buyersProductsRepo.DeleteConnection(request.ProductId, request.UserId, cancellationToken);
             if (!removal)
             {
                 return new DeleteBuyersProductsResponse
@@ -96,11 +96,11 @@ namespace Domain.Services
                 Status = System.Net.HttpStatusCode.OK,
             };
         }
-        public async Task<UpdateBuyersProductsResponse> UpdateConnectionService(UpdateBuyersProductsRequest request)
+        public async Task<UpdateBuyersProductsResponse> UpdateConnectionService(UpdateBuyersProductsRequest request, CancellationToken cancellationToken = default)
         {
             var updatedConnection = _entityMaker.RequestToUpdatedBuyersProducts(request);
             await _buyersProductsValidator.ValidateAndThrowAsync(updatedConnection);
-            var update = await _buyersProductsRepo.UpdateConnection(updatedConnection);
+            var update = await _buyersProductsRepo.UpdateConnection(updatedConnection, cancellationToken);
             if (!update)
             {
                 return new UpdateBuyersProductsResponse

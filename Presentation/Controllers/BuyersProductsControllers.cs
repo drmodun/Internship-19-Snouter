@@ -14,20 +14,20 @@ namespace Presentation.Controllers
             _buyersProductsService = buyersProductsService;
         }
         [HttpGet(Routes.BuyersProducts.Get)]
-        public async Task<ActionResult<GetBuyersProductsResponse>> GetConnection([FromRoute] Guid ProductId, [FromRoute] Guid BuyerId)
+        public async Task<ActionResult<GetBuyersProductsResponse>> GetConnection([FromRoute] Guid ProductId, [FromRoute] Guid BuyerId, CancellationToken cancellationToken)
         {
             var request = new GetBuyersProudctsRequest
             {
                 ProductId = ProductId,
                 UserId = BuyerId
             };
-            var connection = await _buyersProductsService.GetConnectionService(request);
+            var connection = await _buyersProductsService.GetConnectionService(request, cancellationToken);
             if (connection == null)
                 return BadRequest();
             return Ok(connection);
         }
         [HttpPost(Routes.BuyersProducts.Create)]
-        public async Task<ActionResult<CreateBuyersProductsResponse>> CreateConnection([FromRoute] Guid productId, [FromRoute] Guid buyerId, [FromBody] int quantity)
+        public async Task<ActionResult<CreateBuyersProductsResponse>> CreateConnection([FromRoute] Guid productId, [FromRoute] Guid buyerId, [FromBody] int quantity, CancellationToken cancellationToken)
         {
             var request = new CreateBuyersProductsRequest
             {
@@ -35,26 +35,26 @@ namespace Presentation.Controllers
                 UserId = buyerId,
                 Quantity = quantity,
             };
-            var connection = await _buyersProductsService.CreateConnectionService(request);
+            var connection = await _buyersProductsService.CreateConnectionService(request, cancellationToken);
             if (connection == null)
                 return BadRequest();
             return Ok(connection);
         }
         [HttpDelete(Routes.BuyersProducts.Delete)]
-        public async Task<ActionResult<DeleteBuyersProductsResponse>> DeleteConnection([FromRoute] Guid ProductId, [FromRoute] Guid BuyerId)
+        public async Task<ActionResult<DeleteBuyersProductsResponse>> DeleteConnection([FromRoute] Guid ProductId, [FromRoute] Guid BuyerId, CancellationToken cancellationToken)
         {
             var request = new DeleteBuyersProductsRequest
             {
                 ProductId = ProductId,
                 UserId = BuyerId
             };
-            var connection = await _buyersProductsService.DeleteConnectionService(request);
+            var connection = await _buyersProductsService.DeleteConnectionService(request, cancellationToken);
             if (connection == null)
                 return BadRequest();
             return Ok(connection);
         }
         [HttpPut(Routes.BuyersProducts.Update)]
-        public async Task<ActionResult<UpdateBuyersProductsResponse>> UpdateConnection([FromRoute] Guid productId, [FromRoute] Guid buyerId, [FromBody] int quantity)
+        public async Task<ActionResult<UpdateBuyersProductsResponse>> UpdateConnection([FromRoute] Guid productId, [FromRoute] Guid buyerId, [FromBody] int quantity, CancellationToken cancellationToken)
         {
             var request = new UpdateBuyersProductsRequest
             {
@@ -62,7 +62,7 @@ namespace Presentation.Controllers
                 UserId = buyerId,
                 Quantity = quantity
             };
-            var connection = await _buyersProductsService.UpdateConnectionService(request);
+            var connection = await _buyersProductsService.UpdateConnectionService(request, cancellationToken);
             if (connection == null)
                 return BadRequest();
             return Ok(connection);

@@ -22,30 +22,30 @@ namespace Domain.Repositories
         {
             return await _shop_Context.Locations.ToListAsync();
         }
-        public async Task<Location> GetLocationById(Guid id)
+        public async Task<Location> GetLocationById(Guid id, CancellationToken cancellationToken = default)
         {
             try
             {
-                return await _shop_Context.Locations.FindAsync(id);
+                return await _shop_Context.Locations.FindAsync(id, cancellationToken);
             }
             catch (DbUpdateException)
             {
                 return null;
             }
             }
-        public async Task<bool> CreateLocation(Location location)
+        public async Task<bool> CreateLocation(Location location, CancellationToken cancellationToken = default)
         {
             try
             {
                 await _shop_Context.Locations.AddAsync(location);
-                return await _shop_Context.SaveChangesAsync() > 0;
+                return await _shop_Context.SaveChangesAsync(cancellationToken) > 0;
             }
             catch (DbUpdateException)
             {
                 return false;
             }
         }
-        public async Task<bool> UpdateLocation(Location location)
+        public async Task<bool> UpdateLocation(Location location, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -53,13 +53,13 @@ namespace Domain.Repositories
                 if (locationToDelete == null)
                     return false;
                 _shop_Context.Locations.Remove(locationToDelete);
-                return await CreateLocation(location);
+                return await CreateLocation(location, cancellationToken);
             } catch (DbUpdateException)
             {
                 return false;
             }
         }
-        public async Task<bool> DeleteLocation(Guid id)
+        public async Task<bool> DeleteLocation(Guid id, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Domain.Repositories
                 if (locationToDelete == null)
                     return false;
                 _shop_Context.Locations.Remove(locationToDelete);
-                return await _shop_Context.SaveChangesAsync() > 0;
+                return await _shop_Context.SaveChangesAsync(cancellationToken) > 0;
             }
             catch (DbUpdateException)
             {

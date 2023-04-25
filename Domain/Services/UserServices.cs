@@ -26,11 +26,11 @@ namespace Domain.Services
             _userValidator = validationRules;
         }
 
-        public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request)
+        public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request, CancellationToken cancellationToken = default)
         {
             var newUser = _entityMaker.RequestToNewUser(request);
             await _userValidator.ValidateAndThrowAsync(newUser);
-            var addition = await _userRepository.CreateUser(newUser);
+            var addition = await _userRepository.CreateUser(newUser, cancellationToken);
             if (!addition)
             {
                 return new CreateUserResponse
@@ -47,9 +47,9 @@ namespace Domain.Services
                 StatusCode = System.Net.HttpStatusCode.OK
             };
         }
-        public async Task<DeleteUserResponse> DeleteUserService(DeleteUserRequest request)
+        public async Task<DeleteUserResponse> DeleteUserService(DeleteUserRequest request, CancellationToken cancellationToken = default)
         {
-            var removal = await _userRepository.DeleteUser(request.Id);
+            var removal = await _userRepository.DeleteUser(request.Id, cancellationToken);
             if (!removal)
             {
                 return new DeleteUserResponse
@@ -73,9 +73,9 @@ namespace Domain.Services
                 Users = users.Select(_userMappers.MapUserToDTO).ToList(),
             };
         }
-        public async Task<GetUserResponse> GetUserService(GetUserRequest request)
+        public async Task<GetUserResponse> GetUserService(GetUserRequest request, CancellationToken cancellationToken = default)
         {
-            var user = await _userRepository.GetUserById(request.Id);
+            var user = await _userRepository.GetUserById(request.Id, cancellationToken);
             if (user == null)
             {
                 return new GetUserResponse
@@ -93,11 +93,11 @@ namespace Domain.Services
                 User = _userMappers.MapUserToDTO(user)
             };
         }
-        public async Task<UpdateUserResponse> UpdateUserService(UpdateUserRequest request)
+        public async Task<UpdateUserResponse> UpdateUserService(UpdateUserRequest request, CancellationToken cancellationToken = default)
         {
             var userToUpdate = _entityMaker.RequestToUpdatedUser(request);
             await _userValidator.ValidateAndThrowAsync(userToUpdate);
-            var update = await _userRepository.UpdateUser(userToUpdate);
+            var update = await _userRepository.UpdateUser(userToUpdate, cancellationToken);
             if (!update)
             {
                 return new UpdateUserResponse

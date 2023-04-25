@@ -29,7 +29,7 @@ namespace Domain.Services
             _productsValidator = validationRules;
         }
 
-        public async Task<CreateProductResponse> CreateProductService(CreateProductRequest request)
+        public async Task<CreateProductResponse> CreateProductService(CreateProductRequest request, CancellationToken cancellationToken = default)
         {
             var newProduct = _entityMaker.RequestToNewProduct(request);
             await _productsValidator.ValidateAndThrowAsync(newProduct);
@@ -43,7 +43,7 @@ namespace Domain.Services
                 };
 
             };
-            var addition = await _productRepository.AddProduct(newProduct);
+            var addition = await _productRepository.AddProduct(newProduct, cancellationToken);
             if (!addition)
             {
                 return new CreateProductResponse
@@ -61,9 +61,9 @@ namespace Domain.Services
                 Success = true,
             };
         }
-        public async Task<GetProductResponse> GetProductService(GetProductRequest request)
+        public async Task<GetProductResponse> GetProductService(GetProductRequest request, CancellationToken cancellationToken = default)
         {
-            var product = await _productRepository.GetProductById(request.Id);
+            var product = await _productRepository.GetProductById(request.Id, cancellationToken);
             if (product == null)
             {
                 return new GetProductResponse
@@ -87,9 +87,9 @@ namespace Domain.Services
                 Products = products.Select(_productsMapper.ProductToDTO).ToList()
             };
         }
-        public async Task<DeleteProductResponse> DeleteProductService(DeleteProductRequest request)
+        public async Task<DeleteProductResponse> DeleteProductService(DeleteProductRequest request, CancellationToken cancellationToken = default)
         {
-            var removal = await _productRepository.DeleteProduct(request.Id);
+            var removal = await _productRepository.DeleteProduct(request.Id, cancellationToken);
             if (!removal)
             {
                 return new DeleteProductResponse
@@ -104,7 +104,7 @@ namespace Domain.Services
                 Success = true
             };
         }
-        public async Task<UpdateProductResponse> UpdateProductService(UpdateProductRequest request)
+        public async Task<UpdateProductResponse> UpdateProductService(UpdateProductRequest request, CancellationToken cancellationToken = default)
         {
             var newProduct = _entityMaker.RequestToUpdatedProduct(request);
             await _productsValidator.ValidateAndThrowAsync(newProduct);
@@ -118,7 +118,7 @@ namespace Domain.Services
                 };
 
             };
-            var update = await _productRepository.UpdateProduct(newProduct);
+            var update = await _productRepository.UpdateProduct(newProduct, cancellationToken);
             if (!update)
             {
                 return new UpdateProductResponse

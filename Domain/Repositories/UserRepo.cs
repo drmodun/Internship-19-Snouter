@@ -17,9 +17,9 @@ namespace Domain.Repositories
             _context = context;
         }
 
-        public async Task<User> GetUserById(Guid id)
+        public async Task<User> GetUserById(Guid id, CancellationToken cancellationToken = default)
         {
-            return await Task.FromResult(await _context.Users.FindAsync(id));
+            return await Task.FromResult(await _context.Users.FindAsync(id, cancellationToken));
         }
 
         public async Task<User> GetUserByEmail(string email)
@@ -33,19 +33,19 @@ namespace Domain.Repositories
         }
 
 
-        public async Task<bool> UpdateUser(User user)
+        public async Task<bool> UpdateUser(User user, CancellationToken cancellationToken = default)
         {
             
             var userToDelete = await GetUserById(user.Id);
             if (userToDelete == null)
                     return false;
             _context.Users.Remove(userToDelete);
-            return await CreateUser(user);                
+            return await CreateUser(user, cancellationToken);                
             
             
         }
 
-        public async Task<bool> DeleteUser(Guid Id)
+        public async Task<bool> DeleteUser(Guid Id, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace Domain.Repositories
                     return false;
                 }
                 _context.Users.Remove(userToDelete);
-                return await _context.SaveChangesAsync() > 0;
+                return await _context.SaveChangesAsync(cancellationToken) > 0;
             }
             catch (DbUpdateException)
             {
@@ -64,17 +64,17 @@ namespace Domain.Repositories
         }
 
 
-        public async Task<bool> UserExists(Guid id)
+        public async Task<bool> UserExists(Guid id, CancellationToken cancellationToken = default)
         {
             return await Task.FromResult(_context.Users.Any(u => u.Id == id));
         }
 
-        public async Task<bool> CreateUser(User user)
+        public async Task<bool> CreateUser(User user, CancellationToken cancellationToken = default)
         {
             try
             {
                 await _context.Users.AddAsync(user);
-                return await _context.SaveChangesAsync() > 0;
+                return await _context.SaveChangesAsync(cancellationToken) > 0;
             }
             catch (DbUpdateException)
             {

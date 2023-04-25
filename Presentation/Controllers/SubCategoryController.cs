@@ -15,10 +15,10 @@ namespace Presentation.Controllers
             _subCategoryService = subCategoryService;
         }
         [HttpGet(Routes.SubCategory.Get)]
-        public async Task<ActionResult<GetSubcatgoryResponse>> Get([FromRoute] Guid id)
+        public async Task<ActionResult<GetSubcatgoryResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var request = new GetSubCategoryRequest { Id = id };
-            var response = await _subCategoryService.GetSubCategoryService(request);
+            var response = await _subCategoryService.GetSubCategoryService(request, cancellationToken);
             if (response.SubCategory == null)
             {
                 return NotFound();
@@ -26,9 +26,9 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPost(Routes.SubCategory.Create)]
-        public async Task<ActionResult<CreateSubcategoryResponse>> Post([FromBody] CreateSubcategoryRequest request)
+        public async Task<ActionResult<CreateSubcategoryResponse>> Post([FromBody] CreateSubcategoryRequest request, CancellationToken cancellationToken)
         {
-            var response = await _subCategoryService.CreateSubCategoryService(request);
+            var response = await _subCategoryService.CreateSubCategoryService(request, cancellationToken);
             if (response.SubCategory == null)
             {
                 return BadRequest();
@@ -36,12 +36,12 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpPut(Routes.SubCategory.Update)]
-        public async Task<ActionResult<UpdateSubcategoryReponse>> Put([FromRoute] Guid id, [FromBody] CreateSubcategoryRequest requestCreate)
+        public async Task<ActionResult<UpdateSubcategoryReponse>> Put([FromRoute] Guid id, [FromBody] CreateSubcategoryRequest requestCreate, CancellationToken cancellationToken)
         {
             var request = new UpdateSubCategoryRequest { Id = id, Name = requestCreate.Name,
                            Schema = requestCreate.Schema, Description = requestCreate.Description, CategoryId = requestCreate.CategoryId
                        };
-            var response = await _subCategoryService.UpdateSubCategoryService(request);
+            var response = await _subCategoryService.UpdateSubCategoryService(request, cancellationToken);
             if (response.SubCategory == null)
             {
                 return BadRequest();
@@ -49,10 +49,10 @@ namespace Presentation.Controllers
             return Ok(response);
         }
         [HttpDelete(Routes.SubCategory.Delete)]
-        public async Task<ActionResult<DeleteSubCategoryResponse>> Delete([FromRoute] Guid id)
+        public async Task<ActionResult<DeleteSubCategoryResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var request = new DeleteSubcategoryRequest { Id = id };
-            var response = await _subCategoryService.DeleteSubCategoryService(request);
+            var response = await _subCategoryService.DeleteSubCategoryService(request, cancellationToken);
             if (response.Success == false)
             {
                 return BadRequest();
