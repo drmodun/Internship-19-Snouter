@@ -32,7 +32,7 @@ namespace Domain.Services
         public async Task<CreateProductResponse> CreateProductService(CreateProductRequest request)
         {
             var newProduct = _entityMaker.RequestToNewProduct(request);
-            var validation = _productsValidator.ValidateAndThrowAsync(newProduct);
+            await _productsValidator.ValidateAndThrowAsync(newProduct);
             if (newProduct == null)
             {
                 return new CreateProductResponse
@@ -107,7 +107,7 @@ namespace Domain.Services
         public async Task<UpdateProductResponse> UpdateProductService(UpdateProductRequest request)
         {
             var newProduct = _entityMaker.RequestToUpdatedProduct(request);
-            var validation = _productsValidator.ValidateAndThrowAsync(newProduct);
+            await _productsValidator.ValidateAndThrowAsync(newProduct);
             if (newProduct == null)
             {
                 return new UpdateProductResponse

@@ -62,7 +62,7 @@ namespace Domain.Services
         public async Task<CreateCountryResponse> CreateCountryService(CreateCountryRequest request)
         {
             var newCountry = _entityMaker.RequestToNewCountry(request);
-            var validation = _countryValidator.ValidateAndThrowAsync(newCountry);
+            await _countryValidator.ValidateAndThrowAsync(newCountry);
             if (newCountry == null)
             {
                 return new CreateCountryResponse
@@ -102,7 +102,7 @@ namespace Domain.Services
                 };
             }
             var updatedCountry = _entityMaker.RequestToUpdatedCountry(request);
-            var validation = _countryValidator.ValidateAndThrowAsync(updatedCountry);
+            await _countryValidator.ValidateAndThrowAsync(updatedCountry);
             var update = await _countryRepo.UpdateCountry(updatedCountry);
             if (!update)
             {

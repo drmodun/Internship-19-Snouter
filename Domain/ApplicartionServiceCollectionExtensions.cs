@@ -5,6 +5,7 @@ using Domain.Mapper;
 using Domain.Repositories;
 using Domain.Services;
 using Domain.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,9 @@ namespace Domain
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            services.AddScoped<CategoriesValidator>();
+            services.AddScoped<UserValidator>();
+            services.AddValidatorsFromAssemblyContaining<IApplicarionMarker>(ServiceLifetime.Singleton);
             services.AddDbContext<ShopContext>(options =>
                            options.UseNpgsql(ConfigurationHelper.GetConfiguration().GetConnectionString("Database")));
             services.AddScoped<CategoryServices>();
@@ -38,13 +42,6 @@ namespace Domain
             services.AddScoped<ProductsMapper>();
             services.AddScoped<LocationMapper>();
             services.AddScoped<CategoryMapper>();
-            services.AddScoped<CategoriesValidator>();
-            services.AddScoped<UserValidator>();
-            services.AddScoped<ProductsValidator>();
-            services.AddScoped<CountriesValidator>();
-            services.AddScoped<SubCategoriesValidator>();
-            services.AddScoped<LocationsValidator>();
-            services.AddScoped<BuyersProductsValidator>();
 
 
 

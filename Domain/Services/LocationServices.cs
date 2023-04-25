@@ -57,7 +57,7 @@ namespace Domain.Services
         public async Task<CreateLocationResponse> CreateLocationService(CreateLocationRequest request)
         {
             var newLocation = _entityMaker.RequestToNewLocation(request);
-            var validation = _locationValidator.ValidateAndThrowAsync(newLocation);
+            await _locationValidator.ValidateAndThrowAsync(newLocation);
             if (newLocation == null)
             {
                 return new CreateLocationResponse
@@ -107,7 +107,7 @@ namespace Domain.Services
                 };
             }
             var update = await _locationRepo.UpdateLocation(updatedLocation);
-            var validation = _locationValidator.ValidateAndThrowAsync(updatedLocation);
+            await _locationValidator.ValidateAndThrowAsync(updatedLocation);
             if (!update)
             {
                 return new UpdateLocationResponse

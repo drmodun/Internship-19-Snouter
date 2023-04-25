@@ -29,7 +29,7 @@ namespace Domain.Services
         public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request)
         {
             var newUser = _entityMaker.RequestToNewUser(request);
-            var validationResult = _userValidator.ValidateAndThrowAsync(newUser);
+            await _userValidator.ValidateAndThrowAsync(newUser);
             var addition = await _userRepository.CreateUser(newUser);
             if (!addition)
             {
@@ -96,7 +96,7 @@ namespace Domain.Services
         public async Task<UpdateUserResponse> UpdateUserService(UpdateUserRequest request)
         {
             var userToUpdate = _entityMaker.RequestToUpdatedUser(request);
-            var validationResult = _userValidator.ValidateAndThrowAsync(userToUpdate);
+            await _userValidator.ValidateAndThrowAsync(userToUpdate);
             var update = await _userRepository.UpdateUser(userToUpdate);
             if (!update)
             {

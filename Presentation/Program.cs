@@ -26,9 +26,9 @@ namespace Presentation
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ValidationMappingMiddleware>();
             
             app.UseHttpsRedirection();
-            app.UseMiddleware<ValidationMappingMiddleware>();
             app.UseAuthorization();
 
 

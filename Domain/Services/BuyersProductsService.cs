@@ -61,7 +61,7 @@ namespace Domain.Services
         public async Task<CreateBuyersProductsResponse> CreateConnectionService(CreateBuyersProductsRequest request)
         {
             var newConnection = _entityMaker.RequestToNewBuyersProducts(request);
-            var validation = _buyersProductsValidator.ValidateAndThrowAsync(newConnection);
+            await _buyersProductsValidator.ValidateAndThrowAsync(newConnection);
             var addition = await _buyersProductsRepo.CreateConnection(newConnection);
             if (!addition)
             {
@@ -99,7 +99,7 @@ namespace Domain.Services
         public async Task<UpdateBuyersProductsResponse> UpdateConnectionService(UpdateBuyersProductsRequest request)
         {
             var updatedConnection = _entityMaker.RequestToUpdatedBuyersProducts(request);
-            var validation = _buyersProductsValidator.ValidateAndThrowAsync(updatedConnection);
+            await _buyersProductsValidator.ValidateAndThrowAsync(updatedConnection);
             var update = await _buyersProductsRepo.UpdateConnection(updatedConnection);
             if (!update)
             {

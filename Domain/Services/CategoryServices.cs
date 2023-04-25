@@ -96,7 +96,7 @@ namespace Domain.Services
         public async Task<UpdateCategoryReponse> UpdateCategoryService(UpdateCategoryRequest request)
         {
             var categoryToUpdate = _entityMaker.RequestToUpdatedCategory(request);
-            var validation = _categoriesValidator.ValidateAndThrowAsync(categoryToUpdate);
+            await _categoriesValidator.ValidateAndThrowAsync(categoryToUpdate);
             var update = await _categoryRepository.UpdateCategory(categoryToUpdate); 
             if (!update)
             {

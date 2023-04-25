@@ -113,7 +113,7 @@ namespace Domain.Repositories
             }
         }
 
-        public Product RequestToUpdatedProduct(UpdateProductRequest request)
+        public Product? RequestToUpdatedProduct(UpdateProductRequest request)
         {
             try
             {
@@ -137,6 +137,12 @@ namespace Domain.Repositories
                 var subCategorySchema = _shopContext.SubCategories.FirstOrDefault(x => x.Id == updatedProduct.SubCategoryId).Schema;
                 bool valid = updatedProduct.ExtraProperties.IsValid(categorySchema);
                 bool validSub = updatedProduct.SubProperties.IsValid(subCategorySchema);
+                var location = _shopContext.Locations.FirstOrDefault(x => x.Id == updatedProduct.LocationId);
+                var seller = _shopContext.Users.FirstOrDefault(x => x.Id == updatedProduct.SellerId);
+                if (location == null || seller == null)
+                {
+                    return null;
+                }
                 if (!valid || !validSub)
                 {
                     return null;
@@ -185,6 +191,11 @@ namespace Domain.Repositories
                     Longitude = request.Longitude,
                     CountryId = request.CountryId,
                 };
+                var country = _shopContext.Countries.FirstOrDefault(x => x.Id == newLocation.CountryId);
+                if (country == null)
+                {
+                    return null;
+                }
                 return newLocation;
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException)
@@ -204,8 +215,13 @@ namespace Domain.Repositories
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
                 };
-
+                var country = _shopContext.Countries.FirstOrDefault(x => x.Id == updatedLocation.CountryId);
+                if (country == null)
+                {
+                    return null;
+                }
                 return updatedLocation;
+
             }
             catch (Npgsql.PostgresException)
             {
@@ -279,8 +295,13 @@ namespace Domain.Repositories
                     Products = new List<Product>(),
                     Schema = JSchema.Parse(@request.Schema)
                 };
-
+                var category = _shopContext.Categories.FirstOrDefault(x => x.Id == newSubcategory.CategoryId);
+                if (category == null)
+                {
+                    return null;
+                }
                 return newSubcategory;
+
             }
             catch (JsonReaderException)
             {
@@ -304,7 +325,11 @@ namespace Domain.Repositories
                     Schema = JSchema.Parse(@request.Schema)
                 };
                 return newSubcategory;
-
+                var category = _shopContext.Categories.FirstOrDefault(x => x.Id == newSubcategory.CategoryId);
+                if (category == null)
+                {
+                    return null;
+                }
             }
             catch (JsonReaderException)
             {
@@ -324,6 +349,12 @@ namespace Domain.Repositories
                 Quantity = request.Quantity,
                 CreatedAt = DateTime.UtcNow,
             };
+            var buyer = _shopContext.Users.FirstOrDefault(x => x.Id == newConnection.BuyerId);
+            var product = _shopContext.Products.FirstOrDefault(x => x.Id == newConnection.ProductId);
+            if (buyer == null || product == null)
+            {
+                return null;
+            }
 
             return newConnection;
         }
@@ -336,6 +367,12 @@ namespace Domain.Repositories
                 Quantity = request.Quantity,
                 CreatedAt = DateTime.UtcNow,
             };
+            var buyer = _shopContext.Users.FirstOrDefault(x => x.Id == newConnection.BuyerId);
+            var product = _shopContext.Products.FirstOrDefault(x => x.Id == newConnection.ProductId);
+            if (buyer == null || product == null)
+            {
+                return null;
+            }
 
             return newConnection;
         }

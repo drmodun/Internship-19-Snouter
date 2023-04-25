@@ -21,7 +21,7 @@ namespace Domain.Services
         private readonly EntityMaker _entityMaker;
         private readonly CategoryMapper _categoryMapper;
         private readonly SubCategoriesValidator _subCategoriesValidator;
-        
+
         public SubCategoryServices(SubCategoryRepo subCategoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper, SubCategoriesValidator validationRules)
         {
             _subCategoryRepository = subCategoryRepository;
@@ -59,7 +59,7 @@ namespace Domain.Services
         public async Task<CreateSubcategoryResponse> CreateSubCategoryService(CreateSubcategoryRequest request)
         {
             var newCategory = _entityMaker.RequestToNewSubcategory(request);
-            var validationResult = _subCategoriesValidator.ValidateAndThrowAsync(newCategory);
+            await _subCategoriesValidator.ValidateAndThrowAsync(newCategory);
             if (newCategory == null)
             {
                 return new CreateSubcategoryResponse
@@ -95,13 +95,23 @@ namespace Domain.Services
         public async Task<UpdateSubcategoryReponse> UpdateSubCategoryService(UpdateSubCategoryRequest request)
         {
             var categoryToUpdate = _entityMaker.RequestToUpdatedSubcategory(request);
+            await _subCategoriesValidator.ValidateAndThrowAsync(categoryToUpdate);
+            if (categoryToUpdate == null)
+            {
+                return new UpdateSubcategoryReponse
+                {
+                    Success = false,
+                    SubCategory = null,
+                    Status = System.Net.HttpStatusCode.BadRequest,
+                };
+            }
             var update = await _subCategoryRepository.UpdateSubCategory(categoryToUpdate);
             if (!update)
             {
                 return new UpdateSubcategoryReponse
                 {
                     Success = false,
-                   SubCategory = null,
+                    SubCategory = null,
                     Status = System.Net.HttpStatusCode.BadRequest,
                 };
             }
@@ -109,7 +119,7 @@ namespace Domain.Services
             {
                 Success = true,
                 Status = System.Net.HttpStatusCode.OK,
-                SubCategory =   _categoryMapper.SubCategoryToDTO(categoryToUpdate)
+                SubCategory = _categoryMapper.SubCategoryToDTO(categoryToUpdate)
             };
         }
         public async Task<DeleteSubCategoryResponse> DeleteSubCategoryService(DeleteSubcategoryRequest request)
