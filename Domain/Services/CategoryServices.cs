@@ -4,6 +4,7 @@ using Domain.Contracts.Response.Category;
 using Domain.Contracts.Response.User;
 using Domain.Mapper;
 using Domain.Repositories;
+using Domain.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,14 @@ namespace Domain.Services
         private readonly CategoryRepo _categoryRepository;
         private readonly EntityMaker _entityMaker;
         private readonly CategoryMapper _categoryMapper;
+        private readonly CategoriesValidator _categoriesValidator;
 
-        public CategoryServices(CategoryRepo categoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper)
+        public CategoryServices(CategoryRepo categoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper, CategoriesValidator validationRules)
         {
             _categoryRepository = categoryRepository;
             _entityMaker = entityMaker;
             _categoryMapper = categoryMapper;
+            _categoriesValidator = validationRules;
         }
 
         public async Task<GetCategoryReponse> GetCategoryService(GetCategoryRequest request)

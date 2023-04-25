@@ -19,7 +19,7 @@ namespace Data.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=shop;Username=postgres;Password=drmodunV9;IncludeErrorDetail=True;");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=shop;Username=postgres;Password=postgres;IncludeErrorDetail=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

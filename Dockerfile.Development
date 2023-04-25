@@ -2,5 +2,5 @@ FROM postgres:15-alpine
 EXPOSE 5430
 CMD ["postgres"]
 ENV POSTGRES_USER postgres
-ENV POSTGRES_PASSWORD drmodunV9
+ENV POSTGRES_PASSWORD postgres
 ENV POSTGRES_DB shop

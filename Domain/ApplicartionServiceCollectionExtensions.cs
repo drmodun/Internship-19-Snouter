@@ -37,6 +37,7 @@ namespace Domain
             services.AddScoped<ProductsMapper>();
             services.AddScoped<LocationMapper>();
             services.AddScoped<CategoryMapper>();
+
             return services;
         }
 
