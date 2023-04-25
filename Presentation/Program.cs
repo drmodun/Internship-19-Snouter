@@ -1,4 +1,5 @@
 
+using Blog.Api.Mapping;
 using Domain;
 using System.Text.Json.Serialization;
 
@@ -27,7 +28,7 @@ namespace Presentation
             }
             
             app.UseHttpsRedirection();
-
+            app.UseMiddleware<ValidationMappingMiddleware>();
             app.UseAuthorization();
 
 
