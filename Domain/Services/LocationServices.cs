@@ -2,6 +2,8 @@
 using Domain.Contracts.Response.Location;
 using Domain.Mapper;
 using Domain.Repositories;
+using Domain.Validators;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +18,14 @@ namespace Domain.Services
         private EntityMaker _entityMaker { get; set; }
         private LocationMapper _locationMapper { get; set; }
 
-        public LocationServices(LocationRepo locationRepo, EntityMaker entityMaker, LocationMapper locationMapper)
+        private LocationsValidator _locationValidator { get; set; }
+
+        public LocationServices(LocationRepo locationRepo, EntityMaker entityMaker, LocationMapper locationMapper, LocationsValidator validationRules)
         {
             _locationRepo = locationRepo;
             _entityMaker = entityMaker;
             _locationMapper = locationMapper;
+            _locationValidator = validationRules;
         }
         public async Task<GetLocationResponse> GetLocationService(GetLocationRequest request)
         {
@@ -52,6 +57,7 @@ namespace Domain.Services
         public async Task<CreateLocationResponse> CreateLocationService(CreateLocationRequest request)
         {
             var newLocation = _entityMaker.RequestToNewLocation(request);
+            var validation = _locationValidator.ValidateAndThrowAsync(newLocation);
             if (newLocation == null)
             {
                 return new CreateLocationResponse
@@ -101,6 +107,7 @@ namespace Domain.Services
                 };
             }
             var update = await _locationRepo.UpdateLocation(updatedLocation);
+            var validation = _locationValidator.ValidateAndThrowAsync(updatedLocation);
             if (!update)
             {
                 return new UpdateLocationResponse

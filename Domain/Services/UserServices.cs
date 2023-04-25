@@ -1,6 +1,8 @@
 ﻿using Domain.Contracts.Requests.User;
 using Domain.Contracts.Response.User;
 using Domain.Repositories;
+using Domain.Validators;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,16 +17,19 @@ namespace Domain.Services
         private readonly UserRepo _userRepository;
         private readonly EntityMaker _entityMaker;
         private readonly UserMappers _userMappers;
-        public UserServices(UserRepo userRepository, EntityMaker entityMaker, UserMappers userMappers)
+        private readonly UserValidator _userValidator;
+        public UserServices(UserRepo userRepository, EntityMaker entityMaker, UserMappers userMappers, UserValidator validationRules)
         {
             _userRepository = userRepository;
             _entityMaker = entityMaker;
             _userMappers = userMappers;
+            _userValidator = validationRules;
         }
 
         public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request)
         {
             var newUser = _entityMaker.RequestToNewUser(request);
+            var validationResult = _userValidator.ValidateAndThrowAsync(newUser);
             var addition = await _userRepository.CreateUser(newUser);
             if (!addition)
             {
@@ -91,6 +96,7 @@ namespace Domain.Services
         public async Task<UpdateUserResponse> UpdateUserService(UpdateUserRequest request)
         {
             var userToUpdate = _entityMaker.RequestToUpdatedUser(request);
+            var validationResult = _userValidator.ValidateAndThrowAsync(userToUpdate);
             var update = await _userRepository.UpdateUser(userToUpdate);
             if (!update)
             {

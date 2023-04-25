@@ -5,6 +5,8 @@ using Domain.Contracts.Response.Subcategory;
 using Domain.Contracts.Response.SubCategory;
 using Domain.Mapper;
 using Domain.Repositories;
+using Domain.Validators;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +20,14 @@ namespace Domain.Services
         private readonly SubCategoryRepo _subCategoryRepository;
         private readonly EntityMaker _entityMaker;
         private readonly CategoryMapper _categoryMapper;
+        private readonly SubCategoriesValidator _subCategoriesValidator;
         
-        public SubCategoryServices(SubCategoryRepo subCategoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper)
+        public SubCategoryServices(SubCategoryRepo subCategoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper, SubCategoriesValidator validationRules)
         {
             _subCategoryRepository = subCategoryRepository;
             _entityMaker = entityMaker;
             _categoryMapper = categoryMapper;
+            _subCategoriesValidator = validationRules;
         }
         public async Task<GetSubcatgoryResponse> GetSubCategoryService(GetSubCategoryRequest request)
         {
@@ -55,6 +59,7 @@ namespace Domain.Services
         public async Task<CreateSubcategoryResponse> CreateSubCategoryService(CreateSubcategoryRequest request)
         {
             var newCategory = _entityMaker.RequestToNewSubcategory(request);
+            var validationResult = _subCategoriesValidator.ValidateAndThrowAsync(newCategory);
             if (newCategory == null)
             {
                 return new CreateSubcategoryResponse

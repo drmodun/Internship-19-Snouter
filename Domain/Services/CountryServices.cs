@@ -2,6 +2,8 @@
 using Domain.Contracts.Response.Country;
 using Domain.Mapper;
 using Domain.Repositories;
+using Domain.Validators;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +19,16 @@ namespace Domain.Services
 
         private LocationMapper _locationMapper { get; set; }
 
+        private CountriesValidator _countryValidator { get; set; }
 
-        public CountryServices(CountryRepo countryRepo, EntityMaker entityMaker, LocationMapper locationMapper)
+
+
+        public CountryServices(CountryRepo countryRepo, EntityMaker entityMaker, LocationMapper locationMapper, CountriesValidator validationRules)
         {
             _countryRepo = countryRepo;
             _entityMaker = entityMaker;
             _locationMapper = locationMapper;
+            _countryValidator = validationRules;
         }
 
 
@@ -56,6 +62,7 @@ namespace Domain.Services
         public async Task<CreateCountryResponse> CreateCountryService(CreateCountryRequest request)
         {
             var newCountry = _entityMaker.RequestToNewCountry(request);
+            var validation = _countryValidator.ValidateAndThrowAsync(newCountry);
             if (newCountry == null)
             {
                 return new CreateCountryResponse
@@ -95,6 +102,7 @@ namespace Domain.Services
                 };
             }
             var updatedCountry = _entityMaker.RequestToUpdatedCountry(request);
+            var validation = _countryValidator.ValidateAndThrowAsync(updatedCountry);
             var update = await _countryRepo.UpdateCountry(updatedCountry);
             if (!update)
             {

@@ -4,6 +4,7 @@ using Data.Entities.Models;
 using Domain.Mapper;
 using Domain.Repositories;
 using Domain.Services;
+using Domain.Validators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,15 @@ namespace Domain
             services.AddScoped<ProductsMapper>();
             services.AddScoped<LocationMapper>();
             services.AddScoped<CategoryMapper>();
+            services.AddScoped<CategoriesValidator>();
+            services.AddScoped<UserValidator>();
+            services.AddScoped<ProductsValidator>();
+            services.AddScoped<CountriesValidator>();
+            services.AddScoped<SubCategoriesValidator>();
+            services.AddScoped<LocationsValidator>();
+            services.AddScoped<BuyersProductsValidator>();
+
+
 
             return services;
         }

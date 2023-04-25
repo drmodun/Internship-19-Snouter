@@ -5,6 +5,8 @@ using Domain.Contracts.Response.Product;
 using Domain.Contracts.Response.User;
 using Domain.Mapper;
 using Domain.Repositories;
+using Domain.Validators;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +21,14 @@ namespace Domain.Services
         private BuyersProductsRepo _buyersProductsRepo { get; set; }
 
         private ProductsMapper _productsMapper { get; set; }
+        private BuyersProductsValidator _buyersProductsValidator { get; set; }
 
-        public BuyersProductsService(BuyersProductsRepo buyersProductsRepo, EntityMaker entityMaker, ProductsMapper productsMapper)
+        public BuyersProductsService(BuyersProductsRepo buyersProductsRepo, EntityMaker entityMaker, ProductsMapper productsMapper, BuyersProductsValidator validationRules)
         {
             _buyersProductsRepo = buyersProductsRepo;
             _entityMaker = entityMaker;
             _productsMapper = productsMapper;
+            _buyersProductsValidator = validationRules;
         }
 
         public async Task<GetBuyersProductsResponse> GetConnectionService(GetBuyersProudctsRequest request)
@@ -57,6 +61,7 @@ namespace Domain.Services
         public async Task<CreateBuyersProductsResponse> CreateConnectionService(CreateBuyersProductsRequest request)
         {
             var newConnection = _entityMaker.RequestToNewBuyersProducts(request);
+            var validation = _buyersProductsValidator.ValidateAndThrowAsync(newConnection);
             var addition = await _buyersProductsRepo.CreateConnection(newConnection);
             if (!addition)
             {
@@ -94,6 +99,7 @@ namespace Domain.Services
         public async Task<UpdateBuyersProductsResponse> UpdateConnectionService(UpdateBuyersProductsRequest request)
         {
             var updatedConnection = _entityMaker.RequestToUpdatedBuyersProducts(request);
+            var validation = _buyersProductsValidator.ValidateAndThrowAsync(updatedConnection);
             var update = await _buyersProductsRepo.UpdateConnection(updatedConnection);
             if (!update)
             {

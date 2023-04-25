@@ -5,6 +5,7 @@ using Domain.Contracts.Response.User;
 using Domain.Mapper;
 using Domain.Repositories;
 using Domain.Validators;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,7 @@ namespace Domain.Services
                     StatusCode = System.Net.HttpStatusCode.BadRequest,
                     Category = null
                 };
+            var validation =_categoriesValidator.ValidateAndThrowAsync(newCategory);
             var addition = await _categoryRepository.CreateCategory(newCategory);
             if (!addition)
                 return new CreateCategoryResponse
@@ -94,6 +96,7 @@ namespace Domain.Services
         public async Task<UpdateCategoryReponse> UpdateCategoryService(UpdateCategoryRequest request)
         {
             var categoryToUpdate = _entityMaker.RequestToUpdatedCategory(request);
+            var validation = _categoriesValidator.ValidateAndThrowAsync(categoryToUpdate);
             var update = await _categoryRepository.UpdateCategory(categoryToUpdate); 
             if (!update)
             {

@@ -3,6 +3,8 @@ using Domain.Contracts.Response.BuyersProducts;
 using Domain.Contracts.Response.Product;
 using Domain.Mapper;
 using Domain.Repositories;
+using Domain.Validators;
+using FluentValidation;
 using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
@@ -17,18 +19,20 @@ namespace Domain.Services
         private readonly ProductRepo _productRepository;
         private readonly EntityMaker _entityMaker;
         private readonly ProductsMapper _productsMapper;
+        private readonly ProductsValidator _productsValidator;
 
-        public ProductsServices(ProductRepo productRepository, EntityMaker entityMaker, ProductsMapper productsMapper)
+        public ProductsServices(ProductRepo productRepository, EntityMaker entityMaker, ProductsMapper productsMapper, ProductsValidator validationRules)
         {
             _productRepository = productRepository;
             _entityMaker = entityMaker;
             _productsMapper = productsMapper;
+            _productsValidator = validationRules;
         }
 
         public async Task<CreateProductResponse> CreateProductService(CreateProductRequest request)
         {
             var newProduct = _entityMaker.RequestToNewProduct(request);
-            ;
+            var validation = _productsValidator.ValidateAndThrowAsync(newProduct);
             if (newProduct == null)
             {
                 return new CreateProductResponse
@@ -103,6 +107,7 @@ namespace Domain.Services
         public async Task<UpdateProductResponse> UpdateProductService(UpdateProductRequest request)
         {
             var newProduct = _entityMaker.RequestToUpdatedProduct(request);
+            var validation = _productsValidator.ValidateAndThrowAsync(newProduct);
             if (newProduct == null)
             {
                 return new UpdateProductResponse
