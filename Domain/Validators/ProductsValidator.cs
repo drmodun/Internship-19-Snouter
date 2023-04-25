@@ -27,7 +27,7 @@ namespace Domain.Validators
             RuleFor(x => x.Images).NotEmpty().WithMessage("Image is required");
             RuleFor(x => x.Images).Must(x => x.Count() <= 5).WithMessage("You can upload maximum 5 images");
             RuleFor(x => x.Images).Must(x => x.Count() >= 1).WithMessage("You must upload at least 1 image");
-            RuleFor(x => x.Created).LessThanOrEqualTo(DateTime.UtcNow);
+            RuleFor(x => x.Created).LessThanOrEqualTo(DateTime.Now);
         }
     }
 }

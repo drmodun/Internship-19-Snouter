@@ -20,8 +20,7 @@ namespace Domain.Validators
             RuleFor(x => x.Email).EmailAddress().WithMessage("Email is not in a valid format");
             RuleFor(x => x.Email).MaximumLength(50).WithMessage("Email must be at most 50 characters long");
             RuleFor(x => x.Name).MaximumLength(50).WithMessage("First name must be at most 50 characters long");
-            RuleFor(x => x.CreatedAt).LessThanOrEqualTo(DateTime.UtcNow).WithMessage("Error on date add");
-            RuleFor(x => x.UpdatedAt).LessThanOrEqualTo(DateTime.UtcNow).WithMessage("Cannot have a updatedate that is lower than the cratedat date");
+            RuleFor(x => x.CreatedAt).LessThanOrEqualTo(DateTime.Now).WithMessage("Error on date add");
             RuleFor(x => x.UpdatedAt).GreaterThanOrEqualTo(x => x.CreatedAt);
             RuleFor(x=>x.AddressId).NotEmpty().WithMessage("Address is required");
 

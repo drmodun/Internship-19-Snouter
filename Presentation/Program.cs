@@ -18,6 +18,34 @@ namespace Presentation
             var builder = WebApplication.CreateBuilder(args);
             var config = builder.Configuration;
             // Add services to the container.
+            //anti-postman gang (neznam jel se moze automatski setupat a swagger mi je drazi), setupam ga kasnie znam da je korisan al ovako je lakse portable
+            builder.Services.AddSwaggerGen(x =>
+            {
+                x.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+                x.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                {
+                    {
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                            {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+            }
+            );
             builder.Services.AddApplication();
             builder.Services.AddAuthentication(x =>
             {
