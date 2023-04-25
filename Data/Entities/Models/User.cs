@@ -16,9 +16,6 @@ namespace Data.Entities.Models
 
         public Guid AddressId;
         public Location? Address { get; set; }
-
-        public bool isAdmin = false;
-
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
             

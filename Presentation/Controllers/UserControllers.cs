@@ -52,7 +52,6 @@ namespace Presentation.Controllers
                 Email = request.Email,
                 Password = request.Password,
                 LocationId = request.LocationId,
-                isAdmin = request.IsAdmin
 
             };
             var response = await _userService.UpdateUserService(updateRequest, cancellationToken);

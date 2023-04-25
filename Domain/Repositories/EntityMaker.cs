@@ -43,8 +43,7 @@ namespace Domain.Repositories
                 Password = request.Password,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                AddressId = request.LocationId,
-                isAdmin = request.IsAdmin
+                AddressId = request.LocationId
 
             };
             return newUser;
@@ -62,10 +61,7 @@ namespace Domain.Repositories
                 Password = request.Password,
                 CreatedAt = _shopContext.Users.FirstOrDefault(x => x.Id == request.Id).CreatedAt,
                 UpdatedAt = DateTime.UtcNow,
-                AddressId = request.LocationId,
-                isAdmin = request.isAdmin
-
-
+                AddressId = request.LocationId
             };
             return updatedUser;
         }

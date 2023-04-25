@@ -7,7 +7,6 @@ namespace Domain.Contracts.Requests.User
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public bool IsAdmin { get; set; }
         public Guid LocationId { get; set; }
 
     }

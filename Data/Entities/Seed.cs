@@ -312,7 +312,6 @@ namespace Data.Entities
                     Email = "John@gmail.com",
                     Password = "123456",
                     AddressId = locations[0].Id,
-                    isAdmin = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -323,7 +322,6 @@ namespace Data.Entities
                     Email = "Jane@gmail.com",
                     Password = "123456",
                     AddressId = locations[1].Id,
-                    isAdmin = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -334,7 +332,6 @@ namespace Data.Entities
                     Email = "admin@gmail.com",
                     Password = "123456",
                     AddressId = locations[2].Id,
-                    isAdmin = true,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -345,7 +342,6 @@ namespace Data.Entities
                     Email = "admin2@gmail.com",
                     Password = "123456",
                     AddressId = locations[5].Id,
-                    isAdmin = true,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -356,7 +352,6 @@ namespace Data.Entities
                     Email = "admin3@gmail.com",
                     Password = "123sdda456",
                     AddressId = locations[4].Id,
-                    isAdmin = true,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -367,7 +362,6 @@ namespace Data.Entities
                     Email = "DebyDebyDoo@gmail.com",
                     Password = "debugger",
                     AddressId = locations[7].Id,
-                    isAdmin = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -378,7 +372,6 @@ namespace Data.Entities
                     Email = "none@gmail.com",
                     Password = "123456",
                     AddressId = locations[6].Id,
-                    isAdmin = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -389,7 +382,6 @@ namespace Data.Entities
                     Email = "duje@gmail.com",
                     Password = "1111",
                     AddressId = locations[8].Id,
-                    isAdmin = true,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }
