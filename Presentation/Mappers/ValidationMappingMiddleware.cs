@@ -1,7 +1,7 @@
 ﻿using Domain.Contracts.Response;
 using FluentValidation;
 
-namespace Blog.Api.Mapping;
+namespace Presentaion.Mapping;
 
 public class ValidationMappingMiddleware
 {

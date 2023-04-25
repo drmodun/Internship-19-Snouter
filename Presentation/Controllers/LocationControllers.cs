@@ -1,6 +1,8 @@
-﻿using Domain.Contracts.Requests.Location;
+﻿using Domain.Constants;
+using Domain.Contracts.Requests.Location;
 using Domain.Contracts.Response.Location;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -13,6 +15,7 @@ namespace Presentation.Controllers
         {
             _locationService = locationService;
         }
+        [AllowAnonymous]
         [HttpGet(Routes.Location.Get)]
         public async Task<ActionResult<GetLocationResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -24,6 +27,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPost(Routes.Location.Create)]
         public async Task<ActionResult<CreateLocationResponse>> Post([FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
         {
@@ -34,6 +38,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPut(Routes.Location.Update)]
         public async Task<ActionResult<UpdateLocationResponse>> Put([FromRoute] Guid id,[FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
         {
@@ -45,6 +50,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpDelete(Routes.Location.Delete)]
         public async Task<ActionResult<DeleteLocationResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -56,6 +62,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [AllowAnonymous]
         [HttpGet(Routes.Location.GetAll)]
         public async Task<ActionResult<GetAllLocationsResponse>> GetAll()
         {

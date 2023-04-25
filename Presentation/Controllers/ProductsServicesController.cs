@@ -1,6 +1,8 @@
+using Domain.Constants;
 using Domain.Contracts.Requests.Product;
 using Domain.Contracts.Response.Product;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -14,7 +16,7 @@ namespace Presentation.Controllers
         {
             _productsService = productsService;
         }
-
+        [AllowAnonymous]
         [HttpGet(Routes.Products.Get)]
         public async Task<ActionResult<GetProductResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -26,6 +28,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.TrustMemberPolicyName)]
         [HttpPost(Routes.Products.Create)]
         public async Task<ActionResult<CreateProductResponse>> Post([FromBody] CreateProductRequest request, CancellationToken cancellationToken)
         {
@@ -36,6 +39,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.TrustMemberPolicyName)]
         [HttpPut(Routes.Products.Update)]
         public async Task<ActionResult<UpdateProductResponse>> Put([FromRoute] Guid id , [FromBody] CreateProductRequest request, CancellationToken cancellationToken)
         {
@@ -51,6 +55,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.TrustMemberPolicyName)]
         [HttpDelete(Routes.Products.Delete)]
         public async Task<ActionResult<DeleteProductResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -62,6 +67,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [AllowAnonymous]
         [HttpGet(Routes.Products.GetAll)]
         public async Task<ActionResult<GetAllProductsResponse>> GetAll()
         {

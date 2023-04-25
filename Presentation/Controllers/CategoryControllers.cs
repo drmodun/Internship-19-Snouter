@@ -1,6 +1,8 @@
-﻿using Domain.Contracts.Requests.Category;
+﻿using Domain.Constants;
+using Domain.Contracts.Requests.Category;
 using Domain.Contracts.Response.Category;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -14,6 +16,7 @@ namespace Presentation.Controllers
         {
             _categoryService = categoryService;
         }
+        [AllowAnonymous]
         [HttpGet(Routes.Category.Get)]
         public async Task<ActionResult<GetCategoryReponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -25,6 +28,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPost(Routes.Category.Create)]
         public async Task<ActionResult<CreateCategoryResponse>> Post([FromBody] CreateCategoryRequest request, CancellationToken cancellationToken)
         {
@@ -35,6 +39,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPut(Routes.Category.Update)]
         public async Task<ActionResult<UpdateCategoryReponse>> Put([FromRoute] Guid id, [FromBody] CreateCategoryRequest requestCreate, CancellationToken cancellationToken)
         {
@@ -48,6 +53,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpDelete(Routes.Category.Delete)]
         public async Task<ActionResult<DeleteCategoryResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -59,6 +65,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [AllowAnonymous]
         [HttpGet(Routes.Category.GetAll)]
         public async Task<ActionResult<GetAllCategoriesReponse>> GetAll(CancellationToken cancellationToken)
         {

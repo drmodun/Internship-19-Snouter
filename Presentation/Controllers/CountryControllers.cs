@@ -1,6 +1,8 @@
-﻿using Domain.Contracts.Requests.Country;
+﻿using Domain.Constants;
+using Domain.Contracts.Requests.Country;
 using Domain.Contracts.Response.Country;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -13,6 +15,7 @@ namespace Presentation.Controllers
         {
             _countryService = countryService;
         }
+        [AllowAnonymous]
         [HttpGet(Routes.Country.Get)]
         public async Task<ActionResult<GetCountryResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -24,6 +27,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPost(Routes.Country.Create)]
         public async Task<ActionResult<CreateCountryResponse>> Post([FromBody] CreateCountryRequest request, CancellationToken cancellationToken)
         {
@@ -34,6 +38,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPut(Routes.Country.Update)]
         public async Task<ActionResult<UpdateCountryResponse>> Put([FromRoute] Guid id, [FromBody] CreateCountryRequest requestCreate, CancellationToken cancellationToken)
         {
@@ -45,6 +50,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpDelete(Routes.Country.Delete)]
         public async Task<ActionResult<DeleteCountryResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -56,6 +62,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [AllowAnonymous]
         [HttpGet(Routes.Country.GetAll)]
         public async Task<ActionResult<GetAllCountriesResponse>> GetAll()
         {

@@ -1,7 +1,9 @@
-﻿using Domain.Contracts.Requests.SubCategory;
+﻿using Domain.Constants;
+using Domain.Contracts.Requests.SubCategory;
 using Domain.Contracts.Response.Subcategory;
 using Domain.Contracts.Response.SubCategory;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -14,6 +16,7 @@ namespace Presentation.Controllers
         {
             _subCategoryService = subCategoryService;
         }
+        [AllowAnonymous]
         [HttpGet(Routes.SubCategory.Get)]
         public async Task<ActionResult<GetSubcatgoryResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -25,6 +28,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPost(Routes.SubCategory.Create)]
         public async Task<ActionResult<CreateSubcategoryResponse>> Post([FromBody] CreateSubcategoryRequest request, CancellationToken cancellationToken)
         {
@@ -35,6 +39,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPut(Routes.SubCategory.Update)]
         public async Task<ActionResult<UpdateSubcategoryReponse>> Put([FromRoute] Guid id, [FromBody] CreateSubcategoryRequest requestCreate, CancellationToken cancellationToken)
         {
@@ -48,6 +53,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpDelete(Routes.SubCategory.Delete)]
         public async Task<ActionResult<DeleteSubCategoryResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -59,6 +65,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [AllowAnonymous]
         [HttpGet(Routes.SubCategory.GetAll)]
         public async Task<ActionResult<GetAllSubcategoriesResponse>> GetAll()
         {

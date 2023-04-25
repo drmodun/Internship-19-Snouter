@@ -1,8 +1,10 @@
-﻿using Domain.Contracts.Requests.Product;
+﻿using Domain.Constants;
+using Domain.Contracts.Requests.Product;
 using Domain.Contracts.Requests.User;
 using Domain.Contracts.Response.Product;
 using Domain.Contracts.Response.User;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -16,6 +18,7 @@ namespace Presentation.Controllers
         {
             _userService = userService;
         }
+        [AllowAnonymous]
         [HttpGet(Routes.User.Get)]
         public async Task<ActionResult<GetUserResponse>> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -27,6 +30,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [AllowAnonymous]
         [HttpPost(Routes.User.Create)]
         public async Task<ActionResult<CreateUserResponse>> Post([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
         {
@@ -37,6 +41,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.TrustMemberPolicyName)]
         [HttpPut(Routes.User.Update)]
         public async Task<ActionResult<UpdateUserResponse>> Put([FromRoute] Guid id, [FromBody] CreateUserRequest request, CancellationToken cancellationToken)
         {
@@ -57,6 +62,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpDelete(Routes.User.Delete)]
         public async Task<ActionResult<DeleteUserResponse>> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -68,6 +74,7 @@ namespace Presentation.Controllers
             }
             return Ok(response);
         }
+        [AllowAnonymous]
         [HttpGet(Routes.User.GetAll)]
         public async Task<ActionResult<GetAllUsersResponse>> GetAll()
         {
