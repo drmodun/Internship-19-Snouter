@@ -1,5 +1,6 @@
 ﻿using Data.Entities;
 using Data.Entities.Models;
+using Domain.Repositories.Inter;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-    public class CategoryRepo
+    public class CategoryRepo : ICategoryRepo
     {
         private readonly ShopContext _context = new ShopContextFactory().CreateDbContext(null);
 

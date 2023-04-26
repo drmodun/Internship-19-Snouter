@@ -1,7 +1,9 @@
 ﻿using Domain.Contracts.Requests.User;
 using Domain.Contracts.Response.User;
 using Domain.Mapper.Implementaions;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
+using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
@@ -12,15 +14,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Implmentations
 {
     public class UserServices : IUserServices
     {
-        private readonly UserRepo _userRepository;
+        private readonly IUserRepo _userRepository;
         private readonly EntityMaker _entityMaker;
-        private readonly UserMappers _userMappers;
+        private readonly IUserMappers _userMappers;
         private readonly UserValidator _userValidator;
-        public UserServices(UserRepo userRepository, EntityMaker entityMaker, UserMappers userMappers, UserValidator validationRules)
+        public UserServices(IUserRepo userRepository, EntityMaker entityMaker, IUserMappers userMappers, UserValidator validationRules)
         {
             _userRepository = userRepository;
             _entityMaker = entityMaker;

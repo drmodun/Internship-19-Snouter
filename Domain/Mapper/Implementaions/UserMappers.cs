@@ -6,13 +6,14 @@ using Domain.Contracts;
 using Domain.Contracts.Requests.User;
 using Domain.DTO;
 using Domain.Mapper;
+using Domain.Mapper.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 namespace Domain.Mapper.Implementaions
 {
-    public class UserMappers
+    public class UserMappers : IUserMappers
     {
         private readonly ShopContext _shopContext;
         public UserMappers(ShopContext shopContext)

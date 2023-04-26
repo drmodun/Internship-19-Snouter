@@ -1,7 +1,8 @@
 ﻿using Domain.Constants;
 using Domain.Contracts.Requests.Country;
 using Domain.Contracts.Response.Country;
-using Domain.Services;
+using Domain.Services.Implmentations;
+using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +11,8 @@ namespace Presentation.Controllers
     [ApiController]
     public class CountryControllers : ControllerBase
     {
-        private readonly CountryServices _countryService;
-        public CountryControllers(CountryServices countryService)
+        private readonly ICountryServices _countryService;
+        public CountryControllers(ICountryServices countryService)
         {
             _countryService = countryService;
         }

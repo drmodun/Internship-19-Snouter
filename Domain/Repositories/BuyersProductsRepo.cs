@@ -1,5 +1,6 @@
 ﻿using Data.Entities;
 using Data.Entities.Models;
+using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-    public class BuyersProductsRepo
+    public class BuyersProductsRepo : IBuyersProductsRepo
     {
         private readonly ShopContext _shopContext = new ShopContextFactory().CreateDbContext(null);
 

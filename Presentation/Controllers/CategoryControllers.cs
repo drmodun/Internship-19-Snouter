@@ -1,7 +1,8 @@
 ﻿using Domain.Constants;
 using Domain.Contracts.Requests.Category;
 using Domain.Contracts.Response.Category;
-using Domain.Services;
+using Domain.Services.Implmentations;
+using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +12,8 @@ namespace Presentation.Controllers
 
     public class CategoryControllers : ControllerBase
     {
-        private readonly CategoryServices _categoryService;
-        public CategoryControllers(CategoryServices categoryService)
+        private readonly ICategoryServices _categoryService;
+        public CategoryControllers(ICategoryServices categoryService)
         {
             _categoryService = categoryService;
         }

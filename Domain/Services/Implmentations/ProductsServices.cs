@@ -2,7 +2,9 @@
 using Domain.Contracts.Response.BuyersProducts;
 using Domain.Contracts.Response.Product;
 using Domain.Mapper.Implementaions;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
+using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
@@ -13,16 +15,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Implmentations
 {
     public class ProductsServices : IProductsServices
     {
-        private readonly ProductRepo _productRepository;
+        private readonly IProductRepo _productRepository;
         private readonly EntityMaker _entityMaker;
-        private readonly ProductsMapper _productsMapper;
+        private readonly IProductsMapper _productsMapper;
         private readonly ProductsValidator _productsValidator;
 
-        public ProductsServices(ProductRepo productRepository, EntityMaker entityMaker, ProductsMapper productsMapper, ProductsValidator validationRules)
+        public ProductsServices(IProductRepo productRepository, EntityMaker entityMaker, IProductsMapper productsMapper, ProductsValidator validationRules)
         {
             _productRepository = productRepository;
             _entityMaker = entityMaker;

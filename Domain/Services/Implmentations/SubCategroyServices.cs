@@ -4,7 +4,9 @@ using Domain.Contracts.Response.Category;
 using Domain.Contracts.Response.Subcategory;
 using Domain.Contracts.Response.SubCategory;
 using Domain.Mapper.Implementaions;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
+using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
@@ -14,16 +16,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Implmentations
 {
     public class SubCategoryServices : ISubCategoryServices
     {
-        private readonly SubCategoryRepo _subCategoryRepository;
+        private readonly ISubCategoryRepo _subCategoryRepository;
         private readonly EntityMaker _entityMaker;
-        private readonly CategoryMapper _categoryMapper;
+        private readonly ICategoryMapper _categoryMapper;
         private readonly SubCategoriesValidator _subCategoriesValidator;
 
-        public SubCategoryServices(SubCategoryRepo subCategoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper, SubCategoriesValidator validationRules)
+        public SubCategoryServices(ISubCategoryRepo subCategoryRepository, EntityMaker entityMaker, ICategoryMapper categoryMapper, SubCategoriesValidator validationRules)
         {
             _subCategoryRepository = subCategoryRepository;
             _entityMaker = entityMaker;

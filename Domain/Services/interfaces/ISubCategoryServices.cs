@@ -15,6 +15,6 @@ namespace Domain.Services.Interfaces
         public Task<GetAllSubcategoriesResponse> GetAllSubCategoriesService();
         public Task<CreateSubcategoryResponse> CreateSubCategoryService(CreateSubcategoryRequest request, CancellationToken cancellationToken = default);
         public Task<DeleteSubCategoryResponse> DeleteSubCategoryService(DeleteSubcategoryRequest request, CancellationToken cancellationToken = default);
-        public Task<UpdateSubcategoryReponse> UpdateSubCategoryService(UpdateSubCategoryRequest request, CancellationToken cancellationToken = default);> CreateSubCategoryService(CreateSubCategoryRequest request, CancellationToken cancellationToken = default);
+        public Task<UpdateSubcategoryReponse> UpdateSubCategoryService(UpdateSubCategoryRequest request, CancellationToken cancellationToken = default);
        }
 }

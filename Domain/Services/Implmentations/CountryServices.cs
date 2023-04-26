@@ -1,7 +1,9 @@
 ﻿using Domain.Contracts.Requests.Country;
 using Domain.Contracts.Response.Country;
 using Domain.Mapper.Implementaions;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
+using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
@@ -11,20 +13,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Implmentations
 {
     public class CountryServices : ICountryServices
     {
-        private CountryRepo _countryRepo { get; set; }
+        private ICountryRepo _countryRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }
 
-        private LocationMapper _locationMapper { get; set; }
+        private ILocationMapper _locationMapper { get; set; }
 
         private CountriesValidator _countryValidator { get; set; }
 
 
 
-        public CountryServices(CountryRepo countryRepo, EntityMaker entityMaker, LocationMapper locationMapper, CountriesValidator validationRules)
+        public CountryServices(ICountryRepo countryRepo, EntityMaker entityMaker, ILocationMapper locationMapper, CountriesValidator validationRules)
         {
             _countryRepo = countryRepo;
             _entityMaker = entityMaker;

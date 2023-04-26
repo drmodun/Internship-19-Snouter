@@ -1,5 +1,6 @@
 ﻿using Data.Entities;
 using Data.Entities.Models;
+using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Schema;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-    public class LocationRepo
+    public class LocationRepo : ILocationRepo
     {
         private readonly ShopContext _shop_Context = new ShopContextFactory().CreateDbContext(null);
 

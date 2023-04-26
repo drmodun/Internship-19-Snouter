@@ -1,6 +1,7 @@
 ﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.Contracts.Requests.Country;
+using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
-    public class CountryRepo
+    public class CountryRepo : ICountryRepo
     {
         private readonly ShopContext _shopContext = new ShopContextFactory().CreateDbContext(null);
 

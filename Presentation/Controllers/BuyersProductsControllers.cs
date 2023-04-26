@@ -2,6 +2,7 @@
 using Domain.Contracts.Requests.BuyersProducts;
 using Domain.Contracts.Response.BuyersProducts;
 using Domain.Services;
+using Domain.Services.Implmentations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +11,8 @@ namespace Presentation.Controllers
     [ApiController]
     public class BuyersProductsControllers : ControllerBase
     {
-        private readonly BuyersProductsService _buyersProductsService;
-        public BuyersProductsControllers(BuyersProductsService buyersProductsService)
+        private readonly IBuyersProductsService _buyersProductsService;
+        public BuyersProductsControllers(IBuyersProductsService buyersProductsService)
         {
             _buyersProductsService = buyersProductsService;
         }

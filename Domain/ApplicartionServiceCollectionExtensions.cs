@@ -2,8 +2,13 @@
 using Data.Entities;
 using Data.Entities.Models;
 using Domain.Mapper.Implementaions;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
+using Domain.Repositories.Inter;
+using Domain.Repositories.Interfaces;
 using Domain.Services;
+using Domain.Services.Implmentations;
+using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -17,34 +22,29 @@ namespace Domain
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<CategoriesValidator>();
-            services.AddScoped<UserValidator>();
             services.AddValidatorsFromAssemblyContaining<IApplicarionMarker>(ServiceLifetime.Singleton);
             services.AddDbContext<ShopContext>(options =>
                            options.UseNpgsql(ConfigurationHelper.GetConfiguration().GetConnectionString("Database")));
-            services.AddScoped<CategoryServices>();
-            services.AddScoped<LocationServices>();
-            services.AddScoped<CountryServices>();
-            services.AddScoped<ProductsServices>();
-            services.AddScoped<SubCategoryServices>();
-            services.AddScoped<CategoryServices>();
-            services.AddScoped<UserServices>();
-            services.AddScoped<BuyersProductsService>();
-            services.AddScoped<UserRepo>();
-            services.AddScoped<ProductRepo>();
-            services.AddScoped<CountryRepo>();
-            services.AddScoped<LocationRepo>();
+            services.AddScoped<IUserRepo, UserRepo>();
+            services.AddScoped<IProductRepo, ProductRepo>();
+            services.AddScoped<ICountryRepo, CountryRepo>();
+            services.AddScoped<ILocationRepo, LocationRepo>();
             services.AddScoped<EntityMaker>();
-            services.AddScoped<CategoryRepo>();
-            services.AddScoped<SubCategoryRepo>();
-            services.AddScoped<BuyersProductsRepo>();
-            services.AddScoped <UserMappers>();
-            services.AddScoped<ProductsMapper>();
-            services.AddScoped<LocationMapper>();
-            services.AddScoped<CategoryMapper>();
-
-
-
+            services.AddScoped<ICategoryRepo, CategoryRepo>();
+            services.AddScoped<ISubCategoryRepo, SubCategoryRepo>();
+            services.AddScoped<IBuyersProductsRepo, BuyersProductsRepo>();
+            services.AddScoped<ICategoryServices, CategoryServices>();
+            services.AddScoped<ILocationServices, LocationServices>();
+            services.AddScoped<ICountryServices, CountryServices>();
+            services.AddScoped<IProductsServices, ProductsServices>();
+            services.AddScoped<ISubCategoryServices, SubCategoryServices>();
+            services.AddScoped<ICategoryServices, CategoryServices>();
+            services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IBuyersProductsService, BuyersProductsService>();
+            services.AddScoped <IUserMappers, UserMappers>();
+            services.AddScoped<IProductsMapper, ProductsMapper>();
+            services.AddScoped<ILocationMapper, LocationMapper>();
+            services.AddScoped<ICategoryMapper, CategoryMapper>();
             return services;
         }
 

@@ -1,7 +1,8 @@
 using Domain.Constants;
 using Domain.Contracts.Requests.Product;
 using Domain.Contracts.Response.Product;
-using Domain.Services;
+using Domain.Services.Implmentations;
+using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class ProductsServicesController : ControllerBase
     {
-        private readonly ProductsServices _productsService;
+        private readonly IProductsServices _productsService;
 
-        public ProductsServicesController(ProductsServices productsService)
+        public ProductsServicesController(IProductsServices productsService)
         {
             _productsService = productsService;
         }

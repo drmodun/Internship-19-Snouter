@@ -3,7 +3,9 @@ using Domain.Contracts.Requests.Category;
 using Domain.Contracts.Response.Category;
 using Domain.Contracts.Response.User;
 using Domain.Mapper.Implementaions;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
+using Domain.Repositories.Inter;
 using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
@@ -14,16 +16,16 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Implmentations
 {
     public class CategoryServices : ICategoryServices
     {
-        private readonly CategoryRepo _categoryRepository;
+        private readonly ICategoryRepo _categoryRepository;
         private readonly EntityMaker _entityMaker;
-        private readonly CategoryMapper _categoryMapper;
+        private readonly ICategoryMapper _categoryMapper;
         private readonly CategoriesValidator _categoriesValidator;
 
-        public CategoryServices(CategoryRepo categoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper, CategoriesValidator validationRules)
+        public CategoryServices(ICategoryRepo categoryRepository, EntityMaker entityMaker, ICategoryMapper categoryMapper, CategoriesValidator validationRules)
         {
             _categoryRepository = categoryRepository;
             _entityMaker = entityMaker;
@@ -77,7 +79,7 @@ namespace Domain.Services
                     StatusCode = System.Net.HttpStatusCode.BadRequest,
                     Category = null
                 };
-            var validation =_categoriesValidator.ValidateAndThrowAsync(newCategory);
+            var validation = _categoriesValidator.ValidateAndThrowAsync(newCategory);
             var addition = await _categoryRepository.CreateCategory(newCategory, cancellationToken);
             if (!addition)
                 return new CreateCategoryResponse
@@ -98,7 +100,7 @@ namespace Domain.Services
         {
             var categoryToUpdate = _entityMaker.RequestToUpdatedCategory(request);
             await _categoriesValidator.ValidateAndThrowAsync(categoryToUpdate);
-            var update = await _categoryRepository.UpdateCategory(categoryToUpdate, cancellationToken); 
+            var update = await _categoryRepository.UpdateCategory(categoryToUpdate, cancellationToken);
             if (!update)
             {
                 return new UpdateCategoryReponse

@@ -1,7 +1,8 @@
 ﻿using Domain.Constants;
 using Domain.Contracts.Requests.Location;
 using Domain.Contracts.Response.Location;
-using Domain.Services;
+using Domain.Services.Implmentations;
+using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +11,8 @@ namespace Presentation.Controllers
     [ApiController]
     public class LocationControllers : ControllerBase
     {
-        private readonly LocationServices _locationService;
-        public LocationControllers(LocationServices locationService)
+        private readonly ILocationServices _locationService;
+        public LocationControllers(ILocationServices locationService)
         {
             _locationService = locationService;
         }

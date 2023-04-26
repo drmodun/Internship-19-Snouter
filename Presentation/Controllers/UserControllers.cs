@@ -3,7 +3,8 @@ using Domain.Contracts.Requests.Product;
 using Domain.Contracts.Requests.User;
 using Domain.Contracts.Response.Product;
 using Domain.Contracts.Response.User;
-using Domain.Services;
+using Domain.Services.Implmentations;
+using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,9 @@ namespace Presentation.Controllers
     [ApiController]
     public class UserControllers : ControllerBase
     {
-        private readonly UserServices _userService;
+        private readonly IUserServices _userService;
          
-        public UserControllers(UserServices userService)
+        public UserControllers(IUserServices userService)
         {
             _userService = userService;
         }

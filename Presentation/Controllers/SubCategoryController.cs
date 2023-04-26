@@ -2,7 +2,8 @@
 using Domain.Contracts.Requests.SubCategory;
 using Domain.Contracts.Response.Subcategory;
 using Domain.Contracts.Response.SubCategory;
-using Domain.Services;
+using Domain.Services.Implmentations;
+using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +12,8 @@ namespace Presentation.Controllers
     [ApiController]
     public class SubCategoryController : ControllerBase
     {
-        private readonly SubCategoryServices _subCategoryService;
-        public SubCategoryController(SubCategoryServices subCategoryService)
+        private readonly ISubCategoryServices _subCategoryService;
+        public SubCategoryController(ISubCategoryServices subCategoryService)
         {
             _subCategoryService = subCategoryService;
         }

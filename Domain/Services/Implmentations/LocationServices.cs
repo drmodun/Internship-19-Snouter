@@ -1,7 +1,9 @@
 ﻿using Domain.Contracts.Requests.Location;
 using Domain.Contracts.Response.Location;
 using Domain.Mapper.Implementaions;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
+using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
@@ -11,17 +13,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Domain.Services.Implmentations
 {
-    public class LocationServices :  ILocationServices
+    public class LocationServices : ILocationServices
     {
-        private LocationRepo _locationRepo { get; set; }
+        private ILocationRepo _locationRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }
-        private LocationMapper _locationMapper { get; set; }
+        private ILocationMapper _locationMapper { get; set; }
 
         private LocationsValidator _locationValidator { get; set; }
 
-        public LocationServices(LocationRepo locationRepo, EntityMaker entityMaker, LocationMapper locationMapper, LocationsValidator validationRules)
+        public LocationServices(ILocationRepo locationRepo, EntityMaker entityMaker, ILocationMapper locationMapper, LocationsValidator validationRules)
         {
             _locationRepo = locationRepo;
             _entityMaker = entityMaker;

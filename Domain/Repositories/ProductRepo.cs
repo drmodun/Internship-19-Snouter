@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.Entities;
 using Data.Entities.Models;
+using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Repositories
 {
-    public class ProductRepo
+    public class ProductRepo : IProductRepo
     {
         private readonly ShopContext _context = new ShopContextFactory().CreateDbContext(null);
 

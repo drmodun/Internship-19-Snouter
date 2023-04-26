@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using Data.Entities;
 using Data.Entities.Models;
 using Domain.DTO;
+using Domain.Mapper.Interfaces;
 using Newtonsoft.Json;
 
 namespace Domain.Mapper.Implementaions
 {
-    public class ProductsMapper
+    public class ProductsMapper : IProductsMapper
     {
         private readonly ShopContext _shopContext;
 

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Data.Entities;
 using Data.Entities.Models;
 using Domain.DTO;
+using Domain.Mapper.Interfaces;
 
 namespace Domain.Mapper.Implementaions
 {
-    public class LocationMapper
+    public class LocationMapper : ILocationMapper
     {
         private readonly ShopContext _shopContext;
 
