@@ -2,12 +2,6 @@
 using Data.Entities.Models;
 using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Schema;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
@@ -33,7 +27,7 @@ namespace Domain.Repositories
             {
                 return null;
             }
-            }
+        }
         public async Task<bool> CreateLocation(Location location, CancellationToken cancellationToken = default)
         {
             try
@@ -55,7 +49,8 @@ namespace Domain.Repositories
                     return false;
                 _shop_Context.Locations.Remove(locationToDelete);
                 return await CreateLocation(location, cancellationToken);
-            } catch (DbUpdateException)
+            }
+            catch (DbUpdateException)
             {
                 return false;
             }

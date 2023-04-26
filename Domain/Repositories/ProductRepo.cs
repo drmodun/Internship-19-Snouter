@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -50,16 +45,16 @@ namespace Domain.Repositories
 
         public async Task<bool> UpdateProduct(Product product, CancellationToken cancellationToken = default)
         {
-            
-                var productToUpdate = await _context.Products.FirstOrDefaultAsync(x=>x.Id==product.Id);
-                if (productToUpdate == null) 
-                { 
-                    return false; 
-                }
-                _context.Products.Remove(productToUpdate);
-                await _context.AddAsync(product);
-                return await _context.SaveChangesAsync(cancellationToken) > 0;
-            
+
+            var productToUpdate = await _context.Products.FirstOrDefaultAsync(x => x.Id == product.Id);
+            if (productToUpdate == null)
+            {
+                return false;
+            }
+            _context.Products.Remove(productToUpdate);
+            await _context.AddAsync(product);
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
+
         }
 
 
@@ -82,7 +77,7 @@ namespace Domain.Repositories
         public async Task<bool> ProductExists(Guid id, CancellationToken cancellationToken = default)
         {
             return await Task.FromResult(_context.Products.Any(p => p.Id == id));
-        }   
+        }
 
     }
 }

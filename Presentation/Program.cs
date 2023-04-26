@@ -1,12 +1,10 @@
 
-using Presentaion.Mapping;
 using Domain;
-using System.Text.Json.Serialization;
+using Domain.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Presentaion.Mapping;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Domain.Constants;
 
 namespace Presentation
 {
@@ -14,7 +12,7 @@ namespace Presentation
     {
         public static void Main(string[] args)
         {
-            
+
             var builder = WebApplication.CreateBuilder(args);
             var config = builder.Configuration;
             // Add services to the container.
@@ -75,7 +73,7 @@ namespace Presentation
                 p => p.RequireAssertion(c =>
                         c.User.HasClaim(m => m is { Type: AuthConstants.AdminUserClaimName, Value: "true" }) ||
                         c.User.HasClaim(m => m is { Type: AuthConstants.TrustedMemberClaimName, Value: "true" })));
-            }); 
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -89,7 +87,7 @@ namespace Presentation
                 app.UseSwaggerUI();
             }
             app.UseMiddleware<ValidationMappingMiddleware>();
-            
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

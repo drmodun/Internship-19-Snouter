@@ -1,6 +1,4 @@
-﻿using Data.Entities.Models;
-
-namespace Domain.Contracts.Requests.User
+﻿namespace Domain.Contracts.Requests.User
 {
     public class CreateUserRequest
     {

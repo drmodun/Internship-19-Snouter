@@ -1,6 +1,5 @@
 ﻿using Data.Config;
 using Data.Entities;
-using Data.Entities.Models;
 using Domain.Mapper.Implementaions;
 using Domain.Mapper.Interfaces;
 using Domain.Repositories;
@@ -14,7 +13,6 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Serialization;
 
 namespace Domain
 {
@@ -41,7 +39,7 @@ namespace Domain
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IBuyersProductsService, BuyersProductsService>();
-            services.AddScoped <IUserMappers, UserMappers>();
+            services.AddScoped<IUserMappers, UserMappers>();
             services.AddScoped<IProductsMapper, ProductsMapper>();
             services.AddScoped<ILocationMapper, LocationMapper>();
             services.AddScoped<ICategoryMapper, CategoryMapper>();

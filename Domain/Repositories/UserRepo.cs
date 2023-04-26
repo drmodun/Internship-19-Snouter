@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -36,14 +31,14 @@ namespace Domain.Repositories
 
         public async Task<bool> UpdateUser(User user, CancellationToken cancellationToken = default)
         {
-            
+
             var userToDelete = await GetUserById(user.Id);
             if (userToDelete == null)
-                    return false;
+                return false;
             _context.Users.Remove(userToDelete);
-            return await CreateUser(user, cancellationToken);                
-            
-            
+            return await CreateUser(user, cancellationToken);
+
+
         }
 
         public async Task<bool> DeleteUser(Guid Id, CancellationToken cancellationToken = default)

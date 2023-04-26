@@ -2,14 +2,6 @@
 using Data.Entities.Models;
 using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.Arm;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
@@ -35,8 +27,9 @@ namespace Domain.Repositories
                 return false;
             }
         }
-        public async Task<BuyersProducts> GetConnection(Guid productId, Guid buyerId, CancellationToken cancellationToken = default) {
-            return await Task.FromResult(await _shopContext.BuyersProducts.FirstOrDefaultAsync(bp=> bp.ProductId==productId && bp.BuyerId==buyerId, cancellationToken));
+        public async Task<BuyersProducts> GetConnection(Guid productId, Guid buyerId, CancellationToken cancellationToken = default)
+        {
+            return await Task.FromResult(await _shopContext.BuyersProducts.FirstOrDefaultAsync(bp => bp.ProductId == productId && bp.BuyerId == buyerId, cancellationToken));
         }
 
         public async Task<List<BuyersProducts>> GetAllConnections()

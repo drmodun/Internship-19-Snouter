@@ -1,10 +1,5 @@
 ﻿using Data.Entities.Models;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Validators
 {
@@ -22,7 +17,7 @@ namespace Domain.Validators
             RuleFor(x => x.Name).MaximumLength(50).WithMessage("First name must be at most 50 characters long");
             RuleFor(x => x.CreatedAt).LessThanOrEqualTo(DateTime.Now).WithMessage("Error on date add");
             RuleFor(x => x.UpdatedAt).GreaterThanOrEqualTo(x => x.CreatedAt);
-            RuleFor(x=>x.AddressId).NotEmpty().WithMessage("Address is required");
+            RuleFor(x => x.AddressId).NotEmpty().WithMessage("Address is required");
 
         }
     }

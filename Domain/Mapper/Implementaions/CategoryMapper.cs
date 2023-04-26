@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.DTO;
 using Domain.Mapper.Interfaces;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Schema;
 
 namespace Domain.Mapper.Implementaions
 {

@@ -1,16 +1,10 @@
 ﻿using Data.Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentValidation;
-using Domain.Repositories;
 namespace Domain.Validators
 {
     public class ProductsValidator : AbstractValidator<Product>
     {
-        
+
         public ProductsValidator()
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required");

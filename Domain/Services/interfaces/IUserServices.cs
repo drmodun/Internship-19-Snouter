@@ -1,10 +1,5 @@
 ﻿using Domain.Contracts.Requests.User;
 using Domain.Contracts.Response.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services.Interfaces
 {

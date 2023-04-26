@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities.Models;
+﻿using Data.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
@@ -458,7 +453,7 @@ namespace Data.Entities
         //generate extra propreties field with clothes schema category
         SubProperties = JObject.Parse(@"{  'brand': 'cotton',  'screensizes': ['1000p', '400p']}"),
     },
-    new Product { 
+    new Product {
         Id = Guid.NewGuid(),
         Name = "MacBook",
         Description = "Laptop for working",
@@ -491,7 +486,7 @@ namespace Data.Entities
         LocationId = locations[1].Id,
         //generate extra propreties field with clothes schema category
         SubProperties = JObject.Parse(@"{  'brand': 'asus',  'screensizes': ['10300p', '4100p']}"),
-    },  
+    },
     new Product
     {
         Id = Guid.NewGuid(),

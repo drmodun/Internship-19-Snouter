@@ -1,7 +1,6 @@
 ﻿using Domain.Constants;
 using Domain.Contracts.Requests.Country;
 using Domain.Contracts.Response.Country;
-using Domain.Services.Implmentations;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +42,7 @@ namespace Presentation.Controllers
         [HttpPut(Routes.Country.Update)]
         public async Task<ActionResult<UpdateCountryResponse>> Put([FromRoute] Guid id, [FromBody] CreateCountryRequest requestCreate, CancellationToken cancellationToken)
         {
-            var request = new UpdateCountryRequest { Id = id, Name = requestCreate.Name, Image = requestCreate.Image};
+            var request = new UpdateCountryRequest { Id = id, Name = requestCreate.Name, Image = requestCreate.Image };
             var response = await _countryService.UpdateCountryService(request, cancellationToken);
             if (response.Country == null)
             {

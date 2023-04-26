@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Domain.Contracts.Requests.User
+﻿namespace Domain.Contracts.Requests.User
 {
     public class UpdateUserRequest
     {

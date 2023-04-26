@@ -1,10 +1,8 @@
-﻿using Domain;
-
-namespace Presentation
+﻿namespace Presentation
 {
     public static class Routes
     {
-        private const string Base = "api";  
+        private const string Base = "api";
         public static class Location
         {
             public const string GetAll = Base + $"/locations";

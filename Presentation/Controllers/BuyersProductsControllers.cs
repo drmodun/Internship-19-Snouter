@@ -2,7 +2,6 @@
 using Domain.Contracts.Requests.BuyersProducts;
 using Domain.Contracts.Response.BuyersProducts;
 using Domain.Services;
-using Domain.Services.Implmentations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

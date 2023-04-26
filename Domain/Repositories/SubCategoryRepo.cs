@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +53,7 @@ namespace Domain.Repositories
             {
                 return false;
             }
-            
+
         }
 
         public async Task<bool> DeleteSubCategory(Guid id, CancellationToken cancellationToken = default)

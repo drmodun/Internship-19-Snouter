@@ -1,14 +1,14 @@
 ﻿using Domain.Contracts.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text.Json;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
+using System.Text.Json;
 
 namespace Presentation.Controllers
-{   
+{
     [ApiController]
     public class IdentityController : ControllerBase
     {

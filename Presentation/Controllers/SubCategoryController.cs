@@ -2,7 +2,6 @@
 using Domain.Contracts.Requests.SubCategory;
 using Domain.Contracts.Response.Subcategory;
 using Domain.Contracts.Response.SubCategory;
-using Domain.Services.Implmentations;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,9 +43,14 @@ namespace Presentation.Controllers
         [HttpPut(Routes.SubCategory.Update)]
         public async Task<ActionResult<UpdateSubcategoryReponse>> Put([FromRoute] Guid id, [FromBody] CreateSubcategoryRequest requestCreate, CancellationToken cancellationToken)
         {
-            var request = new UpdateSubCategoryRequest { Id = id, Name = requestCreate.Name,
-                           Schema = requestCreate.Schema, Description = requestCreate.Description, CategoryId = requestCreate.CategoryId
-                       };
+            var request = new UpdateSubCategoryRequest
+            {
+                Id = id,
+                Name = requestCreate.Name,
+                Schema = requestCreate.Schema,
+                Description = requestCreate.Description,
+                CategoryId = requestCreate.CategoryId
+            };
             var response = await _subCategoryService.UpdateSubCategoryService(request, cancellationToken);
             if (response.SubCategory == null)
             {
@@ -76,7 +80,7 @@ namespace Presentation.Controllers
                 return NotFound();
             }
             return Ok(response);
-        }   
+        }
 
 
     }

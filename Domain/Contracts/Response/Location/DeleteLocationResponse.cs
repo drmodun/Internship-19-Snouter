@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace Domain.Contracts.Response.Location
 {
     public class DeleteLocationResponse
     {
-        public bool ? Success { get; set; }
-        public HttpStatusCode StatusCode { get; set; }  
+        public bool? Success { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.Contracts.Requests.BuyersProducts;
 using Domain.Contracts.Requests.Category;
@@ -16,7 +10,6 @@ using Domain.Contracts.Requests.User;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
 namespace Domain.Repositories
 {
@@ -89,8 +82,8 @@ namespace Domain.Repositories
                 };
                 var categorySchema = _shopContext.Categories.FirstOrDefault(x => x.Id == newProduct.CategoryId).Schema;
                 var subCategorySchema = _shopContext.SubCategories.FirstOrDefault(x => x.Id == newProduct.SubCategoryId).Schema;
-                var location = _shopContext.Locations.FirstOrDefault(x =>x.Id==newProduct.LocationId);
-                var seller = _shopContext.Users.FirstOrDefault(x=>x.Id==newProduct.SellerId);
+                var location = _shopContext.Locations.FirstOrDefault(x => x.Id == newProduct.LocationId);
+                var seller = _shopContext.Users.FirstOrDefault(x => x.Id == newProduct.SellerId);
                 if (location == null || seller == null)
                 {
                     return null;

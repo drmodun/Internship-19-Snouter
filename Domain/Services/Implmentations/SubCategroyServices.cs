@@ -1,20 +1,12 @@
-﻿using Domain.Contracts.Requests.Category;
-using Domain.Contracts.Requests.SubCategory;
-using Domain.Contracts.Response.Category;
+﻿using Domain.Contracts.Requests.SubCategory;
 using Domain.Contracts.Response.Subcategory;
 using Domain.Contracts.Response.SubCategory;
-using Domain.Mapper.Implementaions;
 using Domain.Mapper.Interfaces;
 using Domain.Repositories;
 using Domain.Repositories.Interfaces;
 using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services.Implmentations
 {

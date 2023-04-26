@@ -2,11 +2,6 @@
 using Data.Entities.Models;
 using Domain.Repositories.Inter;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
@@ -67,7 +62,7 @@ namespace Domain.Repositories
         public async Task<bool> DeleteCategory(Guid id, CancellationToken cancellationToken = default)
         {
 
-            var categoryToDelete = await _context.Categories.FirstOrDefaultAsync(x=>x.Id==id);
+            var categoryToDelete = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (categoryToDelete == null)
                 return false;
             _context.Categories.Remove(categoryToDelete);

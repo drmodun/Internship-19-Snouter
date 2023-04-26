@@ -1,20 +1,11 @@
-﻿using Data.Entities;
-using Domain.Contracts.Requests.Category;
+﻿using Domain.Contracts.Requests.Category;
 using Domain.Contracts.Response.Category;
-using Domain.Contracts.Response.User;
-using Domain.Mapper.Implementaions;
 using Domain.Mapper.Interfaces;
 using Domain.Repositories;
 using Domain.Repositories.Inter;
 using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services.Implmentations
 {

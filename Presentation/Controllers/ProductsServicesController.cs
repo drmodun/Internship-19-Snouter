@@ -1,7 +1,6 @@
 using Domain.Constants;
 using Domain.Contracts.Requests.Product;
 using Domain.Contracts.Response.Product;
-using Domain.Services.Implmentations;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -42,13 +41,22 @@ namespace Presentation.Controllers
         }
         [Authorize(AuthConstants.TrustMemberPolicyName)]
         [HttpPut(Routes.Products.Update)]
-        public async Task<ActionResult<UpdateProductResponse>> Put([FromRoute] Guid id , [FromBody] CreateProductRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<UpdateProductResponse>> Put([FromRoute] Guid id, [FromBody] CreateProductRequest request, CancellationToken cancellationToken)
         {
-            var updateRequest = new UpdateProductRequest { 
-                Id = id, 
-                Name = request.Name, 
-                CategoryId = request.CategoryId, 
-                Description = request.Description, ExtraProperties = request.ExtraProperties, SubProperties = request.SubProperties, Images = request.Images, LocationId = request.LocationId, SellerId = request.SellerId, SubCategoryId = request.SubCategoryId, Quantity = request.Quantity };
+            var updateRequest = new UpdateProductRequest
+            {
+                Id = id,
+                Name = request.Name,
+                CategoryId = request.CategoryId,
+                Description = request.Description,
+                ExtraProperties = request.ExtraProperties,
+                SubProperties = request.SubProperties,
+                Images = request.Images,
+                LocationId = request.LocationId,
+                SellerId = request.SellerId,
+                SubCategoryId = request.SubCategoryId,
+                Quantity = request.Quantity
+            };
             var response = await _productsService.UpdateProductService(updateRequest, cancellationToken);
             if (response.Product == null)
             {
@@ -73,8 +81,8 @@ namespace Presentation.Controllers
         public async Task<ActionResult<GetAllProductsResponse>> GetAll()
         {
             var response = await _productsService.GetAllProductsService();
-            if (response.Products==null)
-                return BadRequest();    
+            if (response.Products == null)
+                return BadRequest();
             return Ok(response);
         }
     }

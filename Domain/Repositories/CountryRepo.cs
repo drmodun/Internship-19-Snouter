@@ -1,14 +1,7 @@
 ﻿using Data.Entities;
 using Data.Entities.Models;
-using Domain.Contracts.Requests.Country;
 using Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
@@ -25,7 +18,8 @@ namespace Domain.Repositories
             try
             {
                 return await Task.FromResult(await _shopContext.Countries.FirstOrDefaultAsync(c => c.Id == id, cancellationToken));
-            } catch (DbUpdateException)
+            }
+            catch (DbUpdateException)
             {
                 return null;
             }
@@ -34,7 +28,8 @@ namespace Domain.Repositories
         {
             return await Task.FromResult(await _shopContext.Countries.ToListAsync());
         }
-        public async Task<bool> CreateCountry(Country country, CancellationToken cancellationToken = default) { 
+        public async Task<bool> CreateCountry(Country country, CancellationToken cancellationToken = default)
+        {
             await _shopContext.Countries.AddAsync(country);
             return await _shopContext.SaveChangesAsync(cancellationToken) > 0;
         }
@@ -46,9 +41,11 @@ namespace Domain.Repositories
                 if (countryToRemove == null) return false;
                 _shopContext.Countries.Remove(countryToRemove);
                 return await _shopContext.SaveChangesAsync(cancellationToken) > 0;
-            } catch (DbUpdateException) { 
+            }
+            catch (DbUpdateException)
+            {
                 return false;
-               
+
             }
         }
         public async Task<bool> UpdateCountry(Country country, CancellationToken cancellationToken = default)

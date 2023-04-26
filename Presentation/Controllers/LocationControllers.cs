@@ -1,7 +1,6 @@
 ﻿using Domain.Constants;
 using Domain.Contracts.Requests.Location;
 using Domain.Contracts.Response.Location;
-using Domain.Services.Implmentations;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,9 +40,9 @@ namespace Presentation.Controllers
         }
         [Authorize(AuthConstants.AdminUserPolicyName)]
         [HttpPut(Routes.Location.Update)]
-        public async Task<ActionResult<UpdateLocationResponse>> Put([FromRoute] Guid id,[FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<UpdateLocationResponse>> Put([FromRoute] Guid id, [FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
         {
-            var updateRequest = new UpdatedLocationRequest { Id = id, Name = request.Name, Latitude = request.Latitude, Longitude = request.Longitude, CountryId = request.CountryId};
+            var updateRequest = new UpdatedLocationRequest { Id = id, Name = request.Name, Latitude = request.Latitude, Longitude = request.Longitude, CountryId = request.CountryId };
             var response = await _locationService.UpdateLocationService(updateRequest, cancellationToken);
             if (response.Location == null)
             {

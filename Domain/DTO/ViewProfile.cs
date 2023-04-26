@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities.Models;
-
-namespace Domain.DTO
+﻿namespace Domain.DTO
 {
     public class ViewProfile
     {

@@ -1,19 +1,10 @@
 ﻿using Domain.Contracts.Requests.BuyersProducts;
-using Domain.Contracts.Requests.User;
 using Domain.Contracts.Response.BuyersProducts;
-using Domain.Contracts.Response.Product;
-using Domain.Contracts.Response.User;
-using Domain.Mapper.Implementaions;
 using Domain.Mapper.Interfaces;
 using Domain.Repositories;
 using Domain.Repositories.Interfaces;
 using Domain.Validators;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services.Implmentations
 {
