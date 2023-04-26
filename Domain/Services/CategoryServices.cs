@@ -2,8 +2,9 @@
 using Domain.Contracts.Requests.Category;
 using Domain.Contracts.Response.Category;
 using Domain.Contracts.Response.User;
-using Domain.Mapper;
+using Domain.Mapper.Implementaions;
 using Domain.Repositories;
+using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
 using System;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class CategoryServices
+    public class CategoryServices : ICategoryServices
     {
         private readonly CategoryRepo _categoryRepository;
         private readonly EntityMaker _entityMaker;

@@ -7,7 +7,7 @@ using Data.Entities;
 using Data.Entities.Models;
 using Domain.DTO;
 
-namespace Domain.Mapper
+namespace Domain.Mapper.Implementaions
 {
     public class LocationMapper
     {

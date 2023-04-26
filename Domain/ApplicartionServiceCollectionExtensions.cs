@@ -1,7 +1,7 @@
 ﻿using Data.Config;
 using Data.Entities;
 using Data.Entities.Models;
-using Domain.Mapper;
+using Domain.Mapper.Implementaions;
 using Domain.Repositories;
 using Domain.Services;
 using Domain.Validators;

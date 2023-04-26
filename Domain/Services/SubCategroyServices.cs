@@ -3,8 +3,9 @@ using Domain.Contracts.Requests.SubCategory;
 using Domain.Contracts.Response.Category;
 using Domain.Contracts.Response.Subcategory;
 using Domain.Contracts.Response.SubCategory;
-using Domain.Mapper;
+using Domain.Mapper.Implementaions;
 using Domain.Repositories;
+using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
 using System;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class SubCategoryServices
+    public class SubCategoryServices : ISubCategoryServices
     {
         private readonly SubCategoryRepo _subCategoryRepository;
         private readonly EntityMaker _entityMaker;

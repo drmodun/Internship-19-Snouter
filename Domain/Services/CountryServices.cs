@@ -1,7 +1,8 @@
 ﻿using Domain.Contracts.Requests.Country;
 using Domain.Contracts.Response.Country;
-using Domain.Mapper;
+using Domain.Mapper.Implementaions;
 using Domain.Repositories;
+using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class CountryServices
+    public class CountryServices : ICountryServices
     {
         private CountryRepo _countryRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }

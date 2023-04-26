@@ -1,8 +1,9 @@
 ﻿using Domain.Contracts.Requests.Product;
 using Domain.Contracts.Response.BuyersProducts;
 using Domain.Contracts.Response.Product;
-using Domain.Mapper;
+using Domain.Mapper.Implementaions;
 using Domain.Repositories;
+using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
 using Newtonsoft.Json.Schema;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class ProductsServices
+    public class ProductsServices : IProductsServices
     {
         private readonly ProductRepo _productRepository;
         private readonly EntityMaker _entityMaker;

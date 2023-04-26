@@ -1,6 +1,8 @@
 ﻿using Domain.Contracts.Requests.User;
 using Domain.Contracts.Response.User;
+using Domain.Mapper.Implementaions;
 using Domain.Repositories;
+using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
 using System;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class UserServices
+    public class UserServices : IUserServices
     {
         private readonly UserRepo _userRepository;
         private readonly EntityMaker _entityMaker;

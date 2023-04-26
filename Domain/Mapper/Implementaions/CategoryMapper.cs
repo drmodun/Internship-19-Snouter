@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using Data.Entities;
 using Data.Entities.Models;
 using Domain.DTO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
 
-namespace Domain.Mapper
+namespace Domain.Mapper.Implementaions
 {
-    public  class CategoryMapper
+    public class CategoryMapper
     {
         private readonly ShopContext _shopContext;
 
@@ -24,21 +27,21 @@ namespace Domain.Mapper
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
-                Schema = category.Schema.ToString(),
-                SubCategories = _shopContext.SubCategories.Where(sb=>sb.CategoryId == category.Id).Select(c=>c.Id).ToList(),
-                Products = _shopContext.Products.Where(p=>p.CategoryId == category.Id).Select(p=>p.Id).ToList()
+                Schema = JsonConvert.SerializeObject(category.Schema, Newtonsoft.Json.Formatting.None),
+                SubCategories = _shopContext.SubCategories.Where(sb => sb.CategoryId == category.Id).Select(c => c.Id).ToList(),
+                Products = _shopContext.Products.Where(p => p.CategoryId == category.Id).Select(p => p.Id).ToList()
             };
             return newDTO;
         }
 
-        public  SubCategoryDTO SubCategoryToDTO(SubCategory subCategory)
+        public SubCategoryDTO SubCategoryToDTO(SubCategory subCategory)
         {
             var newDTO = new SubCategoryDTO
             {
                 Id = subCategory.Id,
                 Name = subCategory.Name,
                 Description = subCategory.Description,
-                Schema = subCategory.Schema.ToString(),
+                Schema = JsonConvert.SerializeObject(subCategory.Schema, Newtonsoft.Json.Formatting.None),
                 Category = subCategory.CategoryId,
                 Products = _shopContext.Products.Where(p => p.CategoryId == subCategory.Id).Select(p => p.Id).ToList()
             };

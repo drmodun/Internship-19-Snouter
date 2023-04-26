@@ -1,7 +1,8 @@
 ﻿using Domain.Contracts.Requests.Location;
 using Domain.Contracts.Response.Location;
-using Domain.Mapper;
+using Domain.Mapper.Implementaions;
 using Domain.Repositories;
+using Domain.Services.Interfaces;
 using Domain.Validators;
 using FluentValidation;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public class LocationServices
+    public class LocationServices :  ILocationServices
     {
         private LocationRepo _locationRepo { get; set; }
         private EntityMaker _entityMaker { get; set; }
