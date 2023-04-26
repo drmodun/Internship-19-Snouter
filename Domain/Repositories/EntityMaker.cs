@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.Contracts.Requests.BuyersProducts;
 using Domain.Contracts.Requests.Category;
@@ -16,7 +10,6 @@ using Domain.Contracts.Requests.User;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
 namespace Domain.Repositories
 {
@@ -43,8 +36,7 @@ namespace Domain.Repositories
                 Password = request.Password,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                AddressId = request.LocationId,
-                isAdmin = request.IsAdmin
+                AddressId = request.LocationId
 
             };
             return newUser;
@@ -52,7 +44,7 @@ namespace Domain.Repositories
 
         public User RequestToUpdatedUser(UpdateUserRequest request)
         {
-           
+
 
             var updatedUser = new User
             {
@@ -60,17 +52,14 @@ namespace Domain.Repositories
                 Name = request.Name,
                 Email = request.Email,
                 Password = request.Password,
-                CreatedAt = _shopContext.Users.FirstOrDefault(x=>x.Id==request.Id).CreatedAt,
+                CreatedAt = _shopContext.Users.FirstOrDefault(x => x.Id == request.Id).CreatedAt,
                 UpdatedAt = DateTime.UtcNow,
-                AddressId = request.LocationId,
-                isAdmin = request.isAdmin
-
-
+                AddressId = request.LocationId
             };
             return updatedUser;
         }
 
-        public Product RequestToNewProduct(CreateProductRequest request)
+        public Product? RequestToNewProduct(CreateProductRequest request)
         {
             try
             {
@@ -91,22 +80,29 @@ namespace Domain.Repositories
                     Price = request.Price,
                     SellerId = request.SellerId,
                 };
-                var categorySchema = _shopContext.Categories.FirstOrDefault(x=>x.Id==newProduct.CategoryId).Schema;
-                var subCategorySchema = _shopContext.SubCategories.FirstOrDefault(x=>x.Id==newProduct.SubCategoryId).Schema;
+                var categorySchema = _shopContext.Categories.FirstOrDefault(x => x.Id == newProduct.CategoryId).Schema;
+                var subCategorySchema = _shopContext.SubCategories.FirstOrDefault(x => x.Id == newProduct.SubCategoryId).Schema;
+                var location = _shopContext.Locations.FirstOrDefault(x => x.Id == newProduct.LocationId);
+                var seller = _shopContext.Users.FirstOrDefault(x => x.Id == newProduct.SellerId);
+                if (location == null || seller == null)
+                {
+                    return null;
+                }
                 bool valid = newProduct.ExtraProperties.IsValid(categorySchema);
                 bool validSub = newProduct.SubProperties.IsValid(subCategorySchema);
-                    if (!valid || !validSub)
+                if (!valid || !validSub)
                 {
                     return null;
                 }
                 return newProduct;
             }
-            catch {
+            catch (JsonReaderException)
+            {
                 return null;
             }
         }
 
-        public Product RequestToUpdatedProduct(UpdateProductRequest request)
+        public Product? RequestToUpdatedProduct(UpdateProductRequest request)
         {
             try
             {
@@ -130,7 +126,13 @@ namespace Domain.Repositories
                 var subCategorySchema = _shopContext.SubCategories.FirstOrDefault(x => x.Id == updatedProduct.SubCategoryId).Schema;
                 bool valid = updatedProduct.ExtraProperties.IsValid(categorySchema);
                 bool validSub = updatedProduct.SubProperties.IsValid(subCategorySchema);
-                    if (!valid || !validSub)
+                var location = _shopContext.Locations.FirstOrDefault(x => x.Id == updatedProduct.LocationId);
+                var seller = _shopContext.Users.FirstOrDefault(x => x.Id == updatedProduct.SellerId);
+                if (location == null || seller == null)
+                {
+                    return null;
+                }
+                if (!valid || !validSub)
                 {
                     return null;
                 }
@@ -178,9 +180,15 @@ namespace Domain.Repositories
                     Longitude = request.Longitude,
                     CountryId = request.CountryId,
                 };
+                var country = _shopContext.Countries.FirstOrDefault(x => x.Id == newLocation.CountryId);
+                if (country == null)
+                {
+                    return null;
+                }
                 return newLocation;
             }
-            catch (Microsoft.EntityFrameworkCore.DbUpdateException) {
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
                 return null;
             }
         }
@@ -196,8 +204,13 @@ namespace Domain.Repositories
                     Latitude = request.Latitude,
                     Longitude = request.Longitude,
                 };
-
+                var country = _shopContext.Countries.FirstOrDefault(x => x.Id == updatedLocation.CountryId);
+                if (country == null)
+                {
+                    return null;
+                }
                 return updatedLocation;
+
             }
             catch (Npgsql.PostgresException)
             {
@@ -217,7 +230,8 @@ namespace Domain.Repositories
                 };
                 return newCategory;
             }
-            catch (JsonReaderException ) {
+            catch (JsonReaderException)
+            {
                 return null;
             }
             catch (JSchemaReaderException)
@@ -227,23 +241,24 @@ namespace Domain.Repositories
         }
         public Category RequestToUpdatedCategory(UpdateCategoryRequest request)
         {
-            try {
-            var Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.Id);
+            try
+            {
+                var Category = _shopContext.Categories.FirstOrDefault(c => c.Id == request.Id);
                 if (Category == null)
                 {
-                return null;
-            }
-            var updatedCategory = new Category
-            {
-                Id = request.Id,
-                Name = request.Name,
-                Description = request.Description,
-                SubCategories = _shopContext.SubCategories.Where(sb => sb.Id == request.Id).ToList(),
-                Schema = JSchema.Parse(@request.Schema)
-            };
-            return updatedCategory;
+                    return null;
                 }
-            catch (JsonReaderException )
+                var updatedCategory = new Category
+                {
+                    Id = request.Id,
+                    Name = request.Name,
+                    Description = request.Description,
+                    SubCategories = _shopContext.SubCategories.Where(sb => sb.Id == request.Id).ToList(),
+                    Schema = JSchema.Parse(@request.Schema)
+                };
+                return updatedCategory;
+            }
+            catch (JsonReaderException)
             {
                 return null;
             }
@@ -269,13 +284,20 @@ namespace Domain.Repositories
                     Products = new List<Product>(),
                     Schema = JSchema.Parse(@request.Schema)
                 };
-                
+                var category = _shopContext.Categories.FirstOrDefault(x => x.Id == newSubcategory.CategoryId);
+                if (category == null)
+                {
+                    return null;
+                }
                 return newSubcategory;
+
             }
-            catch (JsonReaderException ) {
+            catch (JsonReaderException)
+            {
                 return null;
             }
-            catch (JSchemaReaderException) {
+            catch (JSchemaReaderException)
+            {
                 return null;
             }
         }
@@ -292,13 +314,17 @@ namespace Domain.Repositories
                     Schema = JSchema.Parse(@request.Schema)
                 };
                 return newSubcategory;
-                
+                var category = _shopContext.Categories.FirstOrDefault(x => x.Id == newSubcategory.CategoryId);
+                if (category == null)
+                {
+                    return null;
+                }
             }
-            catch (JsonReaderException )
+            catch (JsonReaderException)
             {
                 return null;
             }
-            catch(JSchemaReaderException)
+            catch (JSchemaReaderException)
             {
                 return null;
             }
@@ -312,7 +338,13 @@ namespace Domain.Repositories
                 Quantity = request.Quantity,
                 CreatedAt = DateTime.UtcNow,
             };
-            
+            var buyer = _shopContext.Users.FirstOrDefault(x => x.Id == newConnection.BuyerId);
+            var product = _shopContext.Products.FirstOrDefault(x => x.Id == newConnection.ProductId);
+            if (buyer == null || product == null)
+            {
+                return null;
+            }
+
             return newConnection;
         }
         public BuyersProducts RequestToUpdatedBuyersProducts(UpdateBuyersProductsRequest request)
@@ -324,7 +356,13 @@ namespace Domain.Repositories
                 Quantity = request.Quantity,
                 CreatedAt = DateTime.UtcNow,
             };
-           
+            var buyer = _shopContext.Users.FirstOrDefault(x => x.Id == newConnection.BuyerId);
+            var product = _shopContext.Products.FirstOrDefault(x => x.Id == newConnection.ProductId);
+            if (buyer == null || product == null)
+            {
+                return null;
+            }
+
             return newConnection;
         }
     }

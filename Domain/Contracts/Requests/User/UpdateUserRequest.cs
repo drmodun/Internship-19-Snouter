@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Domain.Contracts.Requests.User
+﻿namespace Domain.Contracts.Requests.User
 {
     public class UpdateUserRequest
     {
@@ -9,7 +7,6 @@ namespace Domain.Contracts.Requests.User
         public string Password { get; set; }
         public string Email { get; set; }
         public Guid LocationId { get; set; }
-        public bool isAdmin { get; set; }
 
     }
 }

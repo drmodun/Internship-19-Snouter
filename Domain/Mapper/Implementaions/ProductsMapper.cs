@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.DTO;
+using Domain.Mapper.Interfaces;
+using Newtonsoft.Json;
 
-namespace Domain.Mapper
+namespace Domain.Mapper.Implementaions
 {
-    public  class ProductsMapper
+    public class ProductsMapper : IProductsMapper
     {
         private readonly ShopContext _shopContext;
 
@@ -18,7 +15,7 @@ namespace Domain.Mapper
             _shopContext = shopContext;
         }
 
-        public  ProductDTO ProductToDTO(Product product)
+        public ProductDTO ProductToDTO(Product product)
         {
             var newDTO = new ProductDTO
             {
@@ -26,13 +23,13 @@ namespace Domain.Mapper
                 Name = product.Name,
                 Location = product.LocationId,
                 Seller = product.SellerId,
-                ExtraProperties = product.ExtraProperties.ToString(),
-                SubProperties = product.SubProperties.ToString(),
-                BuyersProducts = _shopContext.BuyersProducts.Where(bp=>bp.ProductId == product.Id).Select(bp=>bp.BuyerId).ToList(),
+                ExtraProperties = JsonConvert.SerializeObject(product.ExtraProperties),
+                SubProperties = JsonConvert.SerializeObject(product.SubProperties),
+                BuyersProducts = _shopContext.BuyersProducts.Where(bp => bp.ProductId == product.Id).Select(bp => bp.BuyerId).ToList(),
                 Price = product.Price,
                 Description = product.Description,
                 Created = product.Created,
-              Images = product.Images,
+                Images = product.Images,
                 Category = product.CategoryId,
                 SubCategory = product.SubCategoryId,
                 Quantity = product.Quantity,
@@ -41,7 +38,7 @@ namespace Domain.Mapper
         }
 
 
-        public  BuyersProductsView BuyersProductsToDto(BuyersProducts buyersProducts)
+        public BuyersProductsView BuyersProductsToDto(BuyersProducts buyersProducts)
         {
             var newDTO = new BuyersProductsView
             {

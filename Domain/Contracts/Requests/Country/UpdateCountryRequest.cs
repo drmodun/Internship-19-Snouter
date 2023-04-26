@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Contracts.Requests.Country
+﻿namespace Domain.Contracts.Requests.Country
 {
     public class UpdateCountryRequest
     {

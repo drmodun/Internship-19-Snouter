@@ -1,33 +1,32 @@
-﻿using Domain.Contracts.Requests.Category;
-using Domain.Contracts.Requests.SubCategory;
-using Domain.Contracts.Response.Category;
+﻿using Domain.Contracts.Requests.SubCategory;
 using Domain.Contracts.Response.Subcategory;
 using Domain.Contracts.Response.SubCategory;
-using Domain.Mapper;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Repositories.Interfaces;
+using Domain.Services.Interfaces;
+using Domain.Validators;
+using FluentValidation;
 
-namespace Domain.Services
+namespace Domain.Services.Implmentations
 {
-    public class SubCategoryServices
+    public class SubCategoryServices : ISubCategoryServices
     {
-        private readonly SubCategoryRepo _subCategoryRepository;
+        private readonly ISubCategoryRepo _subCategoryRepository;
         private readonly EntityMaker _entityMaker;
-        private readonly CategoryMapper _categoryMapper;
-        
-        public SubCategoryServices(SubCategoryRepo subCategoryRepository, EntityMaker entityMaker, CategoryMapper categoryMapper)
+        private readonly ICategoryMapper _categoryMapper;
+        private readonly SubCategoriesValidator _subCategoriesValidator;
+
+        public SubCategoryServices(ISubCategoryRepo subCategoryRepository, EntityMaker entityMaker, ICategoryMapper categoryMapper, SubCategoriesValidator validationRules)
         {
             _subCategoryRepository = subCategoryRepository;
             _entityMaker = entityMaker;
             _categoryMapper = categoryMapper;
+            _subCategoriesValidator = validationRules;
         }
-        public async Task<GetSubcatgoryResponse> GetSubCategoryService(GetSubCategoryRequest request)
+        public async Task<GetSubcatgoryResponse> GetSubCategoryService(GetSubCategoryRequest request, CancellationToken cancellationToken = default)
         {
-            var category = await _subCategoryRepository.GetSubCategoryById(request.Id);
+            var category = await _subCategoryRepository.GetSubCategoryById(request.Id, cancellationToken);
             if (category == null)
             {
                 return new GetSubcatgoryResponse
@@ -52,9 +51,10 @@ namespace Domain.Services
                 SubCategories = categories.Select(_categoryMapper.SubCategoryToDTO).ToList()
             };
         }
-        public async Task<CreateSubcategoryResponse> CreateSubCategoryService(CreateSubcategoryRequest request)
+        public async Task<CreateSubcategoryResponse> CreateSubCategoryService(CreateSubcategoryRequest request, CancellationToken cancellationToken = default)
         {
             var newCategory = _entityMaker.RequestToNewSubcategory(request);
+            await _subCategoriesValidator.ValidateAndThrowAsync(newCategory);
             if (newCategory == null)
             {
                 return new CreateSubcategoryResponse
@@ -71,7 +71,7 @@ namespace Domain.Services
                     Status = System.Net.HttpStatusCode.BadRequest,
                     SubCategory = null
                 };
-            var addition = await _subCategoryRepository.CreateSubCategory(newCategory);
+            var addition = await _subCategoryRepository.CreateSubCategory(newCategory, cancellationToken);
             if (!addition)
                 return new CreateSubcategoryResponse
                 {
@@ -87,16 +87,26 @@ namespace Domain.Services
 
             };
         }
-        public async Task<UpdateSubcategoryReponse> UpdateSubCategoryService(UpdateSubCategoryRequest request)
+        public async Task<UpdateSubcategoryReponse> UpdateSubCategoryService(UpdateSubCategoryRequest request, CancellationToken cancellationToken = default)
         {
             var categoryToUpdate = _entityMaker.RequestToUpdatedSubcategory(request);
-            var update = await _subCategoryRepository.UpdateSubCategory(categoryToUpdate);
+            await _subCategoriesValidator.ValidateAndThrowAsync(categoryToUpdate);
+            if (categoryToUpdate == null)
+            {
+                return new UpdateSubcategoryReponse
+                {
+                    Success = false,
+                    SubCategory = null,
+                    Status = System.Net.HttpStatusCode.BadRequest,
+                };
+            }
+            var update = await _subCategoryRepository.UpdateSubCategory(categoryToUpdate, cancellationToken);
             if (!update)
             {
                 return new UpdateSubcategoryReponse
                 {
                     Success = false,
-                   SubCategory = null,
+                    SubCategory = null,
                     Status = System.Net.HttpStatusCode.BadRequest,
                 };
             }
@@ -104,12 +114,12 @@ namespace Domain.Services
             {
                 Success = true,
                 Status = System.Net.HttpStatusCode.OK,
-                SubCategory =   _categoryMapper.SubCategoryToDTO(categoryToUpdate)
+                SubCategory = _categoryMapper.SubCategoryToDTO(categoryToUpdate)
             };
         }
-        public async Task<DeleteSubCategoryResponse> DeleteSubCategoryService(DeleteSubcategoryRequest request)
+        public async Task<DeleteSubCategoryResponse> DeleteSubCategoryService(DeleteSubcategoryRequest request, CancellationToken cancellationToken = default)
         {
-            var deletion = await _subCategoryRepository.DeleteSubCategory(request.Id);
+            var deletion = await _subCategoryRepository.DeleteSubCategory(request.Id, cancellationToken);
             if (!deletion)
             {
                 return new DeleteSubCategoryResponse

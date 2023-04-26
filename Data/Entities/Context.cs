@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Data.Entities
 {
@@ -19,7 +18,7 @@ namespace Data.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=shop;Username=postgres;Password=drmodunV9;IncludeErrorDetail=True;");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=shop;Username=postgres;Password=postgres;IncludeErrorDetail=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,7 +26,7 @@ namespace Data.Entities
             modelBuilder.Entity<Models.Location>()
                 .HasKey(l => l.Id);
             modelBuilder.Entity<Models.Location>()
-                .Property(l=>l.Latitude)
+                .Property(l => l.Latitude)
                 .HasColumnType("decimal(9,6)");
             modelBuilder.Entity<Models.Location>()
                 .Property(l => l.Longitude)
@@ -103,7 +102,7 @@ namespace Data.Entities
                        v => v.ToString(),
                        v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(v));
             modelBuilder.Entity<Models.Category>()
-                .Property(c=>c.Schema)
+                .Property(c => c.Schema)
                 .HasConversion(
                                    v => v.ToString(),
                                                       v => Newtonsoft.Json.JsonConvert.DeserializeObject<Newtonsoft.Json.Schema.JSchema>(v));

@@ -1,31 +1,33 @@
 ﻿using Domain.Contracts.Requests.User;
 using Domain.Contracts.Response.User;
+using Domain.Mapper.Interfaces;
 using Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Repositories.Interfaces;
+using Domain.Services.Interfaces;
+using Domain.Validators;
+using FluentValidation;
 
-namespace Domain.Services
+namespace Domain.Services.Implmentations
 {
-    public class UserServices
+    public class UserServices : IUserServices
     {
-        private readonly UserRepo _userRepository;
+        private readonly IUserRepo _userRepository;
         private readonly EntityMaker _entityMaker;
-        private readonly UserMappers _userMappers;
-        public UserServices(UserRepo userRepository, EntityMaker entityMaker, UserMappers userMappers)
+        private readonly IUserMappers _userMappers;
+        private readonly UserValidator _userValidator;
+        public UserServices(IUserRepo userRepository, EntityMaker entityMaker, IUserMappers userMappers, UserValidator validationRules)
         {
             _userRepository = userRepository;
             _entityMaker = entityMaker;
             _userMappers = userMappers;
+            _userValidator = validationRules;
         }
 
-        public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request)
+        public async Task<CreateUserResponse> CreateUserService(CreateUserRequest request, CancellationToken cancellationToken = default)
         {
             var newUser = _entityMaker.RequestToNewUser(request);
-            var addition = await _userRepository.CreateUser(newUser);
+            await _userValidator.ValidateAndThrowAsync(newUser);
+            var addition = await _userRepository.CreateUser(newUser, cancellationToken);
             if (!addition)
             {
                 return new CreateUserResponse
@@ -42,9 +44,9 @@ namespace Domain.Services
                 StatusCode = System.Net.HttpStatusCode.OK
             };
         }
-        public async Task<DeleteUserResponse> DeleteUserService(DeleteUserRequest request)
+        public async Task<DeleteUserResponse> DeleteUserService(DeleteUserRequest request, CancellationToken cancellationToken = default)
         {
-            var removal = await _userRepository.DeleteUser(request.Id);
+            var removal = await _userRepository.DeleteUser(request.Id, cancellationToken);
             if (!removal)
             {
                 return new DeleteUserResponse
@@ -68,9 +70,9 @@ namespace Domain.Services
                 Users = users.Select(_userMappers.MapUserToDTO).ToList(),
             };
         }
-        public async Task<GetUserResponse> GetUserService(GetUserRequest request)
+        public async Task<GetUserResponse> GetUserService(GetUserRequest request, CancellationToken cancellationToken = default)
         {
-            var user = await _userRepository.GetUserById(request.Id);
+            var user = await _userRepository.GetUserById(request.Id, cancellationToken);
             if (user == null)
             {
                 return new GetUserResponse
@@ -88,10 +90,11 @@ namespace Domain.Services
                 User = _userMappers.MapUserToDTO(user)
             };
         }
-        public async Task<UpdateUserResponse> UpdateUserService(UpdateUserRequest request)
+        public async Task<UpdateUserResponse> UpdateUserService(UpdateUserRequest request, CancellationToken cancellationToken = default)
         {
             var userToUpdate = _entityMaker.RequestToUpdatedUser(request);
-            var update = await _userRepository.UpdateUser(userToUpdate);
+            await _userValidator.ValidateAndThrowAsync(userToUpdate);
+            var update = await _userRepository.UpdateUser(userToUpdate, cancellationToken);
             if (!update)
             {
                 return new UpdateUserResponse

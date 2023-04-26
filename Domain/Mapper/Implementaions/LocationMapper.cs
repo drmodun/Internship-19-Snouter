@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
 using Domain.DTO;
+using Domain.Mapper.Interfaces;
 
-namespace Domain.Mapper
+namespace Domain.Mapper.Implementaions
 {
-    public class LocationMapper
+    public class LocationMapper : ILocationMapper
     {
         private readonly ShopContext _shopContext;
 

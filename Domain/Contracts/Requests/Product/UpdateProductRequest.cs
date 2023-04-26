@@ -1,12 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Contracts.Requests.Product
+﻿namespace Domain.Contracts.Requests.Product
 {
     public class UpdateProductRequest
     {

@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-    namespace Data.Config
+namespace Data.Config
+{
+    public class ConfigurationHelper
     {
-        public class ConfigurationHelper
+        public static IConfigurationRoot GetConfiguration()
         {
-            public static IConfigurationRoot GetConfiguration()
-            {
-               
-                var configuration = new ConfigurationBuilder()
-                          .SetBasePath(Directory.GetCurrentDirectory())
-                          .AddJsonFile($"appsettings.json")
-                          .Build();
 
-                return configuration;
-            }
+            var configuration = new ConfigurationBuilder()
+                      .SetBasePath(Directory.GetCurrentDirectory())
+                      .AddJsonFile($"appsettings.json")
+                      .Build();
+
+            return configuration;
         }
     }
+}

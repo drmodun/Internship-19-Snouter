@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Entities.Models;
+﻿using Data.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
@@ -312,7 +307,6 @@ namespace Data.Entities
                     Email = "John@gmail.com",
                     Password = "123456",
                     AddressId = locations[0].Id,
-                    isAdmin = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -323,7 +317,6 @@ namespace Data.Entities
                     Email = "Jane@gmail.com",
                     Password = "123456",
                     AddressId = locations[1].Id,
-                    isAdmin = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -334,7 +327,6 @@ namespace Data.Entities
                     Email = "admin@gmail.com",
                     Password = "123456",
                     AddressId = locations[2].Id,
-                    isAdmin = true,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -345,7 +337,6 @@ namespace Data.Entities
                     Email = "admin2@gmail.com",
                     Password = "123456",
                     AddressId = locations[5].Id,
-                    isAdmin = true,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -356,7 +347,6 @@ namespace Data.Entities
                     Email = "admin3@gmail.com",
                     Password = "123sdda456",
                     AddressId = locations[4].Id,
-                    isAdmin = true,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -367,7 +357,6 @@ namespace Data.Entities
                     Email = "DebyDebyDoo@gmail.com",
                     Password = "debugger",
                     AddressId = locations[7].Id,
-                    isAdmin = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -378,7 +367,6 @@ namespace Data.Entities
                     Email = "none@gmail.com",
                     Password = "123456",
                     AddressId = locations[6].Id,
-                    isAdmin = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -389,7 +377,6 @@ namespace Data.Entities
                     Email = "duje@gmail.com",
                     Password = "1111",
                     AddressId = locations[8].Id,
-                    isAdmin = true,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }
@@ -466,7 +453,7 @@ namespace Data.Entities
         //generate extra propreties field with clothes schema category
         SubProperties = JObject.Parse(@"{  'brand': 'cotton',  'screensizes': ['1000p', '400p']}"),
     },
-    new Product { 
+    new Product {
         Id = Guid.NewGuid(),
         Name = "MacBook",
         Description = "Laptop for working",
@@ -499,7 +486,7 @@ namespace Data.Entities
         LocationId = locations[1].Id,
         //generate extra propreties field with clothes schema category
         SubProperties = JObject.Parse(@"{  'brand': 'asus',  'screensizes': ['10300p', '4100p']}"),
-    },  
+    },
     new Product
     {
         Id = Guid.NewGuid(),

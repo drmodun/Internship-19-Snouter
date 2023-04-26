@@ -1,18 +1,12 @@
-﻿
-using System.Security.Cryptography;
-using Data.Entities;
+﻿using Data.Entities;
 using Data.Entities.Models;
-using Domain.Contracts;
-using Domain.Contracts.Requests.User;
 using Domain.DTO;
-using Domain.Mapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Domain.Mapper.Interfaces;
 
 
-namespace Domain
+namespace Domain.Mapper.Implementaions
 {
-    public  class UserMappers
+    public class UserMappers : IUserMappers
     {
         private readonly ShopContext _shopContext;
         public UserMappers(ShopContext shopContext)
@@ -20,7 +14,7 @@ namespace Domain
             _shopContext = shopContext;
         }
 
-        public  ViewProfile MapUserToDTO(User userToMap)
+        public ViewProfile MapUserToDTO(User userToMap)
         {
             var newDTO = new ViewProfile
             {
@@ -28,7 +22,7 @@ namespace Domain
                 Name = userToMap.Name,
                 Email = userToMap.Email,
                 Location = userToMap.AddressId,
-                Products = _shopContext.Products.Where(p=>p.SellerId == userToMap.Id).Select(p=>p.SellerId).ToList(),
+                Products = _shopContext.Products.Where(p => p.SellerId == userToMap.Id).Select(p => p.SellerId).ToList(),
                 BoughtProudcts = _shopContext.BuyersProducts.Where(bp => bp.BuyerId == userToMap.Id).Select(bp => bp.ProductId).ToList(),
                 CreatedAt = userToMap.CreatedAt,
                 UpdatedAt = userToMap.UpdatedAt

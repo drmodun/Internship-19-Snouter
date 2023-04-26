@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
+﻿using Newtonsoft.Json.Linq;
 
 namespace Data.Entities.Models
 {
@@ -18,7 +9,7 @@ namespace Data.Entities.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        public Guid SellerId{ get; set; }
+        public Guid SellerId { get; set; }
 
         public DateTime Created { get; set; }
         public User? Seller { get; set; }
